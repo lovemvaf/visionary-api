@@ -55,8 +55,13 @@ builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<IDataAutomationService, DataAutomationService>();
 
-// Configure JWT Authentication
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "VisionaryPlatformSecretKey2026MasterExecutionSecureKeyDNTU_TH71108_API";
+// Configure JWT Authentication: Read from JWT_SECRET or config, enforce strong key in production
+var jwtKey = Environment.GetEnvironmentVariable("JWT_SECRET")
+    ?? builder.Configuration["Jwt:Key"]
+    ?? builder.Configuration["Jwt:SigningKey"]
+    ?? (builder.Environment.IsProduction()
+        ? throw new InvalidOperationException("CRITICAL SECURITY ERROR: In production environment, JWT_SECRET or Jwt:Key environment variable must be explicitly configured.")
+        : "VisionaryPlatformSecretKey2026MasterExecutionSecureKeyDNTU_TH71108_API");
 var issuer = builder.Configuration["Jwt:Issuer"] ?? "VisionaryApi";
 var audience = builder.Configuration["Jwt:Audience"] ?? "VisionaryClients";
 

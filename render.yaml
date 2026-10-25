@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: visionary-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: ./backend
+    plan: free
+    region: singapore
+    healthCheckPath: /health/ready
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ASPNETCORE_URLS
+        value: http://+:8080
+      - key: ConnectionStrings__DefaultConnection
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: Jwt__Issuer
+        value: VisionaryApi
+      - key: Jwt__Audience
+        value: VisionaryClients

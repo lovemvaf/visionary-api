@@ -16,7 +16,10 @@ import {
   JobItem,
   AchievementItem,
   DashboardStats,
-  MembershipApplicationItem
+  MembershipApplicationItem,
+  AuditLogItem,
+  UserListItem,
+  ContentSourceItem
 } from "./types";
 
 const getBaseUrl = (): string => {
@@ -319,11 +322,27 @@ export const api = {
     return request<DashboardStats>("/api/admin/dashboard");
   },
 
-  async getSources(): Promise<ApiResponse<any[]>> {
-    return request<any[]>("/api/admin/sources");
+  async getSources(): Promise<ApiResponse<ContentSourceItem[]>> {
+    return request<ContentSourceItem[]>("/api/admin/sources");
   },
 
   async triggerSource(id: string): Promise<ApiResponse<string>> {
     return request<string>(`/api/admin/sources/trigger/${id}`, { method: "POST" });
+  },
+
+  async getAuditLogs(): Promise<ApiResponse<AuditLogItem[]>> {
+    return request<AuditLogItem[]>("/api/admin/audit-logs");
+  },
+
+  async getUsers(search?: string): Promise<ApiResponse<UserListItem[]>> {
+    const qs = search ? `?search=${encodeURIComponent(search)}` : "";
+    return request<UserListItem[]>(`/api/admin/users${qs}`);
+  },
+
+  async updateUserRoles(id: string, roles: string[]): Promise<ApiResponse<string>> {
+    return request<string>(`/api/admin/users/${id}/roles`, {
+      method: "PUT",
+      body: JSON.stringify({ roles })
+    });
   }
 };

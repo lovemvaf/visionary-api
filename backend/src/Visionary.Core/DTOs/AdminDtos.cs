@@ -48,4 +48,23 @@ namespace Visionary.Core.DTOs
         public DateTime Timestamp { get; set; }
         public string? Details { get; set; }
     }
+
+    public class UserListItemDto
+    {
+        public Guid Id { get; set; }
+        public string Email { get; set; } = string.Empty;
+        public string FullName { get; set; } = string.Empty;
+        public string? StudentId { get; set; }
+        public string? Department { get; set; }
+        public bool IsActive { get; set; }
+        public List<string> Roles { get; set; } = new();
+        public bool IsMember { get; set; }
+        public string? ClubRole { get; set; }
+        public DateTime CreatedAt { get; set; }
+    }
+
+    public class UpdateUserRoleRequest
+    {
+        public List<string> Roles { get; set; } = new();
+    }
 }

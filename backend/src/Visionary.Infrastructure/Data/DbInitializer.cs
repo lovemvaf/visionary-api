@@ -42,10 +42,11 @@ namespace Visionary.Infrastructure.Data
             var collabRole = await context.Roles.FirstAsync(r => r.Name == AppRoles.Collaborator);
             var studentRole = await context.Roles.FirstAsync(r => r.Name == AppRoles.Student);
 
-            // 2. Seed Core Team Users
-            var defaultPassword = passwordHasher.HashPassword("Visionary@2026");
+            // 2. Seed Core Team Users (Development team credentials - distinct from club officers)
+            var rawSeedPassword = Environment.GetEnvironmentVariable("ADMIN_SEED_PASSWORD") ?? "Visionary@2026";
+            var defaultPassword = passwordHasher.HashPassword(rawSeedPassword);
 
-            // Quách Khoa Đức - Lead
+            // Quách Khoa Đức - Principal Software Architect & Full-Stack Lead
             var duc = await context.Users.FirstOrDefaultAsync(u => u.Email == "quachkhoaduc@visionary.dntu.edu.vn");
             if (duc == null)
             {
@@ -56,7 +57,7 @@ namespace Visionary.Infrastructure.Data
                     PasswordHash = defaultPassword,
                     StudentId = "1923040025",
                     Department = "Công nghệ Thông tin",
-                    Bio = "Principal Software Architect & Full-Stack Engineer, Lead of VISIONARY API group.",
+                    Bio = "Principal Software Architect & Lead. Nhóm phát triển VISIONARY API.",
                     EmailConfirmed = true,
                     IsActive = true
                 };
@@ -68,7 +69,7 @@ namespace Visionary.Infrastructure.Data
                 context.UserRoles.Add(new UserRole { UserId = duc.Id, RoleId = studentRole.Id });
             }
 
-            // Võ Ngọc Minh Đạt
+            // Võ Ngọc Minh Đạt - Desktop Software Engineer
             var dat = await context.Users.FirstOrDefaultAsync(u => u.Email == "vongocminhdat@visionary.dntu.edu.vn");
             if (dat == null)
             {
@@ -78,7 +79,7 @@ namespace Visionary.Infrastructure.Data
                     FullName = "Võ Ngọc Minh Đạt",
                     PasswordHash = defaultPassword,
                     Department = "Công nghệ Thông tin",
-                    Bio = "Club Operations & Desktop Engineer, Ban Chủ Nhiệm CLB Tiếng Anh.",
+                    Bio = "Desktop Software Engineer (WinForms) & Club Operations. Nhóm phát triển VISIONARY API.",
                     EmailConfirmed = true,
                     IsActive = true
                 };
@@ -89,7 +90,7 @@ namespace Visionary.Infrastructure.Data
                 context.UserRoles.Add(new UserRole { UserId = dat.Id, RoleId = memberRole.Id });
             }
 
-            // Hồ Đoàng Nguyên Khang
+            // Hồ Đoàng Nguyên Khang - Data Pipeline Specialist
             var khangH = await context.Users.FirstOrDefaultAsync(u => u.Email == "hodoangnguyenkhang@visionary.dntu.edu.vn");
             if (khangH == null)
             {
@@ -99,7 +100,7 @@ namespace Visionary.Infrastructure.Data
                     FullName = "Hồ Đoàng Nguyên Khang",
                     PasswordHash = defaultPassword,
                     Department = "Công nghệ Thông tin",
-                    Bio = "Data Pipeline & Opportunities Specialist, Quản lý Hệ thống Cơ hội & Việc làm.",
+                    Bio = "Data Pipeline & Opportunities Specialist. Nhóm phát triển VISIONARY API.",
                     EmailConfirmed = true,
                     IsActive = true
                 };
@@ -110,7 +111,7 @@ namespace Visionary.Infrastructure.Data
                 context.UserRoles.Add(new UserRole { UserId = khangH.Id, RoleId = collabRole.Id });
             }
 
-            // Đào Trí Khang
+            // Đào Trí Khang - Mobile Software Engineer & QA Lead
             var khangD = await context.Users.FirstOrDefaultAsync(u => u.Email == "daotrikhang@visionary.dntu.edu.vn");
             if (khangD == null)
             {
@@ -120,7 +121,7 @@ namespace Visionary.Infrastructure.Data
                     FullName = "Đào Trí Khang",
                     PasswordHash = defaultPassword,
                     Department = "Công nghệ Thông tin",
-                    Bio = "Mobile Engineer & Tech Lead, Phát triển ứng dụng Android Native Java.",
+                    Bio = "Mobile Software Engineer (Android Native) & QA Lead. Nhóm phát triển VISIONARY API.",
                     EmailConfirmed = true,
                     IsActive = true
                 };
@@ -143,14 +144,14 @@ namespace Visionary.Infrastructure.Data
                 context.ClubDepartments.AddRange(deptAcademic, deptMedia, deptExternal);
                 await context.SaveChangesAsync();
 
-                // Assign Duc & Dat to departments
+                // Assign Duc & Dat to departments with appropriate technical club roles
                 if (duc.MemberProfile == null)
                 {
                     context.MemberProfiles.Add(new MemberProfile
                     {
                         UserId = duc.Id,
                         DepartmentId = deptAcademic.Id,
-                        ClubRole = "Chủ nhiệm CLB",
+                        ClubRole = "Trưởng ban Chuyên môn & Kỹ thuật",
                         EnglishLevel = "IELTS 7.5 / Professional IT",
                         Status = "Active"
                     });
@@ -161,7 +162,7 @@ namespace Visionary.Infrastructure.Data
                     {
                         UserId = dat.Id,
                         DepartmentId = deptMedia.Id,
-                        ClubRole = "Phó Chủ nhiệm CLB",
+                        ClubRole = "Phụ trách Kỹ thuật & Hoạt động",
                         EnglishLevel = "TOEIC 800",
                         Status = "Active"
                     });
@@ -169,7 +170,7 @@ namespace Visionary.Infrastructure.Data
                 await context.SaveChangesAsync();
             }
 
-            // 4. Seed Committee Term
+            // 4. Seed Committee Term (Technical & Operational assignments)
             if (!await context.CommitteeTerms.AnyAsync())
             {
                 var currentTerm = new CommitteeTerm
@@ -182,10 +183,10 @@ namespace Visionary.Infrastructure.Data
                 await context.SaveChangesAsync();
 
                 context.CommitteeAssignments.AddRange(
-                    new CommitteeAssignment { TermId = currentTerm.Id, UserId = duc.Id, Position = "Chủ nhiệm CLB" },
-                    new CommitteeAssignment { TermId = currentTerm.Id, UserId = dat.Id, Position = "Phó Chủ nhiệm CLB" },
-                    new CommitteeAssignment { TermId = currentTerm.Id, UserId = khangH.Id, Position = "Trưởng ban Đối ngoại" },
-                    new CommitteeAssignment { TermId = currentTerm.Id, UserId = khangD.Id, Position = "Trưởng ban Công nghệ" }
+                    new CommitteeAssignment { TermId = currentTerm.Id, UserId = duc.Id, Position = "Phụ trách Công nghệ & Nền tảng" },
+                    new CommitteeAssignment { TermId = currentTerm.Id, UserId = dat.Id, Position = "Phụ trách Kỹ thuật & Sự kiện" },
+                    new CommitteeAssignment { TermId = currentTerm.Id, UserId = khangH.Id, Position = "Phụ trách Dữ liệu Cơ hội & Học bổng" },
+                    new CommitteeAssignment { TermId = currentTerm.Id, UserId = khangD.Id, Position = "Phụ trách Nền tảng Di động & Đảm bảo Chất lượng" }
                 );
                 await context.SaveChangesAsync();
             }

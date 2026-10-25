@@ -223,3 +223,38 @@ export interface MembershipApplicationItem {
   reviewNotes?: string;
   submittedAt: string;
 }
+
+export interface AuditLogItem {
+  id: string;
+  action: string;
+  resource: string;
+  resourceId?: string;
+  userName?: string;
+  ipAddress?: string;
+  timestamp: string;
+  details?: string;
+}
+
+export interface UserListItem {
+  id: string;
+  email: string;
+  fullName: string;
+  studentId?: string;
+  department?: string;
+  isActive: boolean;
+  roles: string[];
+  isMember: boolean;
+  clubRole?: string;
+  createdAt: string;
+}
+
+export interface ContentSourceItem {
+  id: string;
+  name: string;
+  type: string;
+  endpointUrl: string;
+  intervalMinutes: number;
+  isEnabled: boolean;
+  lastRunAt?: string;
+  lastStatus?: string;
+}

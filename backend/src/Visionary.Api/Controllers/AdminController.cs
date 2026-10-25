@@ -14,7 +14,6 @@ using Visionary.Infrastructure.Data;
 
 namespace Visionary.Api.Controllers
 {
-    [Authorize(Roles = "Admin,Committee")]
     [ApiController]
     [Route("api/[controller]")]
     public class AdminController : ControllerBase
@@ -28,6 +27,7 @@ namespace Visionary.Api.Controllers
             _automationService = automationService;
         }
 
+        [Authorize(Roles = "Admin,Committee")]
         [HttpGet("dashboard")]
         public async Task<ActionResult<ApiResponse<DashboardStatsDto>>> GetDashboardStats()
         {
@@ -70,6 +70,7 @@ namespace Visionary.Api.Controllers
             return Ok(ApiResponse<DashboardStatsDto>.Ok(stats));
         }
 
+        [Authorize(Roles = AppRoles.Admin)]
         [HttpGet("sources")]
         public async Task<ActionResult<ApiResponse<List<ContentSourceDto>>>> GetSources()
         {
@@ -89,6 +90,7 @@ namespace Visionary.Api.Controllers
             return Ok(ApiResponse<List<ContentSourceDto>>.Ok(list));
         }
 
+        [Authorize(Roles = AppRoles.Admin)]
         [HttpPost("sources/trigger/{id}")]
         public async Task<ActionResult<ApiResponse<string>>> TriggerSource(Guid id)
         {
@@ -111,6 +113,7 @@ namespace Visionary.Api.Controllers
             return Ok(ApiResponse<string>.Ok($"Đã thực thi thành công việc nạp dữ liệu từ nguồn: {source.Name}"));
         }
 
+        [Authorize(Roles = AppRoles.Admin)]
         [HttpGet("audit-logs")]
         public async Task<ActionResult<ApiResponse<List<AuditLogDto>>>> GetAuditLogs()
         {
@@ -131,6 +134,88 @@ namespace Visionary.Api.Controllers
                 }).ToListAsync();
 
             return Ok(ApiResponse<List<AuditLogDto>>.Ok(list));
+        }
+
+        [Authorize(Roles = AppRoles.Admin)]
+        [HttpGet("users")]
+        public async Task<ActionResult<ApiResponse<List<UserListItemDto>>>> GetUsers([FromQuery] string? search = null)
+        {
+            var query = _context.Users
+                .Include(u => u.UserRoles)
+                    .ThenInclude(ur => ur.Role)
+                .Include(u => u.MemberProfile)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                var s = search.Trim().ToLower();
+                query = query.Where(u => u.FullName.ToLower().Contains(s) ||
+                                         u.Email.ToLower().Contains(s) ||
+                                         (u.StudentId != null && u.StudentId.ToLower().Contains(s)));
+            }
+
+            var users = await query
+                .OrderByDescending(u => u.CreatedAt)
+                .Take(100)
+                .Select(u => new UserListItemDto
+                {
+                    Id = u.Id,
+                    Email = u.Email,
+                    FullName = u.FullName,
+                    StudentId = u.StudentId,
+                    Department = u.Department,
+                    IsActive = u.IsActive,
+                    Roles = u.UserRoles.Select(ur => ur.Role.Name).ToList(),
+                    IsMember = u.MemberProfile != null && u.MemberProfile.Status == "Active",
+                    ClubRole = u.MemberProfile != null ? u.MemberProfile.ClubRole : null,
+                    CreatedAt = u.CreatedAt
+                }).ToListAsync();
+
+            return Ok(ApiResponse<List<UserListItemDto>>.Ok(users));
+        }
+
+        [Authorize(Roles = AppRoles.Admin)]
+        [HttpPut("users/{id}/roles")]
+        public async Task<ActionResult<ApiResponse<string>>> UpdateUserRoles(Guid id, [FromBody] UpdateUserRoleRequest request)
+        {
+            var targetUser = await _context.Users
+                .Include(u => u.UserRoles)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (targetUser == null)
+            {
+                return NotFound(ApiResponse<string>.Fail("Không tìm thấy người dùng."));
+            }
+
+            // Remove existing roles
+            _context.UserRoles.RemoveRange(targetUser.UserRoles);
+
+            // Add requested roles
+            var validRoles = await _context.Roles
+                .Where(r => request.Roles.Contains(r.Name))
+                .ToListAsync();
+
+            foreach (var role in validRoles)
+            {
+                _context.UserRoles.Add(new UserRole
+                {
+                    UserId = targetUser.Id,
+                    RoleId = role.Id
+                });
+            }
+
+            _context.AuditLogs.Add(new AuditLog
+            {
+                Action = "UPDATE_ROLES",
+                Resource = "User",
+                ResourceId = targetUser.Id.ToString(),
+                IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString(),
+                DetailsJson = $"{{\"newRoles\":[\"{string.Join("\",\"", request.Roles)}\"]}}"
+            });
+
+            await _context.SaveChangesAsync();
+
+            return Ok(ApiResponse<string>.Ok($"Đã cập nhật vai trò người dùng {targetUser.FullName} thành công."));
         }
     }
 }
