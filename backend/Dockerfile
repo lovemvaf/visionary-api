@@ -1,22 +1,16 @@
 # Build stage
-FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /source
 
-# Copy csproj files for API and required dependencies
-COPY src/Visionary.Core/*.csproj src/Visionary.Core/
-COPY src/Visionary.Infrastructure/*.csproj src/Visionary.Infrastructure/
-COPY src/Visionary.Api/*.csproj src/Visionary.Api/
-
-# Restore dependencies directly for Visionary.Api (avoids restoring desktop project)
-RUN dotnet restore src/Visionary.Api/Visionary.Api.csproj
-
-# Copy all source files and publish
+# Copy all source files (excluding bin and obj via .dockerignore)
 COPY . .
+
+# Publish directly without solution file (restores and compiles Visionary.Api cleanly)
 WORKDIR /source/src/Visionary.Api
-RUN dotnet publish -c Release -o /app/publish --no-restore
+RUN dotnet publish Visionary.Api.csproj -c Release -o /app/publish
 
 # Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
 
