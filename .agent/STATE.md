@@ -6,25 +6,16 @@
   - **Võ Ngọc Minh Đạt:** Club Operations, Business Analyst & Windows Forms Desktop Software Engineer
   - **Hồ Đoàng Nguyên Khang:** Data Pipeline & Automation Engineer, Opportunities & Jobs Specialist
   - **Đào Trí Khang:** Mobile Software Engineer (Android Native Java) & QA Testing Lead
-- **Current Phase:** Phase 10 – Emergency Full-Stack Authentication & "Failed to fetch" Elimination (COMPLETED & VERIFIED)
+- **Current Phase:** Phase 11 – Master Logic Audit, Data Integrity, Category Union Invariant & Zero Fallback Purge (COMPLETED & VERIFIED)
 - **GitHub Monorepo:** [https://github.com/lovemvaf/visionary-api](https://github.com/lovemvaf/visionary-api) (Owner: `lovemvaf`)
-- **Git Branch:** `main` (Remote: `origin -> https://github.com/lovemvaf/visionary-api.git`)
+- **Git Branch:** `main` (Remote: `origin -> https://github.com/lovemvaf/visionary-api.git`, Latest commit: `7c6f3ca`)
 - **Official Production Domain:** [https://visionary-platform.vercel.app](https://visionary-platform.vercel.app)
 - **Production Alias (Dự phòng):** [https://visionary-global.vercel.app](https://visionary-global.vercel.app)
-- **Backend Public API:** `https://colleague-switch-textile-bios.trycloudflare.com` (Cloudflare HTTPS Tunnel -> Kestrel 5000)
+- **Cloud Backend Production:** `https://visionary-api-gb51.onrender.com` (Render Web Service Docker net8.0)
+- **Cloud Database:** Supabase Managed PostgreSQL Singapore (`aws-0-ap-southeast-1.pooler.supabase.com:5432`)
 - **Vercel Project / Workspace:** `visionary-platform` / `visionary19`
-- **BFF Same-Origin Route Handler:** `frontend/src/app/api/[...path]/route.ts` (Active on Vercel, eliminates CORS & Mixed Content)
-- **Database Schema Version:** v1.1.0-hardened (SQLite local test / Supabase PostgreSQL production ready)
-- **API Contract Version:** v1.1.0 (OpenAPI / Swagger UI / Health Liveness & Readiness checks)
-- **CI/CD Workflows:** 5 GitHub Actions workflows in `.github/workflows/` (`frontend.yml`, `backend.yml`, `desktop.yml`, `android.yml`, `security.yml`)
-- **Authentication Status:**
-  - **Login:** **VERIFIED IN PRODUCTION** (Admin Quách Khoa Đức logged in, issued 763-char JWT, navigated to `/dashboard/admin`).
-  - **Register:** **VERIFIED IN PRODUCTION** (Student created in DB, password hashed with BCrypt, default `Student` role assigned).
-  - **Duplicate Prevention:** **VERIFIED** (Rejects existing email with 400 Bad Request and friendly Vietnamese message).
-  - **Failed to Fetch:** **ELIMINATED 100%** (Same-origin relative API requests + server-side upstream proxy + friendly Vietnamese error mapping).
-  - **Google OAuth:** Structured and documented in `docs/REQUIRED_ACCESS.md`, ready for Client ID injection.
-- **Platforms Status:**
-  - **Backend API:** ASP.NET Core 8 Web API – **RUNNING & VERIFIED** (9/9 xUnit tests pass, health checks `/health/live` & `/health/ready` active).
-  - **Web Frontend:** Next.js 14 App Router – **DEPLOYED & VERIFIED** on Vercel at `https://visionary-platform.vercel.app`.
-  - **Desktop Client:** Windows Forms C# – **BUILT & VERIFIED** (.NET 8 Windows Desktop).
-  - **Mobile Client:** Android Native Java – **BUILD VERIFIED** (`app-debug.apk` built).
+- **BFF Same-Origin Route Handler:** `frontend/src/app/api/[...path]/route.ts` (Active on Vercel, proxies to Render / upstream)
+- **Database Schema & Data Version:** v1.2.0-verified-invariant (Supabase PostgreSQL, 28 published articles across 4 standard categories, invariant `13 + 6 + 5 + 4 = 28` verified)
+- **Automated Regression Suite:** 15/15 xUnit tests passed (`PostsLogicAuditTests` + `AuthenticationIntegrationTests`)
+- **Zero Fallback Mandate:** 100% eliminated `fallbackPosts`, `fallbackTech`, `fallbackOpportunities`, `fallbackJobs`, `fallbackEvents`, `fallbackAchievements`, `defaultPost` across all frontend routes. Replaced with authentic 4-state lifecycle (loading skeleton, success, empty state with civilized message, error state with retry button).
+- **Achievements Hall of Fame:** Purged all fabricated unverified awards for real team members. Only verified achievements with proof will be displayed.
