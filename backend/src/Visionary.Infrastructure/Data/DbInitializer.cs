@@ -11,45 +11,61 @@ namespace Visionary.Infrastructure.Data
 {
     public static class DbInitializer
     {
+        private static readonly System.Threading.SemaphoreSlim _seedLock = new(1, 1);
+
         public static async Task SeedAsync(AppDbContext context, IPasswordHasher passwordHasher)
         {
+            await _seedLock.WaitAsync();
             try
             {
-                var databaseCreator = Microsoft.EntityFrameworkCore.Infrastructure.AccessorExtensions.GetService<Microsoft.EntityFrameworkCore.Storage.IDatabaseCreator>(context.Database) as Microsoft.EntityFrameworkCore.Storage.RelationalDatabaseCreator;
-                if (databaseCreator != null)
+                try
                 {
-                    await databaseCreator.CreateTablesAsync();
+                    var databaseCreator = Microsoft.EntityFrameworkCore.Infrastructure.AccessorExtensions.GetService<Microsoft.EntityFrameworkCore.Storage.IDatabaseCreator>(context.Database) as Microsoft.EntityFrameworkCore.Storage.RelationalDatabaseCreator;
+                    if (databaseCreator != null)
+                    {
+                        if (!await databaseCreator.HasTablesAsync())
+                        {
+                            await databaseCreator.CreateTablesAsync();
+                        }
+                    }
+                    else
+                    {
+                        await context.Database.EnsureCreatedAsync();
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    await context.Database.EnsureCreatedAsync();
+                    Console.WriteLine($"[DB INIT] Notice on table creation: {ex.Message}");
                 }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"[DB INIT] Notice on table creation: {ex.Message}");
-            }
 
-            // 1. Seed Roles
-            var roles = new List<Role>
-            {
-                new() { Name = AppRoles.Admin, Description = "Quản trị viên toàn quyền hệ thống" },
-                new() { Name = AppRoles.Supervisor, Description = "Giảng viên phụ trách và cố vấn CLB" },
-                new() { Name = AppRoles.Committee, Description = "Ban Chủ Nhiệm CLB Tiếng Anh DNTU" },
-                new() { Name = AppRoles.Collaborator, Description = "Cộng tác viên biên tập nội dung & sự kiện" },
-                new() { Name = AppRoles.ClubMember, Description = "Thành viên chính thức CLB Tiếng Anh" },
-                new() { Name = AppRoles.Student, Description = "Sinh viên DNTU đã đăng ký tài khoản" },
-                new() { Name = AppRoles.Guest, Description = "Khách vãng lai" }
-            };
-
-            foreach (var r in roles)
-            {
-                if (!await context.Roles.AnyAsync(x => x.Name == r.Name))
+                // 1. Seed Roles
+                var roles = new List<Role>
                 {
-                    context.Roles.Add(r);
+                    new() { Name = AppRoles.Admin, Description = "Quản trị viên toàn quyền hệ thống" },
+                    new() { Name = AppRoles.Supervisor, Description = "Giảng viên phụ trách và cố vấn CLB" },
+                    new() { Name = AppRoles.Committee, Description = "Ban Chủ Nhiệm CLB Tiếng Anh DNTU" },
+                    new() { Name = AppRoles.Collaborator, Description = "Cộng tác viên biên tập nội dung & sự kiện" },
+                    new() { Name = AppRoles.ClubMember, Description = "Thành viên chính thức CLB Tiếng Anh" },
+                    new() { Name = AppRoles.Student, Description = "Sinh viên DNTU đã đăng ký tài khoản" },
+                    new() { Name = AppRoles.Guest, Description = "Khách vãng lai" }
+                };
+
+                foreach (var r in roles)
+                {
+                    if (!await context.Roles.AnyAsync(x => x.Name == r.Name))
+                    {
+                        context.Roles.Add(r);
+                    }
                 }
-            }
-            await context.SaveChangesAsync();
+
+                try
+                {
+                    await context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[DB INIT] Notice on saving roles: {ex.Message}");
+                }
 
             var adminRole = await context.Roles.FirstAsync(r => r.Name == AppRoles.Admin);
             var committeeRole = await context.Roles.FirstAsync(r => r.Name == AppRoles.Committee);
@@ -752,6 +768,11 @@ namespace Visionary.Infrastructure.Data
                     }
                 );
                 await context.SaveChangesAsync();
+            }
+            }
+            finally
+            {
+                _seedLock.Release();
             }
         }
     }

@@ -12,11 +12,12 @@ using Xunit;
 
 namespace Visionary.Tests
 {
-    public class PostsLogicAuditTests : IClassFixture<WebApplicationFactory<Program>>
+    [Collection("IntegrationTests")]
+    public class PostsLogicAuditTests
     {
         private readonly HttpClient _client;
 
-        public PostsLogicAuditTests(WebApplicationFactory<Program> factory)
+        public PostsLogicAuditTests(CustomWebApplicationFactory factory)
         {
             _client = factory.CreateClient();
         }
