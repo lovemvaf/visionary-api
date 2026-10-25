@@ -13,7 +13,22 @@ namespace Visionary.Infrastructure.Data
     {
         public static async Task SeedAsync(AppDbContext context, IPasswordHasher passwordHasher)
         {
-            await context.Database.EnsureCreatedAsync();
+            try
+            {
+                var databaseCreator = Microsoft.EntityFrameworkCore.Infrastructure.AccessorExtensions.GetService<Microsoft.EntityFrameworkCore.Storage.IDatabaseCreator>(context.Database) as Microsoft.EntityFrameworkCore.Storage.RelationalDatabaseCreator;
+                if (databaseCreator != null)
+                {
+                    await databaseCreator.CreateTablesAsync();
+                }
+                else
+                {
+                    await context.Database.EnsureCreatedAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[DB INIT] Notice on table creation: {ex.Message}");
+            }
 
             // 1. Seed Roles
             var roles = new List<Role>
@@ -176,7 +191,7 @@ namespace Visionary.Infrastructure.Data
                 var currentTerm = new CommitteeTerm
                 {
                     Name = "Nhiệm kỳ 2025 - 2026",
-                    StartDate = new DateTime(2025, 9, 1),
+                    StartDate = new DateTime(2025, 9, 1, 0, 0, 0, DateTimeKind.Utc),
                     IsCurrent = true
                 };
                 context.CommitteeTerms.Add(currentTerm);
