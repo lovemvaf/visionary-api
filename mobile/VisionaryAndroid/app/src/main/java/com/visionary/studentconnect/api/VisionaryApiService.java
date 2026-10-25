@@ -38,8 +38,14 @@ public interface VisionaryApiService {
     Call<ApiResponse<String>> cancelRegistration(@Path("id") String eventId);
 
     @GET("api/english-for-it")
-    Call<ApiResponse<List<LearningResourceItem>>> getEnglishResources();
+    Call<ApiResponse<PagedResponse<LearningResourceItem>>> getEnglishResources(
+            @Query("pageIndex") int pageIndex,
+            @Query("pageSize") int pageSize
+    );
 
     @GET("api/opportunities")
-    Call<ApiResponse<List<OpportunityItem>>> getOpportunities();
+    Call<ApiResponse<PagedResponse<OpportunityItem>>> getOpportunities(
+            @Query("pageIndex") int pageIndex,
+            @Query("pageSize") int pageSize
+    );
 }

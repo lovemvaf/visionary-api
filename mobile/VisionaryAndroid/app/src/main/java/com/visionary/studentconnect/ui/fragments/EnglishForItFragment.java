@@ -15,6 +15,7 @@ import com.visionary.studentconnect.R;
 import com.visionary.studentconnect.api.ApiClient;
 import com.visionary.studentconnect.models.ApiResponse;
 import com.visionary.studentconnect.models.ContentModels.LearningResourceItem;
+import com.visionary.studentconnect.models.PagedResponse;
 import com.visionary.studentconnect.ui.adapters.EnglishAdapter;
 import java.util.List;
 import retrofit2.Call;
@@ -47,19 +48,19 @@ public class EnglishForItFragment extends Fragment {
         if (getContext() == null) return;
         swipeRefresh.setRefreshing(true);
 
-        ApiClient.getService(getContext()).getEnglishResources().enqueue(new Callback<ApiResponse<List<LearningResourceItem>>>() {
+        ApiClient.getService(getContext()).getEnglishResources(1, 20).enqueue(new Callback<ApiResponse<PagedResponse<LearningResourceItem>>>() {
             @Override
-            public void onResponse(@NonNull Call<ApiResponse<List<LearningResourceItem>>> call, @NonNull Response<ApiResponse<List<LearningResourceItem>>> response) {
+            public void onResponse(@NonNull Call<ApiResponse<PagedResponse<LearningResourceItem>>> call, @NonNull Response<ApiResponse<PagedResponse<LearningResourceItem>>> response) {
                 swipeRefresh.setRefreshing(false);
-                if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    adapter.setItems(response.body().getData());
+                if (response.isSuccessful() && response.body() != null && response.body().isSuccess() && response.body().getData() != null) {
+                    adapter.setItems(response.body().getData().getItems());
                 } else {
                     Toast.makeText(getContext(), "Không thể tải danh sách tài liệu", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(@NonNull Call<ApiResponse<List<LearningResourceItem>>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<ApiResponse<PagedResponse<LearningResourceItem>>> call, @NonNull Throwable t) {
                 swipeRefresh.setRefreshing(false);
                 Toast.makeText(getContext(), "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }

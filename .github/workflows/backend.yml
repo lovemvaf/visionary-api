@@ -25,10 +25,10 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Restore Dependencies
-        run: dotnet restore backend/Visionary.sln
+        run: dotnet restore backend/Visionary.Backend.sln
 
       - name: Build Backend Solution
-        run: dotnet build backend/Visionary.sln --configuration Release --no-restore
+        run: dotnet build backend/Visionary.Backend.sln --configuration Release --no-restore
 
       - name: Run Unit & Integration Tests
-        run: dotnet test backend/Visionary.sln --configuration Release --no-build --verbosity normal
+        run: dotnet test backend/Visionary.Backend.sln --configuration Release --no-build --verbosity normal

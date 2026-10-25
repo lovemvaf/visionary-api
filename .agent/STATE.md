@@ -2,20 +2,31 @@
 
 - **Project Name:** VISIONARY – Hệ thống Quản lý Hoạt động Hội nhập (English, Technology & Global Integration Platform)
 - **Development Team:** VISIONARY API
-  - **Quách Khoa Đức:** Principal Software Architect, Full-Stack & ASP.NET Core Web API Lead
-  - **Võ Ngọc Minh Đạt:** Club Operations, Business Analyst & Windows Forms Desktop Software Engineer
-  - **Hồ Đoàng Nguyên Khang:** Data Pipeline & Automation Engineer, Opportunities & Jobs Specialist
-  - **Đào Trí Khang:** Mobile Software Engineer (Android Native Java) & QA Testing Lead
-- **Current Phase:** Phase 11 – Master Logic Audit, Data Integrity, Category Union Invariant & Zero Fallback Purge (COMPLETED & VERIFIED)
+  - **Quách Khoa Đức (1923040025):** Trưởng nhóm, Phụ trách Web Client & Kiến trúc tổng thể (Người số 1 - Mở màn)
+  - **Đào Trí Khang (1923040156):** Mobile Software Engineer – Phụ trách Android Native Java (Người số 2)
+  - **Hồ Đoàng Nguyên Khang (1923040112):** API Engineer – Phụ trách ASP.NET Core Web API, Swagger & Database (Người số 3)
+  - **Võ Ngọc Minh Đạt (1923040088):** Desktop Software Engineer – Phụ trách Windows Forms, Sự cố & Kết luận (Người số 4 - Kết thúc)
+- **Current Phase:** Phase 12 – Final Defense Preparation, 100-Point Audit, Multi-Platform Verification & Comprehensive Deliverables Generation (COMPLETED & VERIFIED)
 - **GitHub Monorepo:** [https://github.com/lovemvaf/visionary-api](https://github.com/lovemvaf/visionary-api) (Owner: `lovemvaf`)
-- **Git Branch:** `main` (Remote: `origin -> https://github.com/lovemvaf/visionary-api.git`, Latest commit: `7c6f3ca`)
+- **Git Branch:** `main` (Remote: `origin -> https://github.com/lovemvaf/visionary-api.git`)
 - **Official Production Domain:** [https://visionary-platform.vercel.app](https://visionary-platform.vercel.app)
 - **Production Alias (Dự phòng):** [https://visionary-global.vercel.app](https://visionary-global.vercel.app)
 - **Cloud Backend Production:** `https://visionary-api-gb51.onrender.com` (Render Web Service Docker net8.0)
 - **Cloud Database:** Supabase Managed PostgreSQL Singapore (`aws-0-ap-southeast-1.pooler.supabase.com:5432`)
 - **Vercel Project / Workspace:** `visionary-platform` / `visionary19`
 - **BFF Same-Origin Route Handler:** `frontend/src/app/api/[...path]/route.ts` (Active on Vercel, proxies to Render / upstream)
-- **Database Schema & Data Version:** v1.2.0-verified-invariant (Supabase PostgreSQL, 28 published articles across 4 standard categories, invariant `13 + 6 + 5 + 4 = 28` verified)
-- **Automated Regression Suite:** 15/15 xUnit tests passed (`PostsLogicAuditTests` + `AuthenticationIntegrationTests`)
-- **Zero Fallback Mandate:** 100% eliminated `fallbackPosts`, `fallbackTech`, `fallbackOpportunities`, `fallbackJobs`, `fallbackEvents`, `fallbackAchievements`, `defaultPost` across all frontend routes. Replaced with authentic 4-state lifecycle (loading skeleton, success, empty state with civilized message, error state with retry button).
-- **Achievements Hall of Fame:** Purged all fabricated unverified awards for real team members. Only verified achievements with proof will be displayed.
+- **Verified Deliverables in `deliverables/`:**
+  - `VISIONARY_TH71108_FINAL_PRESENTATION.pptx` (629 KB, 16 slides 16:9, academic tech style, 2 official logos, real screenshots, real code <= 10 lines, speaker notes)
+  - `VISIONARY_TH71108_FINAL_PRESENTATION.pdf` (959 KB, pixel-perfect PDF export)
+  - `VISIONARY_PRESENTATION_SCRIPT.docx` & `.pdf` (Exact sentence-by-sentence script for 15-minute presentation)
+  - `VISIONARY_TH71108_FULL_QA_AND_TEST_GUIDE.docx` & `.pdf` (48 detailed questions: 18 PDF questions + 30 Visionary deep questions)
+  - `VISIONARY_LIVE_DEMO_AND_SWAGGER_TEST_GUIDE.docx` & `.pdf` (Step-by-step 3-platform demo and Swagger test guide)
+  - `member-guides/01_QUACH_KHOA_DUC_EASY_PRESENTATION_GUIDE.docx` & `.pdf` (Optimized for easiest delivery)
+  - `member-guides/02_DAO_TRI_KHANG_ANDROID_GUIDE.docx` & `.pdf` (Android Retrofit & Threading)
+  - `member-guides/03_HO_DOANG_NGUYEN_KHANG_API_GUIDE.docx` & `.pdf` (API, Swagger, 6-stage lifecycle, JWT, DB)
+  - `member-guides/04_VO_NGOC_MINH_DAT_WINFORMS_GUIDE.docx` & `.pdf` (WinForms, incident analysis, 3 differences, conclusion)
+  - `evidence/` (17 real screenshot PNGs documenting live system verification)
+- **Automated Regression Suite:** 15/15 xUnit tests passed (`dotnet test backend/Visionary.Backend.sln`)
+- **WinForms Build:** 0 errors, 0 warnings (`dotnet build desktop/Visionary.Desktop/Visionary.Desktop.csproj`)
+- **Android Build:** Build successful (`./gradlew assembleDebug`, `app-debug.apk` 6.4 MB)
+- **Frontend Build:** 19/19 routes compiled successfully (`npm run build`)
