@@ -55,9 +55,10 @@ npm run start
 ```
 
 ### Địa chỉ Website Trực tuyến đã Triển khai (Vercel)
-- **Production URL:** `https://frontend-ten-murex-yaos2b181w.vercel.app`
-- **Direct Deployment URL:** `https://frontend-d84n3thit-visionary19.vercel.app`
-- **Vercel Scope:** `visionary19`
+- **Production URL chính thức:** `https://visionary-platform.vercel.app`
+- **Production Alias dự phòng:** `https://visionary-global.vercel.app`
+- **Vercel Scope / Project:** `visionary19` / `visionary-platform`
+- **GitHub Monorepo:** `https://github.com/lovemvaf/visionary-api`
 
 ---
 

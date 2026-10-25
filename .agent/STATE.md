@@ -6,20 +6,24 @@
   - **Võ Ngọc Minh Đạt:** Club Operations, Business Analyst & Windows Forms Desktop Software Engineer
   - **Hồ Đoàng Nguyên Khang:** Data Pipeline & Automation Engineer, Opportunities & Jobs Specialist
   - **Đào Trí Khang:** Mobile Software Engineer (Android Native Java) & QA Testing Lead
-- **Current Phase:** Phase 8 – Multi-Platform System Verification & Delivery
-- **Active Task:** TASK-007 (Ecosystem verification across Web, Desktop, Mobile & Backend)
-- **Git Branch:** main (clean, modular commits)
-- **Database Schema Version:** v1.0.0-active (PostgreSQL Supabase + SQLite/InMemory fallback)
+- **Current Phase:** Phase 9 – Production Recovery, Domain Professionalization, GitHub Monorepo & Delivery
+- **GitHub Monorepo:** [https://github.com/lovemvaf/visionary-api](https://github.com/lovemvaf/visionary-api) (Owner: `lovemvaf`)
+- **Git Branch:** `main` (Remote: `origin -> https://github.com/lovemvaf/visionary-api.git`)
+- **Official Production Domain:** [https://visionary-platform.vercel.app](https://visionary-platform.vercel.app)
+- **Production Alias (Dự phòng):** [https://visionary-global.vercel.app](https://visionary-global.vercel.app)
+- **Vercel Project / Workspace:** `visionary-platform` / `visionary19`
+- **Database Schema Version:** v1.1.0-hardened (PostgreSQL Supabase enforced in Production, no silent SQLite fallback)
 - **API Contract Version:** v1.0.0 (OpenAPI / Swagger 2.0 / JWT Bearer)
+- **CI/CD Workflows:** 5 GitHub Actions workflows in `.github/workflows/` (`frontend.yml`, `backend.yml`, `desktop.yml`, `android.yml`, `security.yml`)
 - **Platforms Status:**
-  - **Backend API:** ASP.NET Core 8 Web API (`backend/Visionary.sln`) – **BUILT & VERIFIED** (All 9/9 tests passed).
-  - **Web Frontend:** Next.js 14 App Router (`frontend/`) – **BUILT & DEPLOYED** to Vercel workspace `visionary19` at `https://frontend-d84n3thit-visionary19.vercel.app` (Alias: `https://frontend-ten-murex-yaos2b181w.vercel.app`).
+  - **Backend API:** ASP.NET Core 8 Web API (`backend/Visionary.sln`) – **BUILT & VERIFIED** (All 9/9 tests passed, strict production database check).
+  - **Web Frontend:** Next.js 14 App Router (`frontend/`) – **BUILT & DEPLOYED** to Vercel workspace `visionary19` at `https://visionary-platform.vercel.app`.
   - **Desktop Client:** Windows Forms C# (`desktop/Visionary.Desktop`) – **BUILT & VERIFIED** (.NET 8, 0 warnings, 0 errors, integrated in `backend/Visionary.sln`).
-  - **Mobile Client:** Android Native Java (`mobile/VisionaryAndroid`) – **SCAFFOLDED & CONFIGURED** (Java 17, Retrofit 2, Material 3, Gradle wrapper).
+  - **Mobile Client:** Android Native Java (`mobile/VisionaryAndroid`) – **BUILD VERIFIED** (Java 17, Retrofit 2, Material 3, Gradle wrapper).
 - **Verified Tooling & Environments:**
   - .NET SDK: 8.0.413 / 9.0.305 LTS
   - Node.js: v24.13.0, npm 11.6.2
   - Java: JDK 17.0.13 LTS (Oracle)
   - Android SDK: `C:\Users\asus\AppData\Local\Android\Sdk` (Platforms: android-36, android-28, build-tools: 35.0.0, 36.0.0)
-  - Vercel CLI: 65.2.0 (Scope: `visionary19`, production deployment active)
-  - Docker: 29.1.3 installed
+  - Vercel CLI: 65.2.0 (Scope: `visionary19`, project: `visionary-platform`)
+  - GitHub: `lovemvaf` authenticated via GCM

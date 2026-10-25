@@ -1,0 +1,39 @@
+name: Desktop CI - Windows Forms (.NET 8)
+
+on:
+  push:
+    paths:
+      - 'desktop/**'
+      - 'backend/src/Visionary.Core/**'
+      - '.github/workflows/desktop.yml'
+  pull_request:
+    paths:
+      - 'desktop/**'
+      - 'backend/src/Visionary.Core/**'
+      - '.github/workflows/desktop.yml'
+
+jobs:
+  build-winforms:
+    name: Build & Package Windows Forms App
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8 LTS SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore Desktop Client
+        run: dotnet restore desktop/Visionary.Desktop/Visionary.Desktop.csproj
+
+      - name: Build Desktop Executable (Release)
+        run: dotnet build desktop/Visionary.Desktop/Visionary.Desktop.csproj --configuration Release --no-restore
+
+      - name: Upload Binary Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Visionary-Desktop-WinForms
+          path: desktop/Visionary.Desktop/bin/Release/net8.0-windows/

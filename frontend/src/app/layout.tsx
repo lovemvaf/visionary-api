@@ -4,6 +4,7 @@ import Footer from "../components/Footer";
 import "../styles/globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://visionary-platform.vercel.app"),
   title: "VISIONARY – English, Technology & Global Integration Platform | DNTU",
   description:
     "Hệ thống Quản lý Hoạt động Hội nhập – Kết nối Sinh viên, Công nghệ và Cơ hội Quốc tế. Phát triển bởi nhóm VISIONARY API (Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàng Nguyên Khang, Đào Trí Khang).",
@@ -18,6 +19,14 @@ export const metadata: Metadata = {
     "Career Gateway"
   ],
   authors: [{ name: "VISIONARY API" }],
+  openGraph: {
+    title: "VISIONARY – English, Technology & Global Integration Platform",
+    description: "Hệ thống Quản lý Hoạt động Hội nhập – CLB Tiếng Anh DNTU",
+    url: "https://visionary-platform.vercel.app",
+    siteName: "VISIONARY Platform",
+    locale: "vi_VN",
+    type: "website",
+  },
 };
 
 export const viewport = {

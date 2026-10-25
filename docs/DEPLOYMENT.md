@@ -3,10 +3,14 @@
 ## 1. Triển khai Frontend Web lên Vercel Workspace `visionary19`
 - **Tài khoản xác thực:** `lovemvaf`
 - **Workspace đích:** `visionary19` (https://vercel.com/visionary19)
-- **Framework:** Next.js (App Router)
+- **Tên Project Vercel:** `visionary-platform`
+- **Production Domain chính thức:** [https://visionary-platform.vercel.app](https://visionary-platform.vercel.app)
+- **Production Alias dự phòng:** [https://visionary-global.vercel.app](https://visionary-global.vercel.app)
+- **Framework:** Next.js 14 (App Router)
 - **Thư mục gốc (Root Directory):** `frontend`
 - **Lệnh Build:** `npm run build`
 - **Lệnh Install:** `npm install`
+- **SEO & Metadata:** Đã tích hợp `robots.ts`, `sitemap.ts` (11 public routes), OpenGraph tags.
 - **Biến môi trường cần thiết trên Vercel:**
   - `NEXT_PUBLIC_API_URL`: URL công khai của backend ASP.NET Core Web API (hoặc URL proxy/tunnel).
   - `NEXT_PUBLIC_APP_NAME`: `VISIONARY`

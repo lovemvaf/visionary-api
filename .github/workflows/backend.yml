@@ -1,0 +1,34 @@
+name: Backend CI - ASP.NET Core 8 Web API
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend.yml'
+  pull_request:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend.yml'
+
+jobs:
+  build-and-test:
+    name: Build & Run xUnit Integration Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8 LTS SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore Dependencies
+        run: dotnet restore backend/Visionary.sln
+
+      - name: Build Backend Solution
+        run: dotnet build backend/Visionary.sln --configuration Release --no-restore
+
+      - name: Run Unit & Integration Tests
+        run: dotnet test backend/Visionary.sln --configuration Release --no-build --verbosity normal

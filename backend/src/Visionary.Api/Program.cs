@@ -23,18 +23,24 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
     });
 
-// Configure Database (PostgreSQL if PostgreSQL connection string, otherwise SQLite / In-Memory)
+// Configure Database: PostgreSQL is mandatory in Production. SQLite is only permitted in Development/Test environments.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "Data Source=visionary.db";
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    if (connectionString.Contains("Host=", StringComparison.OrdinalIgnoreCase) ||
-        connectionString.Contains("Username=", StringComparison.OrdinalIgnoreCase) ||
-        connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase))
+    var isPostgres = connectionString.Contains("Host=", StringComparison.OrdinalIgnoreCase) ||
+                     connectionString.Contains("Username=", StringComparison.OrdinalIgnoreCase) ||
+                     connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase);
+
+    if (isPostgres)
     {
         options.UseNpgsql(connectionString);
     }
     else
     {
+        if (builder.Environment.IsProduction())
+        {
+            throw new InvalidOperationException("CRITICAL ERROR: Production environment mandates a valid PostgreSQL connection string (DefaultConnection). Silent fallback to SQLite/InMemory is strictly disabled to prevent database divergence and data loss.");
+        }
         options.UseSqlite(connectionString);
     }
 });

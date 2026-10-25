@@ -104,8 +104,10 @@ Kết quả kiểm tra cấu trúc Gradle: `BUILD SUCCESSFUL`
 ## 6. KIỂM THỬ TRIỂN KHAI VERCEL CLOUD
 
 - **Workspace:** `visionary19`
-- **Mã triển khai:** `d84n3thit`
-- **Production Alias:** `https://frontend-ten-murex-yaos2b181w.vercel.app`
-- **Direct Deployment URL:** `https://frontend-d84n3thit-visionary19.vercel.app`
+- **Project Name:** `visionary-platform`
+- **Production Domain chính thức:** `https://visionary-platform.vercel.app`
+- **Production Alias dự phòng:** `https://visionary-global.vercel.app`
 - **Kiểm thử HTTP GET:** Mã phản hồi `HTTP 200 OK`.
-- **Kiểm thử nội dung:** HTML chứa thẻ `<title>VISIONARY – Hệ thống Quản lý Hoạt động Hội nhập CLB Tiếng Anh DNTU</title>`, các khối Hero, 6 trụ cột và footer nhóm phát triển VISIONARY API.
+- **Kiểm thử nội dung:** HTML chứa thẻ `<title>VISIONARY – English, Technology & Global Integration Platform | DNTU</title>`, các khối Hero, 6 trụ cột và footer nhóm phát triển VISIONARY API.
+- **Vercel SSO Protection:** Đã tắt (Public Access xác minh qua curl/fetch).
+- **SEO & Sitemap:** Đã kiểm tra `/robots.txt` và `/sitemap.xml` hoạt động bình thường.

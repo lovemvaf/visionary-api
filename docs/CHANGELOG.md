@@ -4,6 +4,29 @@ Tất cả các thay đổi quan trọng của hệ sinh thái **VISIONARY** đ�
 
 ---
 
+## [v1.1.0] – 25/10/2026 – Production Recovery, Domain Professionalization & GitHub Monorepo
+
+### ✨ Tính năng & Nâng cấp Mới
+- **Tên miền Production Chuyên nghiệp:**
+  - Chuyển đổi tên miền từ URL triển khai tạm thời sang domain thương hiệu chính thức: **`https://visionary-platform.vercel.app`** (Alias dự phòng: `https://visionary-global.vercel.app`).
+  - Đổi tên project trên Vercel workspace `visionary19` thành `visionary-platform`.
+  - Vô hiệu hóa Vercel SSO Protection để cộng đồng và giảng viên có thể truy cập công khai.
+- **GitHub Monorepo (`lovemvaf/visionary-api`):**
+  - Khởi tạo và thiết lập repository monorepo chính thức tại: [https://github.com/lovemvaf/visionary-api](https://github.com/lovemvaf/visionary-api).
+  - Tích hợp 5 GitHub Actions Workflows tự động trong `.github/workflows/`:
+    - `frontend.yml`: Kiểm tra kiểu TypeScript, build Next.js 14 App Router.
+    - `backend.yml`: Build solution .NET 8, chạy 9/9 integration & security tests.
+    - `desktop.yml`: Biên dịch Release Windows Forms C# trên Windows runner.
+    - `android.yml`: Kiểm tra Gradle wrapper, biên dịch APK debug bằng Java 17 LTS.
+    - `security.yml`: Quét lỗ hổng dependency và mã nguồn.
+- **Tăng cường Bảo mật Production Backend:**
+  - Loại bỏ hoàn toàn cơ chế tự động fallback âm thầm sang SQLite/InMemory trên môi trường Production trong `backend/src/Visionary.Api/Program.cs`. Khi thiếu kết nối PostgreSQL Supabase hợp lệ, hệ thống sẽ ngắt an toàn và thông báo lỗi cấu hình tường minh.
+- **Giao diện & Trải nghiệm Người dùng:**
+  - Nâng cấp `frontend/src/app/auth/login/page.tsx`: tích hợp nút đăng nhập Google OAuth, xử lý lỗi chi tiết, thu gọn tài khoản demo vào khối kiểm thử học phần (`TH71108`).
+  - Thêm cấu hình SEO đầy đủ: `metadataBase`, OpenGraph tags, `robots.ts` và `sitemap.ts` (11 tuyến đường công khai).
+
+---
+
 ## [v1.0.0] – 25/10/2026 – Triển khai Hệ sinh thái Toàn diện (One Backend – Three Platforms)
 
 ### 🚀 Tính năng & Nền tảng Đã Hoàn thiện

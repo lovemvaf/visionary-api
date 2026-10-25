@@ -3,7 +3,8 @@
 > **Phát triển bởi nhóm:** `VISIONARY API`  
 > **Học phần:** Web API (TH71108) – Trường Đại học Công nghệ Đồng Nai (DNTU)
 
-[![Vercel Deployment](https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel)](https://frontend-ten-murex-yaos2b181w.vercel.app)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-lovemvaf%2Fvisionary--api-181717?logo=github)](https://github.com/lovemvaf/visionary-api)
+[![Vercel Deployment](https://img.shields.io/badge/Vercel-visionary--platform-black?logo=vercel)](https://visionary-platform.vercel.app)
 [![.NET 8 LTS](https://img.shields.io/badge/.NET-8.0%20LTS-purple?logo=dotnet)](https://dotnet.microsoft.com/)
 [![Next.js 14](https://img.shields.io/badge/Next.js-14%20App%20Router-black?logo=next.js)](https://nextjs.org/)
 [![WinForms .NET 8](https://img.shields.io/badge/WinForms-C%23%20.NET%208-blue?logo=windows)](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/)
@@ -61,11 +62,12 @@ Mọi dữ liệu công khai (GitHub repository, Hugging Face model, tin tức c
 
 ---
 
-## 🌐 ĐỊA CHỈ TRỰC TUYẾN ĐÃ TRIỂN KHAI
+## 🌐 ĐỊA CHỈ TRỰC TUYẾN & MÃ NGUỒN CHÍNH THỨC
 
-- **Website Production:** [https://frontend-ten-murex-yaos2b181w.vercel.app](https://frontend-ten-murex-yaos2b181w.vercel.app)
-- **Deployment URL (Vercel):** [https://frontend-d84n3thit-visionary19.vercel.app](https://frontend-d84n3thit-visionary19.vercel.app)
-- **Vercel Workspace Scope:** `visionary19`
+- **Website Production (Chính thức):** [https://visionary-platform.vercel.app](https://visionary-platform.vercel.app)
+- **Production Alias (Dự phòng):** [https://visionary-global.vercel.app](https://visionary-global.vercel.app)
+- **GitHub Monorepo:** [https://github.com/lovemvaf/visionary-api](https://github.com/lovemvaf/visionary-api)
+- **Vercel Workspace Scope:** `visionary19` (Project: `visionary-platform`)
 
 ---
 
@@ -124,6 +126,7 @@ Tệp APK debug tạo tại: `mobile/VisionaryAndroid/app/build/outputs/apk/debu
 ```
 Visionary API/
 ├── .agent/                  # Hệ thống quản lý tiến độ và tự phục hồi (Autonomous Engine)
+├── .github/workflows/       # CI/CD Workflows (Frontend, Backend, Desktop, Android, Security)
 ├── backend/                 # Solution ASP.NET Core 8 Web API
 │   ├── src/Visionary.Core/           # Domain Entities, DTOs, Enums, Interfaces
 │   ├── src/Visionary.Infrastructure/ # AppDbContext, Seed Data, JWT, Data Automation
