@@ -1,35 +1,16 @@
-# NEXT ACTIONS (PRIORITIZED)
+# NEXT ACTIONS – VISIONARY ECOSYSTEM
 
-1. **Complete Phase 1 Architecture & Specifications:**
-   - Write comprehensive documentation in `docs/` (`PROJECT_AUDIT.md`, `ARCHITECTURE.md`, `REQUIREMENTS.md`, `DATABASE_SCHEMA.md`, `API_CONTRACT.md`, `SECURITY.md`, `DEPLOYMENT.md`, `OPERATIONS_MANUAL.md`, `OPEN_SOURCE_AUDIT.md`, `PENDING_CONFIGURATION.md`).
-2. **Execute Phase 2 (ASP.NET Core Web API Backend & Database):**
-   - Create .NET Solution: `Visionary.sln`
-   - Create projects:
-     - `Visionary.Core` (Entities, Enums, DTOs, Interfaces)
-     - `Visionary.Infrastructure` (DbContext, EF Core Repositories, JWT Service, Automation Collectors, Redis Cache)
-     - `Visionary.Api` (Controllers, Middleware, Swagger, FluentValidation, Program.cs)
-     - `Visionary.Tests` (xUnit tests for auth, business logic, endpoints)
-   - Implement complete domain models for Identity, Club, Activities, CMS, Achievements, English for IT, Tech Radar, Opportunities, Jobs, Data Ingestion, System.
-   - Implement controllers & REST endpoints.
-   - Run `dotnet build` and `dotnet test` to verify.
-3. **Execute Phase 3 (Next.js Visionary Web Platform):**
-   - Initialize Next.js project with App Router, TypeScript, Tailwind CSS, Lucide icons.
-   - Design full aesthetic UI/UX matching "Premium Academic Technology Platform".
-   - Implement all public and authenticated pages, CMS, dashboards.
-   - Verify with `npm run build`.
-4. **Execute Phase 4 (Data Ingestion & Automation):**
-   - Implement scheduled collectors for GitHub Trending/Repositories, Hugging Face models, Tech RSS/APIs, Hackathons/Competitions, Job feeds.
-   - Verification queue and deduplication.
-5. **Execute Phase 5 (Deployment & Hosting):**
-   - Connect Vercel deployment under workspace `visionary19`.
-   - Verify deployment build & URL.
-6. **Execute Phase 6 (Windows Forms Desktop):**
-   - Create `Visionary.Desktop` (.NET 8 WinForms).
-   - Implement Admin Dashboard, Member approval, Events, Attendance.
-   - Build and test.
-7. **Execute Phase 7 (Android Native Java):**
-   - Create `VisionaryAndroid` (Java 17, Gradle, Retrofit, Material 3).
-   - Implement Student Connect features.
-   - Verify Gradle build.
-8. **Execute Phase 8 (Integration & Delivery):**
-   - 3-platform synchronization test, audit log, final delivery report.
+## 1. Hệ thống đã hoàn tất và kiểm chứng (Completed & Verified)
+- [x] Phase 1: Khảo sát, thiết kế kiến trúc và khởi tạo hệ thống state (.agent/, docs/)
+- [x] Phase 2: Xây dựng Backend ASP.NET Core 8 Web API (`backend/Visionary.sln`, 9/9 xUnit tests PASS)
+- [x] Phase 3: Hoàn thiện Website Next.js 14 App Router (`frontend/`, 16/16 routes compiled thành công)
+- [x] Phase 4: Xây dựng Data Automation Service kết nối GitHub REST API, Hugging Face API, RSS Feeds
+- [x] Phase 5: Triển khai Website lên Vercel Cloud Workspace `visionary19` (`https://frontend-ten-murex-yaos2b181w.vercel.app`)
+- [x] Phase 6: Xây dựng và kiểm thử phần mềm Quản trị Desktop Windows Forms C# (`desktop/Visionary.Desktop`, 0 lỗi, 0 cảnh báo)
+- [x] Phase 7: Xây dựng và biên dịch ứng dụng Di động Android Native Java (`mobile/VisionaryAndroid`, Gradle 8.4, Retrofit, Material 3)
+- [x] Phase 8: Đồng bộ hợp đồng API ba nền tảng, hoàn thiện bộ 12 tài liệu kỹ thuật và báo cáo nghiệm thu toàn diện
+
+## 2. Bước tiếp theo dành cho nhóm sinh viên khi bảo vệ đồ án:
+1. Mở song song Web Next.js, Desktop Windows Forms và Android để trình diễn tính năng "Một Backend – Ba Nền tảng".
+2. Sử dụng tài khoản Admin (`quachkhoaduc@visionary.dntu.edu.vn`) và BCN (`vongocminhdat@visionary.dntu.edu.vn`) để demo luồng duyệt đơn gia nhập CLB và điểm danh sự kiện bằng mã QR.
+3. Kích hoạt tính năng Trigger Sync trên Desktop hoặc Web để chứng minh tính năng tự động thu thập repo GitHub trending và model Hugging Face.

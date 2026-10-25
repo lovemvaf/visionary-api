@@ -1,0 +1,10 @@
+<resources>
+    <style name="Theme.Visionary" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/visionary_blue</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/teal_accent</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="android:statusBarColor">@color/primary_navy</item>
+        <item name="android:windowBackground">@color/surface_light</item>
+    </style>
+</resources>

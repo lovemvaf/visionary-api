@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visionary.Api", "src\Vision
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visionary.Tests", "tests\Visionary.Tests\Visionary.Tests.csproj", "{576E029C-7988-42D4-9B7C-D66A371C519A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Visionary.Desktop", "..\desktop\Visionary.Desktop\Visionary.Desktop.csproj", "{5BD10F47-C643-48CE-BD9F-18FBE05C07CB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,18 @@ Global
 		{576E029C-7988-42D4-9B7C-D66A371C519A}.Release|x64.Build.0 = Release|Any CPU
 		{576E029C-7988-42D4-9B7C-D66A371C519A}.Release|x86.ActiveCfg = Release|Any CPU
 		{576E029C-7988-42D4-9B7C-D66A371C519A}.Release|x86.Build.0 = Release|Any CPU
+		{5BD10F47-C643-48CE-BD9F-18FBE05C07CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BD10F47-C643-48CE-BD9F-18FBE05C07CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BD10F47-C643-48CE-BD9F-18FBE05C07CB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5BD10F47-C643-48CE-BD9F-18FBE05C07CB}.Debug|x64.Build.0 = Debug|Any CPU
+		{5BD10F47-C643-48CE-BD9F-18FBE05C07CB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5BD10F47-C643-48CE-BD9F-18FBE05C07CB}.Debug|x86.Build.0 = Debug|Any CPU
+		{5BD10F47-C643-48CE-BD9F-18FBE05C07CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BD10F47-C643-48CE-BD9F-18FBE05C07CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BD10F47-C643-48CE-BD9F-18FBE05C07CB}.Release|x64.ActiveCfg = Release|Any CPU
+		{5BD10F47-C643-48CE-BD9F-18FBE05C07CB}.Release|x64.Build.0 = Release|Any CPU
+		{5BD10F47-C643-48CE-BD9F-18FBE05C07CB}.Release|x86.ActiveCfg = Release|Any CPU
+		{5BD10F47-C643-48CE-BD9F-18FBE05C07CB}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

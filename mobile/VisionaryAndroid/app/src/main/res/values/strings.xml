@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VISIONARY</string>
+    <string name="app_subtitle">Student Connect – CLB Tiếng Anh DNTU</string>
+    <string name="developer_group">VISIONARY API</string>
+    <string name="academic_notice">Đề tài Hệ thống Quản lý Hoạt động Hội nhập CLB Tiếng Anh DNTU – Học phần Web API TH71108</string>
+
+    <!-- Nav tabs -->
+    <string name="nav_home">Trang chủ</string>
+    <string name="nav_events">Sự kiện</string>
+    <string name="nav_english">English IT</string>
+    <string name="nav_opportunities">Cơ hội</string>
+    <string name="nav_profile">Cá nhân</string>
+
+    <!-- Team Members -->
+    <string name="member_1">Quách Khoa Đức — Principal Architect &amp; Web API Lead</string>
+    <string name="member_2">Võ Ngọc Minh Đạt — Club Operations &amp; WinForms Lead</string>
+    <string name="member_3">Hồ Đoàng Nguyên Khang — Data Pipeline &amp; Opportunities Specialist</string>
+    <string name="member_4">Đào Trí Khang — Android Mobile Software Engineer</string>
+
+    <!-- Login -->
+    <string name="login_title">ĐĂNG NHẬP VISIONARY</string>
+    <string name="login_hint_email">Email sinh viên / DNTU</string>
+    <string name="login_hint_password">Mật khẩu</string>
+    <string name="login_btn">ĐĂNG NHẬP</string>
+    <string name="login_quick_student">Đăng nhập Sinh viên mẫu</string>
+    <string name="login_quick_admin">Đăng nhập Quản trị viên</string>
+</resources>
