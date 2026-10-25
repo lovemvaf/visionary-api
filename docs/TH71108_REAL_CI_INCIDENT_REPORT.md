@@ -144,6 +144,18 @@ dotnet test backend/Visionary.Backend.sln --logger "console;verbosity=detailed"
 | Search bài viết không ra kết quả (TotalCount = 0) | **Tìm thấy bài viết chính xác (TotalCount = 1)** |
 | Slug `chao-mung...` trả về 404 Not Found | **Trả về 200 OK + AuthorName 'Quách Khoa Đức'** |
 
+### 5.3. Kết quả xác minh trên GitHub Actions từ xa (Remote CI Verification):
+Sau khi hoàn tất kiểm thử cục bộ, nhóm đã commit và push mã nguồn khắc phục lên GitHub repository:
+- **Commit SHA:** `c7af080` ("fix(backend): resolve SQLite concurrency race condition and isolate integration test DB")
+- **Workflow:** `Backend CI - ASP.NET Core 8 Web API`
+- **GitHub Actions Run ID:** `40231783994`
+- **URL Run:** [https://github.com/lovemvaf/visionary-api/actions/runs/40231783994](https://github.com/lovemvaf/visionary-api/actions/runs/40231783994)
+- **Kết quả thực tế:** **SUCCESS / BÁO XANH HOÀN TOÀN**
+  - Runner: `ubuntu-latest` (Linux x64)
+  - Thống kê: **Total tests: 15. Passed: 15. Failed: 0. Skipped: 0. Duration: 2.8s.**
+  - Exit Code: **0 (Passed)**
+- **Workflow đồng thời:** `Security and Code Quality Analysis` (Run ID: `40231784031`) -> **SUCCESS**.
+
 ---
 
 ## 6. BÀI HỌC KINH NGHIỆM VÀ ĐÓNG GÓP CỦA CÔNG CỤ AI

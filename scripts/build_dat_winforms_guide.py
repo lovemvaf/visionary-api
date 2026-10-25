@@ -155,9 +155,9 @@ def build_dat_winforms_guide():
         ("Điểm 2: Câu hỏi vì sao không dùng .Result hoặc .Wait()",
          "Giảng viên hỏi: Nếu thay 'await _httpClient.SendAsync()' bằng '.Result' thì chuyện gì xảy ra?\n"
          "-> Đạt trả lời: 'Dạ thưa Thầy, việc gọi .Result trên WinForms sẽ chặn (block) Main UI Thread để chờ Task hoàn thành. Tuy nhiên, Task đó khi chạy xong lại cần SynchronizationContext của UI Thread để tiếp tục. Nhưng UI Thread lúc này đang bị .Result chiếm giữ để chờ, kết quả là hai bên chờ lẫn nhau tạo thành DEADLOCK, cửa sổ ứng dụng bị treo đơ vĩnh viễn không có thông báo lỗi nào.'"),
-        ("Điểm 3: Khắc phục lỗi NETSDK1100 trong file .github/workflows/backend.yml",
-         "Giảng viên hỏi: Nhóm đã sửa lỗi NETSDK1100 như thế nào? Tại sao không để Ubuntu build WinForms?\n"
-         "-> Đạt trả lời: 'Dạ thưa Thầy, WinForms gắn chặt với Windows API nên không thể compile bằng .NET SDK chuẩn trên Linux Ubuntu trừ khi dùng giả lập WINE rất phức tạp. Nhóm giải quyết theo đúng kiến trúc micro-solution: Tạo file backend/Visionary.Backend.sln độc lập chỉ chứa các project Web API đa nền tảng và cho GitHub Actions build file này trên Ubuntu. Còn WinForms được build độc lập trên môi trường Windows.'")
+        ("Điểm 3: Khắc phục sự cố GitHub Actions Backend CI Run #12 (13/15 Passed -> 15/15 Passed Run #40231783994)",
+         "Giảng viên hỏi: Nhóm đã phân tích và sửa hai bài test thất bại trên GitHub Actions Run #12 như thế nào?\n"
+         "-> Đạt trả lời: 'Dạ thưa Thầy, trong Run #12, test Search (dòng 168) và test GetBySlug (dòng 183) bị fail do chu trình SeedAsync bị hủy ngang khi gặp lỗi SQLite Error 19 UNIQUE constraint failed: Roles.Name. Nguyên nhân do hai test class chạy song song cùng tranh chấp file visionary.db. Nhóm em đã giải quyết triệt để bằng cách thêm SemaphoreSlim(1, 1) trong DbInitializer.SeedAsync, tạo CustomWebApplicationFactory cấp phát database SQLite biệt lập cho mỗi lần test và gộp chung [Collection(IntegrationTests)]. Sau khi commit c7af080, GitHub Actions Run #40231783994 đã vượt qua 100% cả 15/15 bài test trên runner Linux x64.'")
     ]
     for title, desc in spots_data:
         p = doc.add_paragraph()

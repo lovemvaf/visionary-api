@@ -224,12 +224,12 @@ def generate_presentation_script():
             ]),
             ("Slide 15 – Một sự cố thật và Quy trình Khắc phục (1 phút)", [
                 "Lời thoại:",
-                "\"Trong quá trình xây dựng hệ thống, nhóm em đã gặp một sự cố thật rất điển hình trong pipeline CI/CD.",
-                "Bên trái là log lỗi nguyên văn từ GitHub Actions: NETSDK1100.",
-                "Lỗi xảy ra vì file solution chung ban đầu chứa cả dự án Windows Forms (.NET 8 Windows Desktop). Khi đưa lên runner Ubuntu Linux của GitHub Actions để build backend, hệ điều hành Linux từ chối biên dịch các thư viện giao diện Windows.",
-                "Nhóm em đã chẩn đoán nguyên nhân và khắc phục bằng cách tách thành solution Visionary.Backend.sln độc lập chỉ chứa Core, Infrastructure, Api và Tests.",
-                "Dự án Windows Forms được biên dịch trong workflow riêng desktop.yml trên máy ảo Windows.",
-                "Sau khi sửa, toàn bộ 15 bài kiểm thử hồi quy xUnit và 5 workflow CI đều vượt qua 100% như hình bên phải.\""
+                "\"Trong quá trình kiểm thử tự động, nhóm em đã đối mặt với một sự cố kỹ thuật có thật trên GitHub Actions Backend CI Run #12.",
+                "Bên trái là log lỗi nguyên văn: pipeline báo Build FAILED dù 0 lỗi biên dịch C#, với 13 bài đạt và 2 bài kiểm thử thất bại (bài Search dòng 168 và bài GetPostBySlug dòng 183).",
+                "Đi sâu vào log, nhóm phát hiện thông báo lỗi SQLite Error 19: UNIQUE constraint failed: Roles.Name.",
+                "Nguyên nhân gốc rễ do xUnit kích hoạt hai class kiểm thử chạy song song, cùng khởi tạo WebApplicationFactory trỏ vào chung một file visionary.db, gây xung đột ghi đồng thời khiến chu trình nạp dữ liệu SeedAsync bị dừng đột ngột trước khi kịp nạp bài viết.",
+                "Nhóm em đã tự phân tích và xử lý triệt để bằng giải pháp hai tầng: Thứ nhất, đặt khóa luồng tĩnh SemaphoreSlim(1, 1) trong DbInitializer; Thứ hai, xây dựng CustomWebApplicationFactory cấp phát cơ sở dữ liệu test cô lập và gộp chung Collection kiểm thử.",
+                "Như hình bên phải, toàn bộ 15/15 bài test đã vượt qua 100% và GitHub Actions Run #40231783994 trên Linux đã báo xanh hoàn toàn.\""
             ]),
             ("Slide 16 – Giới hạn thực tế, Hướng phát triển & Kết thúc (30 giây)", [
                 "Lời thoại:",
