@@ -15,6 +15,13 @@ using Visionary.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Dynamically bind to PORT if provided by cloud hosting (Render, Cloud Run, etc.)
+var port = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrEmpty(port))
+{
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
+
 // Add Controllers & JSON Options
 builder.Services.AddControllers()
     .AddJsonOptions(options =>

@@ -9,16 +9,14 @@ services:
   - type: web
     name: visionary-api
     runtime: docker
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
     plan: free
     region: singapore
-    healthCheckPath: /health/ready
+    healthCheckPath: /health/live
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
-      - key: ASPNETCORE_URLS
-        value: http://+:8080
       - key: ConnectionStrings__DefaultConnection
         fromDatabase:
           name: visionary-db
