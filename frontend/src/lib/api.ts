@@ -19,7 +19,14 @@ import {
   MembershipApplicationItem
 } from "./types";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const getBaseUrl = (): string => {
+  // In the browser, always use same-origin relative calls ("") so requests go to Next.js BFF (/api/...)
+  if (typeof window !== "undefined") {
+    return "";
+  }
+  // Server-side calls use API_BASE_URL or NEXT_PUBLIC_API_URL or localhost
+  return process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+};
 
 function getToken(): string | null {
   if (typeof window !== "undefined") {
@@ -51,15 +58,53 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-  const url = `${API_BASE_URL}${endpoint}`;
+  const baseUrl = getBaseUrl();
+  const url = `${baseUrl}${endpoint}`;
+
   try {
     const res = await fetch(url, { ...options, headers });
-    const data = await res.json();
+    const contentType = res.headers.get("content-type") || "";
+    let data: any;
+
+    if (contentType.includes("application/json")) {
+      data = await res.json();
+    } else {
+      const text = await res.text();
+      data = {
+        success: res.ok,
+        message: text,
+        data: null
+      };
+    }
+
+    if (!res.ok) {
+      let friendlyMessage = data?.message;
+      if (res.status === 401) {
+        friendlyMessage = "Email hoặc mật khẩu không chính xác.";
+      } else if (res.status === 403) {
+        friendlyMessage = "Bạn không có quyền thực hiện thao tác này.";
+      } else if (res.status === 409) {
+        friendlyMessage = "Email này đã được đăng ký. Bạn có thể đăng nhập hoặc đặt lại mật khẩu.";
+      } else if (res.status === 502 || res.status === 503 || res.status === 504) {
+        friendlyMessage = "Dịch vụ máy chủ Visionary đang khởi động hoặc chưa sẵn sàng. Vui lòng thử lại sau ít phút.";
+      } else if (!friendlyMessage) {
+        friendlyMessage = `Yêu cầu không thành công (Mã lỗi: ${res.status}). Vui lòng thử lại.`;
+      }
+
+      return {
+        success: false,
+        message: friendlyMessage,
+        data: null as any,
+        errors: data?.errors || [friendlyMessage],
+        timestamp: new Date().toISOString()
+      };
+    }
+
     return data as ApiResponse<T>;
   } catch (error: any) {
     return {
       success: false,
-      message: error?.message || "Lỗi kết nối tới máy chủ.",
+      message: "Không thể kết nối đến máy chủ Visionary. Vui lòng kiểm tra kết nối mạng và thử lại.",
       data: null as any,
       errors: [error?.message || "Connection failed"],
       timestamp: new Date().toISOString()

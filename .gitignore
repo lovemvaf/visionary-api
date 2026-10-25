@@ -6,6 +6,9 @@
 *.key
 appsettings.Production.json
 appsettings.Development.local.json
+*.db
+*.db-shm
+*.db-wal
 
 # .NET
 bin/

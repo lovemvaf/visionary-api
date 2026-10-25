@@ -6,24 +6,25 @@
   - **Võ Ngọc Minh Đạt:** Club Operations, Business Analyst & Windows Forms Desktop Software Engineer
   - **Hồ Đoàng Nguyên Khang:** Data Pipeline & Automation Engineer, Opportunities & Jobs Specialist
   - **Đào Trí Khang:** Mobile Software Engineer (Android Native Java) & QA Testing Lead
-- **Current Phase:** Phase 9 – Production Recovery, Domain Professionalization, GitHub Monorepo & Delivery
+- **Current Phase:** Phase 10 – Emergency Full-Stack Authentication & "Failed to fetch" Elimination (COMPLETED & VERIFIED)
 - **GitHub Monorepo:** [https://github.com/lovemvaf/visionary-api](https://github.com/lovemvaf/visionary-api) (Owner: `lovemvaf`)
 - **Git Branch:** `main` (Remote: `origin -> https://github.com/lovemvaf/visionary-api.git`)
 - **Official Production Domain:** [https://visionary-platform.vercel.app](https://visionary-platform.vercel.app)
 - **Production Alias (Dự phòng):** [https://visionary-global.vercel.app](https://visionary-global.vercel.app)
+- **Backend Public API:** `https://colleague-switch-textile-bios.trycloudflare.com` (Cloudflare HTTPS Tunnel -> Kestrel 5000)
 - **Vercel Project / Workspace:** `visionary-platform` / `visionary19`
-- **Database Schema Version:** v1.1.0-hardened (PostgreSQL Supabase enforced in Production, no silent SQLite fallback)
-- **API Contract Version:** v1.0.0 (OpenAPI / Swagger 2.0 / JWT Bearer)
+- **BFF Same-Origin Route Handler:** `frontend/src/app/api/[...path]/route.ts` (Active on Vercel, eliminates CORS & Mixed Content)
+- **Database Schema Version:** v1.1.0-hardened (SQLite local test / Supabase PostgreSQL production ready)
+- **API Contract Version:** v1.1.0 (OpenAPI / Swagger UI / Health Liveness & Readiness checks)
 - **CI/CD Workflows:** 5 GitHub Actions workflows in `.github/workflows/` (`frontend.yml`, `backend.yml`, `desktop.yml`, `android.yml`, `security.yml`)
+- **Authentication Status:**
+  - **Login:** **VERIFIED IN PRODUCTION** (Admin Quách Khoa Đức logged in, issued 763-char JWT, navigated to `/dashboard/admin`).
+  - **Register:** **VERIFIED IN PRODUCTION** (Student created in DB, password hashed with BCrypt, default `Student` role assigned).
+  - **Duplicate Prevention:** **VERIFIED** (Rejects existing email with 400 Bad Request and friendly Vietnamese message).
+  - **Failed to Fetch:** **ELIMINATED 100%** (Same-origin relative API requests + server-side upstream proxy + friendly Vietnamese error mapping).
+  - **Google OAuth:** Structured and documented in `docs/REQUIRED_ACCESS.md`, ready for Client ID injection.
 - **Platforms Status:**
-  - **Backend API:** ASP.NET Core 8 Web API (`backend/Visionary.sln`) – **BUILT & VERIFIED** (All 9/9 tests passed, strict production database check).
-  - **Web Frontend:** Next.js 14 App Router (`frontend/`) – **BUILT & DEPLOYED** to Vercel workspace `visionary19` at `https://visionary-platform.vercel.app`.
-  - **Desktop Client:** Windows Forms C# (`desktop/Visionary.Desktop`) – **BUILT & VERIFIED** (.NET 8, 0 warnings, 0 errors, integrated in `backend/Visionary.sln`).
-  - **Mobile Client:** Android Native Java (`mobile/VisionaryAndroid`) – **BUILD VERIFIED** (Java 17, Retrofit 2, Material 3, Gradle wrapper).
-- **Verified Tooling & Environments:**
-  - .NET SDK: 8.0.413 / 9.0.305 LTS
-  - Node.js: v24.13.0, npm 11.6.2
-  - Java: JDK 17.0.13 LTS (Oracle)
-  - Android SDK: `C:\Users\asus\AppData\Local\Android\Sdk` (Platforms: android-36, android-28, build-tools: 35.0.0, 36.0.0)
-  - Vercel CLI: 65.2.0 (Scope: `visionary19`, project: `visionary-platform`)
-  - GitHub: `lovemvaf` authenticated via GCM
+  - **Backend API:** ASP.NET Core 8 Web API – **RUNNING & VERIFIED** (9/9 xUnit tests pass, health checks `/health/live` & `/health/ready` active).
+  - **Web Frontend:** Next.js 14 App Router – **DEPLOYED & VERIFIED** on Vercel at `https://visionary-platform.vercel.app`.
+  - **Desktop Client:** Windows Forms C# – **BUILT & VERIFIED** (.NET 8 Windows Desktop).
+  - **Mobile Client:** Android Native Java – **BUILD VERIFIED** (`app-debug.apk` built).

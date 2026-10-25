@@ -18,14 +18,20 @@ export default function RegisterPage() {
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
 
+    if (password.length < 6) {
+      setError("Mật khẩu phải có độ dài tối thiểu 6 ký tự để bảo đảm an toàn.");
+      return;
+    }
+
+    setLoading(true);
+
     const res = await api.register({
-      fullName,
-      email,
+      fullName: fullName.trim(),
+      email: email.trim().toLowerCase(),
       password,
-      studentId,
+      studentId: studentId.trim(),
       department
     });
     setLoading(false);

@@ -13,9 +13,20 @@
 - [x] Phase 10: Khởi tạo và liên kết GitHub Monorepo: `https://github.com/lovemvaf/visionary-api` (Owner: `lovemvaf`)
 - [x] Phase 11: Thiết lập 5 GitHub Actions Workflows (Frontend, Backend, Desktop, Android, Security)
 - [x] Phase 12: Tăng cường an toàn database production (chặn silent fallback), tích hợp Google Login & SEO Sitemap
+- [x] Phase 13: Xử lý triệt để lỗi "Failed to fetch" qua Same-Origin BFF Proxy Route Handler `/api/[...path]` trên Vercel
+- [x] Phase 14: Kích hoạt Cloudflare Public HTTPS Tunnel cho ASP.NET Core Web API và cấu hình biến môi trường Vercel
+- [x] Phase 15: Kiểm thử E2E Browser & REST API luồng Đăng ký, Đăng nhập và điều hướng Admin Dashboard thành công
+- [x] Phase 16: Soạn thảo tài liệu chuẩn hóa thông số dịch vụ ngoại vi (Google, Supabase, Render, Redis) tại `docs/REQUIRED_ACCESS.md`
 
 ## 2. Các kịch bản trình diễn khi báo cáo đồ án Web API (TH71108):
-1. **Trình diễn Tên miền Chuyên nghiệp:** Mở trình duyệt truy cập trực tiếp `https://visionary-platform.vercel.app` (hoặc `https://visionary-global.vercel.app`), giới thiệu 6 trụ cột hội nhập của CLB Tiếng Anh DNTU và nhận diện nhóm `VISIONARY API`.
-2. **Trình diễn Đồng bộ Ba Nền tảng (One Backend – Three Platforms):** Mở song song Web Next.js, Desktop Windows Forms và Android để kiểm tra sự kiện và điểm danh QR từ chung một nguồn dữ liệu.
-3. **Trình diễn Data Automation:** Demo tính năng thu thập công nghệ GitHub AI repos và Hugging Face models thời gian thực.
-4. **Trình diễn GitHub Monorepo:** Trình chiếu repository `lovemvaf/visionary-api` với 5 workflows CI tự động kiểm tra code quality, build artifact và security audit.
+1. **Trình diễn Đăng nhập & Bảng Quản trị (Admin Portal):**
+   - Truy cập: `https://visionary-platform.vercel.app/auth/login`
+   - Đăng nhập với tài khoản Quách Khoa Đức hoặc nhấn nhanh tài khoản kiểm định.
+   - Trình chiếu hệ thống điều hướng trực tiếp vào Bảng Quản trị `/dashboard/admin`, hiển thị 6 chỉ số thời gian thực từ cơ sở dữ liệu.
+2. **Trình diễn Đăng ký Tài khoản Sinh viên Mới:**
+   - Mở `https://visionary-platform.vercel.app/auth/register`, điền thông tin sinh viên và đăng ký.
+   - Chứng minh tài khoản được tạo ngay trong database và tự động chuyển về trang cá nhân.
+3. **Trình diễn Đồng bộ Ba Nền tảng (One Backend – Three Platforms):**
+   - Mở song song Web Next.js, Desktop Windows Forms và Android (tất cả đều kết nối cùng một Backend API).
+4. **Trình chiếu Báo cáo Cấu hình Dịch vụ:**
+   - Mở file `docs/REQUIRED_ACCESS.md` để giải trình về kiến trúc sẵn sàng kết nối Google Cloud OAuth, Supabase PostgreSQL và Render Docker.

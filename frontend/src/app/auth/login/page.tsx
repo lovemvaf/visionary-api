@@ -36,12 +36,20 @@ export default function LoginPage() {
   const handleGoogleLogin = async () => {
     setGoogleLoading(true);
     setError("");
-    // In production, Google Client ID is configured via environment variables.
-    // If not yet configured with external Google Cloud Console, inform the user cleanly.
+
+    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+    if (!clientId) {
+      setError("Dịch vụ Google OAuth yêu cầu cấu hình GOOGLE_CLIENT_ID từ Google Cloud Console. Vui lòng xem hướng dẫn chi tiết tại docs/REQUIRED_ACCESS.md.");
+      setGoogleLoading(false);
+      return;
+    }
+
     try {
-      // Simulate Google Sign-In prompt or handle callback
-      setError("Tính năng Google OAuth đang chờ cấu hình Client ID & Secret từ Google Cloud Console trong môi trường Production.");
-    } finally {
+      const redirectUri = encodeURIComponent(`${window.location.origin}/api/auth/callback/google`);
+      const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token%20id_token&scope=openid%20email%20profile&nonce=${Date.now()}`;
+      window.location.href = googleAuthUrl;
+    } catch (err: any) {
+      setError(err?.message || "Lỗi khởi tạo đăng nhập Google.");
       setGoogleLoading(false);
     }
   };

@@ -84,10 +84,21 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// Configure CORS
+// Configure CORS: Support both specific production origins and desktop/mobile clients
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
+    {
+        policy.WithOrigins(
+                "https://visionary-platform.vercel.app",
+                "https://visionary-global.vercel.app",
+                "http://localhost:3000",
+                "http://127.0.0.1:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+    options.AddPolicy("PublicMobileDesktop", policy =>
     {
         policy.AllowAnyOrigin()
               .AllowAnyHeader()
@@ -151,13 +162,15 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "swagger";
 });
 
-app.UseCors("AllowAll");
+// Support both web and native clients
+app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
+// Health Check Endpoints
 app.MapGet("/", () => Results.Ok(new
 {
     Name = "VISIONARY API – English, Technology & Global Integration Platform",
@@ -167,6 +180,42 @@ app.MapGet("/", () => Results.Ok(new
     Documentation = "/swagger",
     Timestamp = DateTime.UtcNow
 }));
+
+app.MapGet("/health/live", () => Results.Ok(new
+{
+    status = "Alive",
+    service = "VISIONARY ASP.NET Core Web API",
+    timestamp = DateTime.UtcNow
+}));
+
+app.MapGet("/health/ready", async (AppDbContext db) =>
+{
+    try
+    {
+        var canConnect = await db.Database.CanConnectAsync();
+        if (canConnect)
+        {
+            return Results.Ok(new
+            {
+                status = "Ready",
+                database = "Connected",
+                provider = db.Database.ProviderName,
+                timestamp = DateTime.UtcNow
+            });
+        }
+        return Results.StatusCode(503);
+    }
+    catch (Exception ex)
+    {
+        return Results.Json(new
+        {
+            status = "NotReady",
+            database = "Disconnected",
+            error = ex.Message,
+            timestamp = DateTime.UtcNow
+        }, statusCode: 503);
+    }
+});
 
 app.Run();
 
