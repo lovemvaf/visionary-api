@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 245 247 251;
+    --foreground: 20 45 78;
+    --card: 255 255 255;
+    --card-foreground: 20 45 78;
+    --primary: 34 100 172;
+    --primary-foreground: 255 255 255;
+    --accent: 34 166 161;
+    --accent-foreground: 255 255 255;
+    --border: 226 232 240;
+  }
+
+  .dark {
+    --background: 11 25 44;
+    --foreground: 245 247 251;
+    --card: 20 45 78;
+    --card-foreground: 245 247 251;
+    --primary: 34 100 172;
+    --primary-foreground: 255 255 255;
+    --accent: 34 166 161;
+    --accent-foreground: 255 255 255;
+    --border: 31 62 104;
+  }
+}
+
+body {
+  color: #142D4E;
+  background-color: #F5F7FB;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+.dark body {
+  color: #F5F7FB;
+  background-color: #0B192C;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.dark .glass-card {
+  background: rgba(20, 45, 78, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(31, 62, 104, 0.8);
+}
+
+.hero-gradient {
+  background: radial-gradient(circle at 50% 0%, rgba(34, 100, 172, 0.15) 0%, rgba(34, 166, 161, 0.05) 50%, transparent 100%);
+}
+
+.dark .hero-gradient {
+  background: radial-gradient(circle at 50% 0%, rgba(34, 100, 172, 0.3) 0%, rgba(34, 166, 161, 0.15) 50%, transparent 100%);
+}
+
+.badge-teal {
+  background-color: rgba(34, 166, 161, 0.12);
+  color: #1B8783;
+  border: 1px solid rgba(34, 166, 161, 0.25);
+}
+
+.dark .badge-teal {
+  background-color: rgba(34, 166, 161, 0.2);
+  color: #22A6A1;
+  border: 1px solid rgba(34, 166, 161, 0.4);
+}
+
+.badge-blue {
+  background-color: rgba(34, 100, 172, 0.1);
+  color: #2264AC;
+  border: 1px solid rgba(34, 100, 172, 0.2);
+}
+
+.dark .badge-blue {
+  background-color: rgba(34, 100, 172, 0.25);
+  color: #93C5FD;
+  border: 1px solid rgba(34, 100, 172, 0.5);
+}
