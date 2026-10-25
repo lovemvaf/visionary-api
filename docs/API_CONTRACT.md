@@ -104,3 +104,26 @@ Tất cả các endpoint trả về cấu trúc chuẩn:
 - `GET /api/admin/sources` – Danh sách các nguồn dữ liệu tự động.
 - `POST /api/admin/sources/trigger/{id}` – Chạy thủ công một nguồn thu thập dữ liệu.
 - `GET /api/admin/audit-logs` – Xem lịch sử kiểm toán hệ thống.
+
+---
+
+## 5. Địa chỉ kiểm thử Swagger UI (OpenAPI Interactive Testing)
+
+Swagger UI được tích hợp sẵn để phục vụ kiểm thử trực tiếp các endpoint, schema request/response, và xác thực JWT Bearer Token:
+
+### 🌐 1. Môi trường Production (Cloud Render)
+- **URL Swagger UI:** [https://visionary-api-gb51.onrender.com/swagger](https://visionary-api-gb51.onrender.com/swagger)
+- **URL OpenAPI Specification JSON:** [https://visionary-api-gb51.onrender.com/swagger/v1/swagger.json](https://visionary-api-gb51.onrender.com/swagger/v1/swagger.json)
+
+### 💻 2. Môi trường Local Development (Máy cá nhân)
+- Khi chạy lệnh `dotnet run --project backend/src/Visionary.Api`:
+  - **HTTP:** [http://localhost:5000/swagger](http://localhost:5000/swagger)
+  - **HTTPS:** [https://localhost:5001/swagger](https://localhost:5001/swagger)
+
+### 🔑 3. Hướng dẫn Test API cần quyền (Authorize JWT trong Swagger)
+1. Mở endpoint `POST /api/auth/login` trên giao diện Swagger.
+2. Bấm **"Try it out"**, nhập tài khoản (ví dụ tài khoản quản trị Admin: `ducqk@dntu.edu.vn` / `VisionaryAdmin@2026`).
+3. Bấm **"Execute"**, sao chép chuỗi mã `token` trong JSON kết quả trả về.
+4. Cuộn lên đầu trang Swagger, bấm vào nút **"Authorize"** (có biểu tượng ổ khóa màu xanh lá).
+5. Nhập vào ô Value theo cú pháp: `Bearer <token_cua_ban>` (hoặc chỉ cần dán token tùy phiên bản swagger-ui).
+6. Bấm **Authorize** -> **Close**. Sau đó có thể thực thi tất cả các API phân quyền (`/api/admin/*`, `/api/posts` thêm/sửa/xóa, `/api/events`...) trực tiếp trên Swagger.
