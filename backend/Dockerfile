@@ -2,15 +2,13 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /source
 
-# Copy solution and project files
-COPY Visionary.sln .
+# Copy csproj files for API and required dependencies
 COPY src/Visionary.Core/*.csproj src/Visionary.Core/
 COPY src/Visionary.Infrastructure/*.csproj src/Visionary.Infrastructure/
 COPY src/Visionary.Api/*.csproj src/Visionary.Api/
-COPY tests/Visionary.Tests/*.csproj tests/Visionary.Tests/
 
-# Restore dependencies
-RUN dotnet restore
+# Restore dependencies directly for Visionary.Api (avoids restoring desktop project)
+RUN dotnet restore src/Visionary.Api/Visionary.Api.csproj
 
 # Copy all source files and publish
 COPY . .
