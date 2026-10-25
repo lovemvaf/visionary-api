@@ -177,11 +177,22 @@ builder.Services.AddSwaggerGen(c =>
 var app = builder.Build();
 
 // Seed initial database
-using (var scope = app.Services.CreateScope())
+try
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    var hasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
-    await DbInitializer.SeedAsync(db, hasher);
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var hasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
+        await DbInitializer.SeedAsync(db, hasher);
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"[DB INIT ERROR] Seeding warning or retry needed: {ex.Message}");
+    if (ex.InnerException != null)
+    {
+        Console.WriteLine($"[DB INIT INNER ERROR] {ex.InnerException.Message}");
+    }
 }
 
 // Pipeline Configuration

@@ -11,7 +11,7 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: ConnectionStrings__DefaultConnection
-        value: Host=db.rylazywrudutcjnvutte.supabase.co;Port=5432;Database=postgres;Username=postgres;Password=Ducdatabase27204025888**//--*/-*/-;SSL Mode=Require;Trust Server Certificate=true
+        value: Host=aws-0-ap-southeast-1.pooler.supabase.com;Port=5432;Database=postgres;Username=postgres.rylazywrudutcjnvutte;Password=Ducdatabase27204025888**//--*/-*/-;SSL Mode=Require;Trust Server Certificate=true;Timeout=30;Keepalive=30
       - key: JWT_SECRET
         generateValue: true
       - key: Jwt__Issuer
