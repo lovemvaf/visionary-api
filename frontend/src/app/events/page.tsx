@@ -1,178 +1,336 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef, Suspense } from "react";
 import Link from "next/link";
-import { Calendar, MapPin, Users, Search, CheckCircle, Clock, ExternalLink, ArrowRight } from "lucide-react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import {
+  Calendar,
+  MapPin,
+  Users,
+  Search,
+  CheckCircle,
+  Clock,
+  ExternalLink,
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  AlertCircle,
+  RotateCcw,
+  FilterX
+} from "lucide-react";
 import { api } from "../../lib/api";
 import { EventItem } from "../../lib/types";
 
-export default function EventsPage() {
-  const [events, setEvents] = useState<EventItem[]>([]);
-  const [search, setSearch] = useState("");
-  const [registerStatus, setRegisterStatus] = useState<Record<string, string>>({});
+function EventsContent() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const fallbackEvents: EventItem[] = [
-    {
-      id: "ev1",
-      title: "VISIONARY Tech & English Talk 2026: Lộ trình làm chủ AI và Hội nhập Toàn cầu",
-      slug: "visionary-tech-english-talk-2026",
-      description: "Buổi tọa đàm chuyên sâu về cách kết hợp năng lực tiếng Anh chuyên ngành với các công nghệ AI hiện đại (LLMs, RAG, Web API) để tự tin ứng tuyển các tập đoàn công nghệ đa quốc gia.",
-      location: "Hội trường Edison, Trường Đại học Công nghệ Đồng Nai & Online MS Teams",
-      startTime: new Date(Date.now() + 7 * 86400000).toISOString(),
-      endTime: new Date(Date.now() + 7 * 86400000 + 3 * 3600000).toISOString(),
-      registrationDeadline: new Date(Date.now() + 6 * 86400000).toISOString(),
-      maxCapacity: 150,
-      currentRegistrationsCount: 42,
-      status: "Published",
-      isRegisteredByCurrentUser: false,
-      isCheckedInByCurrentUser: false,
-      qrCheckInCode: "VIS-QR-EVENT1"
-    },
-    {
-      id: "ev2",
-      title: "Workshop: Làm chủ thuật ngữ REST API & Clean Architecture trong phỏng vấn quốc tế",
-      slug: "workshop-rest-api-clean-architecture",
-      description: "Thực hành phỏng vấn kỹ thuật bằng tiếng Anh cho các vị trí Backend .NET, Frontend Next.js và Mobile Developer.",
-      location: "Phòng Lab CNTT, Trường ĐH Công nghệ Đồng Nai",
-      startTime: new Date(Date.now() + 14 * 86400000).toISOString(),
-      endTime: new Date(Date.now() + 14 * 86400000 + 3 * 3600000).toISOString(),
-      registrationDeadline: new Date(Date.now() + 13 * 86400000).toISOString(),
-      maxCapacity: 60,
-      currentRegistrationsCount: 28,
-      status: "Published",
-      isRegisteredByCurrentUser: false,
-      isCheckedInByCurrentUser: false,
-      qrCheckInCode: "VIS-QR-EVENT2"
-    }
-  ];
+  const initialSearch = searchParams.get("search") || "";
+  const initialPage = parseInt(searchParams.get("page") || "1", 10);
+
+  const [events, setEvents] = useState<EventItem[]>([]);
+  const [search, setSearch] = useState<string>(initialSearch);
+  const [debouncedSearch, setDebouncedSearch] = useState<string>(initialSearch);
+  const [pageIndex, setPageIndex] = useState<number>(initialPage > 0 ? initialPage : 1);
+  const pageSize = 6;
+
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [hasNextPage, setHasNextPage] = useState<boolean>(false);
+  const [hasPreviousPage, setHasPreviousPage] = useState<boolean>(false);
+
+  const [status, setStatus] = useState<"loading" | "success" | "empty" | "error">("loading");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [registerStatus, setRegisterStatus] = useState<Record<string, string>>({});
+  const requestSeq = useRef(0);
 
   useEffect(() => {
-    api.getEvents({ search: search || undefined })
-      .then((res) => {
-        if (res.success && res.data?.items?.length) {
-          setEvents(res.data.items);
-        } else {
-          setEvents(fallbackEvents);
-        }
-      })
-      .catch(() => setEvents(fallbackEvents));
+    const timer = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(timer);
   }, [search]);
 
-  const handleRegister = async (id: string) => {
-    setRegisterStatus((prev) => ({ ...prev, [id]: "Đang đăng ký..." }));
-    const res = await api.registerEvent(id);
-    if (res.success) {
-      setRegisterStatus((prev) => ({ ...prev, [id]: "Đã đăng ký thành công!" }));
-      setEvents((prev) =>
-        prev.map((e) => (e.id === id ? { ...e, isRegisteredByCurrentUser: true, currentRegistrationsCount: e.currentRegistrationsCount + 1 } : e))
-      );
-    } else {
-      setRegisterStatus((prev) => ({ ...prev, [id]: res.message || "Vui lòng đăng nhập để đăng ký sự kiện." }));
+  const updateUrl = useCallback((s: string, p: number) => {
+    const params = new URLSearchParams();
+    if (s.trim()) params.set("search", s.trim());
+    if (p > 1) params.set("page", p.toString());
+    const qs = params.toString();
+    router.replace(`${pathname}${qs ? `?${qs}` : ""}`, { scroll: false });
+  }, [pathname, router]);
+
+  const fetchEvents = useCallback(async () => {
+    const seq = ++requestSeq.current;
+    setStatus("loading");
+    setErrorMessage("");
+
+    try {
+      const res = await api.getEvents({
+        search: debouncedSearch.trim() || undefined,
+        pageIndex,
+        pageSize,
+      });
+
+      if (seq !== requestSeq.current) return;
+
+      if (res.success && res.data) {
+        setEvents(res.data.items || []);
+        setTotalCount(res.data.totalCount || 0);
+        setTotalPages(res.data.totalPages || 1);
+        setHasNextPage(res.data.hasNextPage || false);
+        setHasPreviousPage(res.data.hasPreviousPage || false);
+
+        if (!res.data.items || res.data.items.length === 0) {
+          setStatus("empty");
+        } else {
+          setStatus("success");
+        }
+      } else {
+        setEvents([]);
+        setStatus("error");
+        setErrorMessage(res.message || "Không thể tải danh sách sự kiện.");
+      }
+    } catch (err: any) {
+      if (seq !== requestSeq.current) return;
+      setEvents([]);
+      setStatus("error");
+      setErrorMessage(err?.message || "Lỗi kết nối máy chủ.");
+    }
+  }, [debouncedSearch, pageIndex, pageSize]);
+
+  useEffect(() => {
+    fetchEvents();
+    updateUrl(debouncedSearch, pageIndex);
+  }, [fetchEvents, updateUrl, debouncedSearch, pageIndex]);
+
+  const handleRegister = async (eventId: string) => {
+    setRegisterStatus((prev) => ({ ...prev, [eventId]: "loading" }));
+    try {
+      const res = await api.registerEvent(eventId);
+      if (res.success) {
+        setRegisterStatus((prev) => ({ ...prev, [eventId]: "success" }));
+        fetchEvents();
+      } else {
+        setRegisterStatus((prev) => ({ ...prev, [eventId]: "error: " + (res.message || "Đăng ký không thành công") }));
+      }
+    } catch (err: any) {
+      setRegisterStatus((prev) => ({ ...prev, [eventId]: "error: " + (err?.message || "Lỗi kết nối") }));
+    }
+  };
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages && newPage !== pageIndex) {
+      setPageIndex(newPage);
+      window.scrollTo({ top: 250, behavior: "smooth" });
     }
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
       {/* Title */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="badge-teal inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
-          Sự kiện & Hoạt động CLB
+          Club Activities
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-navy dark:text-white tracking-tight">
-          Lịch Trình Hoạt Động & Hội Thảo
+          Sự kiện & Hội thảo Công nghệ DNTU
         </h1>
         <p className="text-sm text-gray-600 dark:text-gray-300">
-          Tham gia các buổi sinh hoạt chuyên đề tiếng Anh, tọa đàm công nghệ, hackathon nội bộ và hoạt động cộng đồng của CLB Tiếng Anh DNTU.
+          Lịch trình sinh hoạt định kỳ, workshop chuyên đề và các buổi giao lưu học thuật do CLB Tiếng Anh và nhóm kỹ thuật VISIONARY tổ chức.
         </p>
       </div>
 
       {/* Search */}
-      <div className="glass-card p-4 rounded-2xl flex items-center justify-between max-w-xl mx-auto">
-        <div className="relative w-full">
+      <div className="glass-card p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 border border-surface-border">
+        <div className="relative w-full sm:w-80">
           <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Tìm theo tên sự kiện, địa điểm..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-surface-border bg-white dark:bg-navy text-navy dark:text-white focus:outline-none focus:border-tealAccent"
+            onChange={(e) => { setSearch(e.target.value); setPageIndex(1); }}
+            className="w-full pl-9 pr-8 py-1.5 text-xs rounded-lg border border-surface-border bg-white dark:bg-navy text-navy dark:text-white focus:outline-none"
           />
+          {search && (
+            <button
+              onClick={() => { setSearch(""); setDebouncedSearch(""); setPageIndex(1); }}
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs font-bold"
+            >
+              ×
+            </button>
+          )}
         </div>
+
+        <span className="text-xs text-gray-500">
+          {status === "loading"
+            ? "Đang tải sự kiện..."
+            : `Hiển thị ${events.length} sự kiện (Tổng số: ${totalCount})`}
+        </span>
       </div>
 
-      {/* Events Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {events.map((e) => (
-          <div
-            key={e.id}
-            className="glass-card rounded-2xl p-6 border-l-4 border-visionary flex flex-col justify-between hover:shadow-lg transition-all"
+      {/* 1. LOADING */}
+      {status === "loading" && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="glass-card rounded-2xl p-6 space-y-4 animate-pulse">
+              <div className="h-5 w-3/4 bg-gray-200 dark:bg-gray-800 rounded" />
+              <div className="h-3 w-1/2 bg-gray-200 dark:bg-gray-800 rounded" />
+              <div className="h-3 w-full bg-gray-200 dark:bg-gray-800 rounded" />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* 2. ERROR */}
+      {status === "error" && (
+        <div className="glass-card rounded-2xl p-10 text-center space-y-4 max-w-md mx-auto border border-red-200 dark:border-red-900/50">
+          <AlertCircle className="w-8 h-8 text-red-500 mx-auto" />
+          <h3 className="text-base font-bold text-navy dark:text-white">Không thể tải danh sách sự kiện</h3>
+          <p className="text-xs text-gray-500">{errorMessage}</p>
+          <button
+            onClick={() => fetchEvents()}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-visionary text-white text-xs font-semibold"
           >
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="badge-teal text-[11px] px-2.5 py-0.5 rounded-full font-bold">
-                  {e.status}
-                </span>
-                <span className="text-xs text-gray-500 font-medium flex items-center gap-1">
-                  <Clock className="w-3.5 h-3.5 text-tealAccent" />
-                  {new Date(e.startTime).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })} •{" "}
-                  {new Date(e.startTime).toLocaleDateString("vi-VN")}
-                </span>
-              </div>
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>Thử lại</span>
+          </button>
+        </div>
+      )}
 
-              <h3 className="text-lg font-bold text-navy dark:text-white">
-                {e.title}
-              </h3>
+      {/* 3. EMPTY */}
+      {status === "empty" && (
+        <div className="glass-card rounded-2xl p-12 text-center space-y-4 max-w-md mx-auto">
+          <Calendar className="w-8 h-8 text-gray-400 mx-auto" />
+          <h3 className="text-base font-bold text-navy dark:text-white">Chưa có sự kiện phù hợp</h3>
+          <p className="text-xs text-gray-500">
+            {debouncedSearch
+              ? `Không tìm thấy sự kiện nào khớp với từ khóa "${debouncedSearch}".`
+              : "Hiện tại chưa có sự kiện mới nào được công bố."}
+          </p>
+        </div>
+      )}
 
-              <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
-                {e.description}
-              </p>
-
-              <div className="space-y-1.5 text-xs text-gray-500">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-3.5 h-3.5 text-tealAccent flex-shrink-0" />
-                  <span>{e.location}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Users className="w-3.5 h-3.5 text-visionary flex-shrink-0" />
-                  <span>
-                    Đã đăng ký: <strong>{e.currentRegistrationsCount}</strong> / {e.maxCapacity} chỗ
-                  </span>
-                </div>
-              </div>
-
-              {registerStatus[e.id] && (
-                <div className="p-2.5 rounded-lg bg-tealAccent/10 text-tealAccent text-xs font-semibold">
-                  {registerStatus[e.id]}
-                </div>
-              )}
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
-              <Link
-                href={`/events/${e.slug}`}
-                className="text-xs font-semibold text-visionary dark:text-tealAccent hover:underline flex items-center gap-1"
+      {/* 4. SUCCESS */}
+      {status === "success" && (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {events.map((ev) => (
+              <div
+                key={ev.id}
+                className="glass-card rounded-2xl p-6 flex flex-col justify-between hover:border-visionary dark:hover:border-tealAccent transition-all border border-surface-border shadow-sm group"
               >
-                <span>Xem chi tiết</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="badge-teal text-[10px] px-2.5 py-0.5 rounded-full font-bold">
+                      {ev.status}
+                    </span>
+                    <span className="text-xs text-gray-500 flex items-center gap-1">
+                      <Clock className="w-3.5 h-3.5 text-tealAccent" />
+                      <span>{new Date(ev.startTime).toLocaleDateString("vi-VN", { hour: "2-digit", minute: "2-digit" })}</span>
+                    </span>
+                  </div>
 
-              {e.isRegisteredByCurrentUser ? (
-                <span className="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-600 dark:bg-emerald-950/30 dark:text-emerald-400 text-xs font-bold flex items-center gap-1">
-                  <CheckCircle className="w-3.5 h-3.5" />
-                  <span>Đã đăng ký</span>
-                </span>
-              ) : (
-                <button
-                  onClick={() => handleRegister(e.id)}
-                  className="px-4 py-2 rounded-lg bg-visionary hover:bg-visionary-hover text-white text-xs font-bold shadow-md shadow-visionary/25 hover:scale-[1.02] transition-all"
-                >
-                  Đăng ký tham gia
-                </button>
-              )}
-            </div>
+                  <h3 className="text-base font-bold text-navy dark:text-white group-hover:text-visionary dark:group-hover:text-tealAccent transition-colors">
+                    {ev.title}
+                  </h3>
+
+                  <div className="text-xs text-gray-500 flex items-center gap-1.5">
+                    <MapPin className="w-3.5 h-3.5 text-visionary flex-shrink-0" />
+                    <span>{ev.location}</span>
+                  </div>
+
+                  <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed line-clamp-3">
+                    {ev.description}
+                  </p>
+
+                  <div className="flex items-center justify-between text-xs text-gray-500 pt-2 border-t border-surface-border">
+                    <span className="flex items-center gap-1">
+                      <Users className="w-3.5 h-3.5 text-tealAccent" />
+                      <span>{ev.currentRegistrationsCount} / {ev.maxCapacity} chỗ</span>
+                    </span>
+                    <span>
+                      Hạn: {new Date(ev.registrationDeadline).toLocaleDateString("vi-VN")}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-6 pt-4 border-t border-surface-border flex items-center justify-between">
+                  <span className="text-[11px] text-gray-400">
+                    Mã Check-in: <strong className="font-mono text-gray-600 dark:text-gray-300">{ev.qrCheckInCode || "Chưa phát"}</strong>
+                  </span>
+
+                  <button
+                    onClick={() => handleRegister(ev.id)}
+                    disabled={registerStatus[ev.id] === "loading" || registerStatus[ev.id] === "success" || ev.isRegisteredByCurrentUser}
+                    className="px-3.5 py-1.5 rounded-xl bg-visionary text-white text-xs font-semibold hover:bg-visionary/90 transition-all disabled:opacity-50"
+                  >
+                    {registerStatus[ev.id] === "loading" ? "Đang xử lý..." :
+                     registerStatus[ev.id] === "success" || ev.isRegisteredByCurrentUser ? "Đã đăng ký" :
+                     "Đăng ký tham gia"}
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-surface-border">
+              <span className="text-xs text-gray-500">
+                Trang <strong>{pageIndex}</strong> / <strong>{totalPages}</strong> (Tổng <strong>{totalCount}</strong> sự kiện)
+              </span>
+
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={() => handlePageChange(pageIndex - 1)}
+                  disabled={!hasPreviousPage}
+                  className="px-3 py-1.5 rounded-lg border border-surface-border text-xs font-semibold disabled:opacity-30 hover:bg-gray-100 dark:hover:bg-navy-light flex items-center gap-1"
+                >
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                  <span>Trước</span>
+                </button>
+
+                {Array.from({ length: totalPages }).map((_, idx) => {
+                  const pNum = idx + 1;
+                  return (
+                    <button
+                      key={pNum}
+                      onClick={() => handlePageChange(pNum)}
+                      className={`w-8 h-8 rounded-lg text-xs font-bold transition-all ${
+                        pNum === pageIndex
+                          ? "bg-visionary text-white shadow-sm"
+                          : "border border-surface-border hover:bg-gray-100 dark:hover:bg-navy-light"
+                      }`}
+                    >
+                      {pNum}
+                    </button>
+                  );
+                })}
+
+                <button
+                  onClick={() => handlePageChange(pageIndex + 1)}
+                  disabled={!hasNextPage}
+                  className="px-3 py-1.5 rounded-lg border border-surface-border text-xs font-semibold disabled:opacity-30 hover:bg-gray-100 dark:hover:bg-navy-light flex items-center gap-1"
+                >
+                  <span>Sau</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </div>
+  );
+}
+
+export default function EventsPage() {
+  return (
+    <Suspense fallback={
+      <div className="max-w-7xl mx-auto px-4 py-12 text-center text-xs text-gray-500">
+        Đang khởi tạo lịch sự kiện...
+      </div>
+    }>
+      <EventsContent />
+    </Suspense>
   );
 }

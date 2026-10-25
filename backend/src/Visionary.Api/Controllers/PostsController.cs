@@ -32,14 +32,19 @@ namespace Visionary.Api.Controllers
             [FromQuery] int pageIndex = 1,
             [FromQuery] int pageSize = 10)
         {
+            // Pagination safety clamps
+            pageIndex = Math.Max(1, pageIndex);
+            pageSize = Math.Clamp(pageSize, 1, 50);
+
             var query = _context.Posts
+                .AsNoTracking()
                 .Include(p => p.Category)
                 .Include(p => p.AuthorUser)
                 .Include(p => p.PostTags).ThenInclude(pt => pt.Tag)
                 .Where(p => p.Status == PostStatus.Published)
                 .AsQueryable();
 
-            if (categoryId.HasValue)
+            if (categoryId.HasValue && categoryId.Value != Guid.Empty)
             {
                 query = query.Where(p => p.CategoryId == categoryId.Value);
             }
@@ -53,6 +58,7 @@ namespace Visionary.Api.Controllers
             var total = await query.CountAsync();
             var items = await query
                 .OrderByDescending(p => p.PublishedAt ?? p.CreatedAt)
+                .ThenByDescending(p => p.Id)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .Select(p => new PostDto
@@ -79,16 +85,39 @@ namespace Visionary.Api.Controllers
         [HttpGet("{slug}")]
         public async Task<ActionResult<ApiResponse<PostDto>>> GetPostBySlug(string slug)
         {
+            if (string.IsNullOrWhiteSpace(slug))
+            {
+                return NotFound(ApiResponse<PostDto>.Fail("Không tìm thấy bài viết."));
+            }
+
+            var cleanSlug = slug.Trim().ToLower();
             var p = await _context.Posts
                 .Include(post => post.Category)
                 .Include(post => post.AuthorUser)
                 .Include(post => post.PostTags).ThenInclude(pt => pt.Tag)
-                .FirstOrDefaultAsync(post => post.Slug == slug);
+                .FirstOrDefaultAsync(post => post.Slug.ToLower() == cleanSlug);
 
             if (p == null) return NotFound(ApiResponse<PostDto>.Fail("Không tìm thấy bài viết."));
 
-            p.ViewCount++;
-            await _context.SaveChangesAsync();
+            // Check public visibility: Guests and standard users can ONLY view Published posts
+            var currentUserIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Guid.TryParse(currentUserIdStr, out var currentUserId);
+            var isPrivileged = User.Identity?.IsAuthenticated == true &&
+                (User.IsInRole(AppRoles.Admin) ||
+                 User.IsInRole(AppRoles.Committee) ||
+                 (User.IsInRole(AppRoles.Collaborator) && p.AuthorUserId == currentUserId));
+
+            if (p.Status != PostStatus.Published && !isPrivileged)
+            {
+                return NotFound(ApiResponse<PostDto>.Fail("Bài viết không tồn tại hoặc chưa được công khai."));
+            }
+
+            // Only increment viewCount if published
+            if (p.Status == PostStatus.Published)
+            {
+                p.ViewCount++;
+                await _context.SaveChangesAsync();
+            }
 
             var dto = new PostDto
             {
@@ -115,6 +144,7 @@ namespace Visionary.Api.Controllers
         public async Task<ActionResult<ApiResponse<List<PostCategoryDto>>>> GetCategories()
         {
             var list = await _context.PostCategories
+                .AsNoTracking()
                 .Select(c => new PostCategoryDto
                 {
                     Id = c.Id,
@@ -122,7 +152,9 @@ namespace Visionary.Api.Controllers
                     Slug = c.Slug,
                     Description = c.Description,
                     PostCount = c.Posts.Count(p => p.Status == PostStatus.Published)
-                }).ToListAsync();
+                })
+                .OrderBy(c => c.Name)
+                .ToListAsync();
 
             return Ok(ApiResponse<List<PostCategoryDto>>.Ok(list));
         }

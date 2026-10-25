@@ -1,76 +1,44 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Award, Calendar, ExternalLink, ShieldCheck, User } from "lucide-react";
+import { Award, Calendar, ExternalLink, ShieldCheck, User, AlertCircle, RotateCcw, Medal } from "lucide-react";
 import { api } from "../../lib/api";
 import { AchievementItem } from "../../lib/types";
 
 export default function AchievementsPage() {
   const [achievements, setAchievements] = useState<AchievementItem[]>([]);
+  const [status, setStatus] = useState<"loading" | "success" | "empty" | "error">("loading");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const fallbackAchievements: AchievementItem[] = [
-    {
-      id: "1",
-      categoryId: "cat1",
-      categoryName: "Academic & Tech Excellence",
-      recipientUserId: "u1",
-      recipientName: "Quách Khoa Đức",
-      studentId: "1923040025",
-      department: "Khoa CNTT",
-      title: "Giải Nhất Cuộc thi Sáng tạo Khoa học Công nghệ Sinh viên DNTU 2026",
-      description: "Nghiên cứu và phát triển giải pháp Trí tuệ Nhân tạo ứng dụng trong giám sát và dự báo thời gian thực.",
-      awardedDate: "2026-05-15",
-      evidenceUrl: "https://dntu.edu.vn",
-      isVerified: true
-    },
-    {
-      id: "2",
-      categoryId: "cat2",
-      categoryName: "English Achievement",
-      recipientUserId: "u2",
-      recipientName: "Võ Ngọc Minh Đạt",
-      department: "Khoa CNTT",
-      title: "Chứng chỉ Ngoại ngữ Quốc tế TOEIC 850 Điểm",
-      description: "Đạt thành tích xuất sắc trong kỳ thi chuẩn hóa năng lực tiếng Anh quốc tế.",
-      awardedDate: "2026-03-20",
-      isVerified: true
-    },
-    {
-      id: "3",
-      categoryId: "cat3",
-      categoryName: "Global Engagement",
-      recipientUserId: "u3",
-      recipientName: "Hồ Đoàng Nguyên Khang",
-      department: "Khoa CNTT",
-      title: "Đại biểu Sinh viên Giao lưu Văn hóa & Công nghệ Thanh niên ASEAN 2026",
-      description: "Đại diện sinh viên tham gia đoàn giao lưu thanh niên quốc tế tại Singapore & Malaysia.",
-      awardedDate: "2026-07-10",
-      isVerified: true
-    },
-    {
-      id: "4",
-      categoryId: "cat4",
-      categoryName: "Technology & Innovation",
-      recipientUserId: "u4",
-      recipientName: "Đào Trí Khang",
-      department: "Khoa CNTT",
-      title: "Top 10 Chung kết Cuộc thi Lập trình Di động Quốc gia",
-      description: "Xây dựng ứng dụng di động bản địa phục vụ kết nối học tập và nâng cao năng lực ngoại ngữ.",
-      awardedDate: "2026-04-12",
-      isVerified: true
-    }
-  ];
+  const fetchAchievements = () => {
+    setStatus("loading");
+    setErrorMessage("");
 
-  useEffect(() => {
     api.getAchievements()
       .then((res) => {
-        if (res.success && res.data?.length) {
-          setAchievements(res.data);
+        if (res.success && res.data) {
+          const verified = res.data.filter((a) => a.isVerified);
+          setAchievements(verified);
+          if (verified.length === 0) {
+            setStatus("empty");
+          } else {
+            setStatus("success");
+          }
         } else {
-          setAchievements(fallbackAchievements);
+          setAchievements([]);
+          setStatus("error");
+          setErrorMessage(res.message || "Không thể tải bảng vàng thành tích.");
         }
       })
-      .catch(() => setAchievements(fallbackAchievements));
+      .catch((err) => {
+        setAchievements([]);
+        setStatus("error");
+        setErrorMessage(err?.message || "Lỗi kết nối máy chủ.");
+      });
+  };
+
+  useEffect(() => {
+    fetchAchievements();
   }, []);
 
   return (
@@ -84,66 +52,119 @@ export default function AchievementsPage() {
           Bảng vàng Vinh danh Thành tích
         </h1>
         <p className="text-sm text-gray-600 dark:text-gray-300">
-          Tôn vinh những cá nhân và tập thể sinh viên DNTU có thành tích xuất sắc trong học thuật, giải thưởng công nghệ, chứng chỉ ngoại ngữ và hoạt động hội nhập toàn cầu đã qua kiểm chứng.
+          Tôn vinh những cá nhân và tập thể sinh viên DNTU có thành tích xuất sắc trong học thuật, giải thưởng công nghệ, chứng chỉ ngoại ngữ và hoạt động hội nhập toàn cầu đã qua kiểm chứng minh chứng.
         </p>
       </div>
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {achievements.map((item) => (
-          <div
-            key={item.id}
-            className="glass-card rounded-2xl p-6 border-l-4 border-tealAccent flex flex-col justify-between hover:shadow-lg transition-all"
+      {/* 1. LOADING */}
+      {status === "loading" && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="glass-card rounded-2xl p-6 space-y-4 animate-pulse">
+              <div className="h-5 w-1/3 bg-gray-200 dark:bg-gray-800 rounded-full" />
+              <div className="h-6 w-3/4 bg-gray-200 dark:bg-gray-800 rounded" />
+              <div className="h-4 w-full bg-gray-200 dark:bg-gray-800 rounded" />
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* 2. ERROR */}
+      {status === "error" && (
+        <div className="glass-card rounded-2xl p-10 text-center space-y-4 max-w-md mx-auto border border-red-200 dark:border-red-900/50">
+          <AlertCircle className="w-8 h-8 text-red-500 mx-auto" />
+          <h3 className="text-base font-bold text-navy dark:text-white">Không thể tải bảng thành tích</h3>
+          <p className="text-xs text-gray-500">{errorMessage}</p>
+          <button
+            onClick={fetchAchievements}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-visionary text-white text-xs font-semibold"
           >
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="badge-teal text-[11px] px-2.5 py-0.5 rounded-full font-bold">
-                  {item.categoryName}
-                </span>
-                <span className="text-xs text-gray-500 font-medium flex items-center gap-1">
-                  <Calendar className="w-3.5 h-3.5 text-tealAccent" />
-                  {new Date(item.awardedDate).toLocaleDateString("vi-VN")}
-                </span>
-              </div>
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>Thử lại</span>
+          </button>
+        </div>
+      )}
 
-              <div>
-                <h3 className="text-lg font-bold text-navy dark:text-white">
-                  {item.title}
-                </h3>
-                <div className="flex items-center gap-2 text-xs text-visionary dark:text-tealAccent font-semibold mt-1">
-                  <User className="w-3.5 h-3.5" />
-                  <span>{item.recipientName}</span>
-                  {item.studentId && <span>(MSSV: {item.studentId})</span>}
-                  {item.department && <span>• {item.department}</span>}
-                </div>
-              </div>
-
-              <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed bg-surface dark:bg-navy-light p-3 rounded-xl">
-                {item.description}
-              </p>
-            </div>
-
-            <div className="mt-6 pt-4 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between text-xs">
-              <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-semibold">
-                <ShieldCheck className="w-4 h-4" />
-                <span>Thành tích Đã kiểm chứng (Verified)</span>
-              </div>
-
-              {item.evidenceUrl && (
-                <a
-                  href={item.evidenceUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-visionary hover:underline flex items-center gap-1 font-medium"
-                >
-                  <span>Minh chứng</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              )}
-            </div>
+      {/* 3. EMPTY: Authentic Empty State - No Fake Person Awards */}
+      {status === "empty" && (
+        <div className="glass-card rounded-3xl p-16 text-center space-y-5 max-w-lg mx-auto border border-surface-border shadow-sm">
+          <div className="w-16 h-16 rounded-2xl bg-tealAccent/10 text-tealAccent flex items-center justify-center mx-auto">
+            <Medal className="w-8 h-8" />
           </div>
-        ))}
-      </div>
+          <div className="space-y-2">
+            <h3 className="text-lg font-bold text-navy dark:text-white">
+              Chưa có thành tích công bố
+            </h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+              Hệ thống hiện chưa có bản ghi thành tích nào được phê duyệt minh chứng chính thức. Sau khi các giải thưởng nghiên cứu, chứng chỉ ngoại ngữ và thành tích thi đấu được Hội đồng cố vấn thẩm định, danh sách vinh danh sẽ hiển thị công khai tại đây.
+            </p>
+          </div>
+          <div className="pt-2 text-[11px] text-gray-400 italic">
+            Quy trình xác minh tuân thủ tiêu chuẩn minh bạch của Nhà trường và CLB Tiếng Anh DNTU.
+          </div>
+        </div>
+      )}
+
+      {/* 4. SUCCESS: Verified Authentic Achievements Only */}
+      {status === "success" && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {achievements.map((item) => (
+            <div
+              key={item.id}
+              className="glass-card rounded-2xl p-6 border-l-4 border-tealAccent flex flex-col justify-between hover:shadow-lg transition-all"
+            >
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="badge-teal text-[11px] px-2.5 py-0.5 rounded-full font-bold">
+                    {item.categoryName}
+                  </span>
+                  <div className="flex items-center gap-1 text-[11px] text-tealAccent font-semibold">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    <span>Đã thẩm định minh chứng</span>
+                  </div>
+                </div>
+
+                <div className="space-y-1">
+                  <h3 className="text-base font-bold text-navy dark:text-white">
+                    {item.title}
+                  </h3>
+                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <User className="w-3.5 h-3.5 text-visionary" />
+                    <span>
+                      <strong>{item.recipientName}</strong>
+                      {item.studentId && ` • MSSV: ${item.studentId}`}
+                      {item.department && ` • ${item.department}`}
+                    </span>
+                  </div>
+                </div>
+
+                <p className="text-xs text-gray-600 dark:text-gray-300 leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-surface-border flex items-center justify-between text-xs text-gray-500">
+                <div className="flex items-center gap-1.5">
+                  <Calendar className="w-3.5 h-3.5 text-tealAccent" />
+                  <span>{new Date(item.awardedDate).toLocaleDateString("vi-VN")}</span>
+                </div>
+
+                {item.evidenceUrl && (
+                  <a
+                    href={item.evidenceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-visionary dark:text-tealAccent hover:underline flex items-center gap-1"
+                  >
+                    <span>Xem minh chứng</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
