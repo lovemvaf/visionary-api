@@ -21,7 +21,10 @@ namespace Visionary.Infrastructure.Services
 
         public string GenerateToken(User user, IEnumerable<string> roles)
         {
-            var jwtKey = _configuration["Jwt:Key"] ?? "VisionaryPlatformSecretKey2026MasterExecutionSecureKeyDNTU";
+            var jwtKey = _configuration["Jwt:Key"]
+                ?? Environment.GetEnvironmentVariable("JWT_SECRET")
+                ?? _configuration["Jwt:SigningKey"]
+                ?? "VisionaryPlatformSecretKey2026MasterExecutionSecureKeyDNTU_TH71108_API";
             var issuer = _configuration["Jwt:Issuer"] ?? "VisionaryApi";
             var audience = _configuration["Jwt:Audience"] ?? "VisionaryClients";
             var expiryMinutes = double.TryParse(_configuration["Jwt:ExpiryMinutes"], out var mins) ? mins : 1440; // 24 hours
@@ -56,7 +59,10 @@ namespace Visionary.Infrastructure.Services
 
         public bool ValidateToken(string token)
         {
-            var jwtKey = _configuration["Jwt:Key"] ?? "VisionaryPlatformSecretKey2026MasterExecutionSecureKeyDNTU";
+            var jwtKey = _configuration["Jwt:Key"]
+                ?? Environment.GetEnvironmentVariable("JWT_SECRET")
+                ?? _configuration["Jwt:SigningKey"]
+                ?? "VisionaryPlatformSecretKey2026MasterExecutionSecureKeyDNTU_TH71108_API";
             var issuer = _configuration["Jwt:Issuer"] ?? "VisionaryApi";
             var audience = _configuration["Jwt:Audience"] ?? "VisionaryClients";
 

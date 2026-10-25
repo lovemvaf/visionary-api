@@ -13,7 +13,9 @@ services:
       - key: ConnectionStrings__DefaultConnection
         value: Host=aws-0-ap-southeast-1.pooler.supabase.com;Port=5432;Database=postgres;Username=postgres.rylazywrudutcjnvutte;Password=Ducdatabase27204025888**//--*/-*/-;SSL Mode=Require;Trust Server Certificate=true;Timeout=30;Keepalive=30
       - key: JWT_SECRET
-        generateValue: true
+        value: VisionaryPlatformSecretKey2026MasterExecutionSecureKeyDNTU_TH71108_API
+      - key: Jwt__Key
+        value: VisionaryPlatformSecretKey2026MasterExecutionSecureKeyDNTU_TH71108_API
       - key: Jwt__Issuer
         value: VisionaryApi
       - key: Jwt__Audience
