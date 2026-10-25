@@ -6,6 +6,7 @@ services:
     dockerContext: ./backend
     plan: free
     region: singapore
+    autoDeploy: true
     healthCheckPath: /health/live
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
