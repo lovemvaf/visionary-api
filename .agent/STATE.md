@@ -1,0 +1,25 @@
+# VISIONARY ECOSYSTEM – EXECUTION STATE
+
+- **Project Name:** VISIONARY – Hệ thống Quản lý Hoạt động Hội nhập (English, Technology & Global Integration Platform)
+- **Development Team:** VISIONARY API
+  - Quách Khoa Đức (Architecture, ASP.NET Core Web API, PostgreSQL/Supabase, Frontend, Integration)
+  - Võ Ngọc Minh Đạt (Club Operations, Members, Events, Internal Data, Windows Forms)
+  - Hồ Đoàng Nguyên Khang (Information & Opportunities, Data Pipelines, Verification)
+  - Đào Trí Khang (Android Native Java, Technology Feeds & Radar, Testing)
+- **Current Phase:** Phase 1 – Architecture, Audit & Environment Setup
+- **Active Task:** TASK-001 (Monorepo architecture, state management & design tokens)
+- **Git Branch:** main (initialized)
+- **Database Schema Version:** v1.0.0-draft
+- **API Contract Version:** v1.0.0
+- **Supported Platforms:**
+  - Web: Next.js 14/15 App Router (TypeScript, Tailwind CSS, Lucide)
+  - Backend: ASP.NET Core 8 Web API (EF Core, Npgsql PostgreSQL, JWT, Swagger)
+  - Desktop: Windows Forms C# (.NET 8 Windows Desktop)
+  - Mobile: Android Native Java (JDK 17, Retrofit, Material 3)
+- **Verified Tooling:**
+  - .NET SDK: 8.0.413 / 9.0.305 (Host ready)
+  - Node.js: v24.13.0, npm 11.6.2
+  - Java: JDK 17.0.13 LTS
+  - Android SDK: Installed at `C:\Users\asus\AppData\Local\Android\Sdk`
+  - Vercel CLI: 65.2.0 (Logged in as `lovemvaf`, scope `visionary19` confirmed)
+  - Docker: 29.1.3 installed

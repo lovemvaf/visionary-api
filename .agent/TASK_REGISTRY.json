@@ -1,0 +1,158 @@
+{
+  "tasks": [
+    {
+      "id": "TASK-PHASE1-001",
+      "title": "Environment capability discovery & directory scaffolding",
+      "status": "verified",
+      "priority": "P0",
+      "dependencies": [],
+      "affectedModules": ["workspace", "environment"],
+      "requiresExternalAccess": false,
+      "requiresApproval": false,
+      "verification": "terminal SDK checks"
+    },
+    {
+      "id": "TASK-PHASE1-002",
+      "title": "Comprehensive architecture and design specification documentation",
+      "status": "in_progress",
+      "priority": "P0",
+      "dependencies": ["TASK-PHASE1-001"],
+      "affectedModules": ["docs"],
+      "requiresExternalAccess": false,
+      "requiresApproval": false,
+      "verification": "doc inspection"
+    },
+    {
+      "id": "TASK-PHASE2-001",
+      "title": "Scaffold ASP.NET Core 8 Web API Clean Architecture Solution",
+      "status": "pending",
+      "priority": "P0",
+      "dependencies": ["TASK-PHASE1-002"],
+      "affectedModules": ["backend"],
+      "requiresExternalAccess": false,
+      "requiresApproval": false,
+      "verification": "dotnet build"
+    },
+    {
+      "id": "TASK-PHASE2-002",
+      "title": "Entity Framework Core Models, DbContext, and Migrations",
+      "status": "pending",
+      "priority": "P0",
+      "dependencies": ["TASK-PHASE2-001"],
+      "affectedModules": ["backend"],
+      "requiresExternalAccess": false,
+      "requiresApproval": false,
+      "verification": "dotnet build & db test"
+    },
+    {
+      "id": "TASK-PHASE2-003",
+      "title": "JWT Authentication, Google OAuth, and Role Authorization",
+      "status": "pending",
+      "priority": "P0",
+      "dependencies": ["TASK-PHASE2-002"],
+      "affectedModules": ["backend"],
+      "requiresExternalAccess": false,
+      "requiresApproval": false,
+      "verification": "auth unit test"
+    },
+    {
+      "id": "TASK-PHASE2-004",
+      "title": "RESTful API Controllers with CRUD, Pagination, and Validation",
+      "status": "pending",
+      "priority": "P0",
+      "dependencies": ["TASK-PHASE2-003"],
+      "affectedModules": ["backend"],
+      "requiresExternalAccess": false,
+      "requiresApproval": false,
+      "verification": "controller tests"
+    },
+    {
+      "id": "TASK-PHASE3-001",
+      "title": "Scaffold Next.js 14/15 App Router Frontend with TypeScript & Tailwind CSS",
+      "status": "pending",
+      "priority": "P0",
+      "dependencies": ["TASK-PHASE2-004"],
+      "affectedModules": ["frontend"],
+      "requiresExternalAccess": false,
+      "requiresApproval": false,
+      "verification": "npm run build"
+    },
+    {
+      "id": "TASK-PHASE3-002",
+      "title": "Develop Public Experience Pages & Premium Design System",
+      "status": "pending",
+      "priority": "P0",
+      "dependencies": ["TASK-PHASE3-001"],
+      "affectedModules": ["frontend"],
+      "requiresExternalAccess": false,
+      "requiresApproval": false,
+      "verification": "npm run build & browser test"
+    },
+    {
+      "id": "TASK-PHASE3-003",
+      "title": "Admin, BCN, CTV, and Student Dashboards with CMS",
+      "status": "pending",
+      "priority": "P0",
+      "dependencies": ["TASK-PHASE3-002"],
+      "affectedModules": ["frontend"],
+      "requiresExternalAccess": false,
+      "requiresApproval": false,
+      "verification": "dashboard flow test"
+    },
+    {
+      "id": "TASK-PHASE4-001",
+      "title": "Data Automation Ingestion Pipeline & Background Workers",
+      "status": "pending",
+      "priority": "P1",
+      "dependencies": ["TASK-PHASE2-004"],
+      "affectedModules": ["backend", "automation"],
+      "requiresExternalAccess": false,
+      "requiresApproval": false,
+      "verification": "pipeline test"
+    },
+    {
+      "id": "TASK-PHASE5-001",
+      "title": "Vercel Deployment to visionary19 Workspace & Docker/Cloud Config",
+      "status": "pending",
+      "priority": "P0",
+      "dependencies": ["TASK-PHASE3-003"],
+      "affectedModules": ["frontend", "devops"],
+      "requiresExternalAccess": true,
+      "requiresApproval": false,
+      "verification": "vercel deploy"
+    },
+    {
+      "id": "TASK-PHASE6-001",
+      "title": "Windows Forms C# Club Administration Desktop Client",
+      "status": "pending",
+      "priority": "P0",
+      "dependencies": ["TASK-PHASE2-004"],
+      "affectedModules": ["desktop"],
+      "requiresExternalAccess": false,
+      "requiresApproval": false,
+      "verification": "dotnet build desktop"
+    },
+    {
+      "id": "TASK-PHASE7-001",
+      "title": "Android Native Java Student Connect Mobile App",
+      "status": "pending",
+      "priority": "P0",
+      "dependencies": ["TASK-PHASE2-004"],
+      "affectedModules": ["mobile"],
+      "requiresExternalAccess": false,
+      "requiresApproval": false,
+      "verification": "gradle build"
+    },
+    {
+      "id": "TASK-PHASE8-001",
+      "title": "3-Platform Synchronization, End-to-End Verification & Delivery Report",
+      "status": "pending",
+      "priority": "P0",
+      "dependencies": ["TASK-PHASE5-001", "TASK-PHASE6-001", "TASK-PHASE7-001"],
+      "affectedModules": ["all"],
+      "requiresExternalAccess": false,
+      "requiresApproval": false,
+      "verification": "e2e report"
+    }
+  ]
+}
