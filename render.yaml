@@ -1,3 +1,10 @@
+databases:
+  - name: visionary-db
+    databaseName: visionary
+    user: visionary
+    plan: free
+    region: singapore
+
 services:
   - type: web
     name: visionary-api
@@ -13,7 +20,9 @@ services:
       - key: ASPNETCORE_URLS
         value: http://+:8080
       - key: ConnectionStrings__DefaultConnection
-        sync: false
+        fromDatabase:
+          name: visionary-db
+          property: connectionString
       - key: JWT_SECRET
         generateValue: true
       - key: Jwt__Issuer

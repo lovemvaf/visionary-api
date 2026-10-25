@@ -29,11 +29,31 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     var isPostgres = connectionString.Contains("Host=", StringComparison.OrdinalIgnoreCase) ||
                      connectionString.Contains("Username=", StringComparison.OrdinalIgnoreCase) ||
-                     connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase);
+                     connectionString.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) ||
+                     connectionString.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase);
 
     if (isPostgres)
     {
-        options.UseNpgsql(connectionString);
+        var connStr = connectionString;
+        if (connStr.StartsWith("postgres://", StringComparison.OrdinalIgnoreCase) ||
+            connStr.StartsWith("postgresql://", StringComparison.OrdinalIgnoreCase))
+        {
+            try
+            {
+                var uri = new Uri(connStr);
+                var userInfo = uri.UserInfo.Split(':');
+                var user = userInfo.Length > 0 ? Uri.UnescapeDataString(userInfo[0]) : "";
+                var pass = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : "";
+                var port = uri.Port > 0 ? uri.Port : 5432;
+                var dbName = uri.AbsolutePath.TrimStart('/');
+                connStr = $"Host={uri.Host};Port={port};Database={dbName};Username={user};Password={pass};SSL Mode=Require;Trust Server Certificate=true";
+            }
+            catch
+            {
+                // Use original string if URI parsing fails
+            }
+        }
+        options.UseNpgsql(connStr);
     }
     else
     {
