@@ -138,12 +138,12 @@ Dự án áp dụng quy trình kiểm thử nghiêm ngặt trên GitHub Actions 
 
 Dự án được xây dựng và duy trì bởi nhóm **VISIONARY API**:
 
-| Thành viên | Vai trò Kỹ thuật | Trách nhiệm Chính |
-| :--- | :--- | :--- |
-| **Quách Khoa Đức** | Principal Software Architect | Thiết kế kiến trúc tổng thể, ASP.NET Core Web API, Next.js Web Frontend, CI/CD DevSecOps |
-| **Đào Trí Khang** | Mobile Software Engineer | Phát triển ứng dụng Android Native Java (Retrofit 2, Material 3), Mobile Testing |
-| **Hồ Đoàn Nguyên Khang** | Backend & Database Engineer | ASP.NET Core 8 Web API, Entity Framework Core, Swagger OpenAPI, API Integration Tests |
-| **Võ Ngọc Minh Đạt** | Desktop Software Engineer | Phát triển ứng dụng Windows Forms C# (.NET 8), Nghiệp vụ Quản trị CLB, Desktop Client Testing |
+| Thành viên | GitHub Account | Vai trò Kỹ thuật | Trách nhiệm Chính |
+| :--- | :--- | :--- | :--- |
+| **Quách Khoa Đức** | [`@lovemvaf`](https://github.com/lovemvaf) | Principal Software Architect | Thiết kế kiến trúc tổng thể, ASP.NET Core Web API, Next.js Web Frontend, CI/CD DevSecOps |
+| **Đào Trí Khang** | [`@TS13lover1989`](https://github.com/TS13lover1989) | Mobile Software Engineer | Phát triển ứng dụng Android Native Java (Retrofit 2, Material 3), Mobile Testing |
+| **Hồ Đoàn Nguyên Khang** | [`@HoKhangIT`](https://github.com/HoKhangIT) | Backend & Database Engineer | ASP.NET Core 8 Web API, Entity Framework Core, Swagger OpenAPI, API Integration Tests |
+| **Võ Ngọc Minh Đạt** | [`@vongocminhdat`](https://github.com/vongocminhdat) | Desktop Software Engineer | Phát triển ứng dụng Windows Forms C# (.NET 8), Nghiệp vụ Quản trị CLB, Desktop Client Testing |
 
 ### 🌿 Bốn Nhánh Phát triển Chuyên biệt (Feature Branches)
 - **Web Frontend & Architecture (Quách Khoa Đức):** [`feature/web-duc`](https://github.com/lovemvaf/visionary-api/tree/feature/web-duc)

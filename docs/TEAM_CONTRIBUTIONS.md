@@ -28,11 +28,11 @@ Tuân thủ nghiêm ngặt chuẩn mực kỹ thuật và đạo đức nghiên 
 
 ## 3. DANH TÍNH GITHUB VÀ HÀNH ĐỘNG KỸ THUẬT (IDENTITY AUDIT)
 
-### 3.1. Hiện trạng Danh tính
-- **Quách Khoa Đức:** GitHub username: `@lovemvaf` (Email: `lovemvaf@gmail.com`) ➔ **VERIFIED OWNER**. Đã có đóng góp và commit chính thức trên repository.
-- **Đào Trí Khang:** Email cung cấp: `caubekhang1485@gmail.com` ➔ **ASSIGNED WORKSTREAM**. Cần xác nhận username GitHub cá nhân để thêm Collaborator và link vào biểu đồ Contributors.
-- **Hồ Đoàn Nguyên Khang:** Cần cung cấp tài khoản GitHub và email cá nhân độc lập ➔ **IDENTITY_VERIFICATION_REQUIRED** *(trước đây bị cấp trùng email với Minh Đạt)*.
-- **Võ Ngọc Minh Đạt:** Email cung cấp: `vongocminhdat@gmail.com` ➔ **IDENTITY_VERIFICATION_REQUIRED** *(cần username GitHub riêng)*.
+### 3.1. Hiện trạng Danh tính Đã Xác Minh
+- **Quách Khoa Đức:** GitHub: [`@lovemvaf`](https://github.com/lovemvaf) (Email: `lovemvaf@gmail.com`) ➔ **VERIFIED OWNER**. Tác giả chính điều phối hệ thống.
+- **Hồ Đoàn Nguyên Khang:** GitHub: [`@HoKhangIT`](https://github.com/HoKhangIT) ➔ **VERIFIED COLLABORATOR**. Nhánh phụ trách: `feature/api-ho-doan-khang` (Hướng dẫn thao tác: [`HO_KHANG_GITHUB_ACTION.md`](../HO_KHANG_GITHUB_ACTION.md)).
+- **Đào Trí Khang:** GitHub: [`@TS13lover1989`](https://github.com/TS13lover1989) ➔ **VERIFIED COLLABORATOR**. Nhánh phụ trách: `feature/android-tri-khang` (Hướng dẫn thao tác: [`TRI_KHANG_GITHUB_ACTION.md`](../TRI_KHANG_GITHUB_ACTION.md)).
+- **Võ Ngọc Minh Đạt:** GitHub: [`@vongocminhdat`](https://github.com/vongocminhdat) ➔ **VERIFIED COLLABORATOR**. Nhánh phụ trách: `feature/winforms-minh-dat` (Hướng dẫn thao tác: [`MINH_DAT_GITHUB_ACTION.md`](../MINH_DAT_GITHUB_ACTION.md)).
 
 ### 3.2. Hướng dẫn Dành cho Từng Thành viên Thực hiện Đóng góp Cá nhân
 Mỗi thành viên khi làm việc trên máy của mình cần thực hiện các bước chuẩn mực:
