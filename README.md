@@ -138,8 +138,8 @@ Tất cả các biến môi trường cần thiết được cung cấp dưới 
 
 Dự án áp dụng quy trình kiểm thử nghiêm ngặt trên GitHub Actions CI/CD:
 
-- **Hệ thống Kiểm thử Tự động Đa Nền tảng (53 Automated Tests):**
-  - **17 xUnit Tests Backend:** Bao gồm 7 kiểm thử tích hợp RESTful API (`ApiIntegrationTests`), 2 kiểm thử bảo mật (`AuthTests`), 6 kiểm thử logic bài viết (`PostsLogicAuditTests`), và 2 kiểm thử kiểm soát quyền Admin & chống leo quyền (`AuthorizationRegressionTests`).
+- **Hệ thống Kiểm thử Tự động Đa Nền tảng (55 Automated Tests):**
+  - **19 xUnit Tests Backend:** Bao gồm 7 kiểm thử tích hợp RESTful API (`ApiIntegrationTests`), 2 kiểm thử bảo mật (`AuthTests`), 6 kiểm thử logic bài viết (`PostsLogicAuditTests`), và 4 kiểm thử kiểm soát quyền Admin & chống leo quyền (`AuthorizationRegressionTests`).
   - **21 Unit Tests Desktop (WinForms):** Kiểm thử toàn diện `ApiClient` (mô phỏng timeout, lỗi mạng, JWT hết hạn, hủy request) và `AppState`.
   - **15 Unit Tests Mobile (Android Java):** Kiểm thử deserialization hợp đồng JSON, xử lý RFC 7807 problem details, và an toàn dữ liệu.
   - **19 Routes Frontend (Next.js 14):** Kiểm thử tĩnh hóa SSG & SSR không lỗi typecheck.

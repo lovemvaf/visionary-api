@@ -1,31 +1,31 @@
 {
   "repository": "lovemvaf/visionary-api",
-  "commitSha": "23f9ca17c71cd6b16b6055c31c36b0bfbcef7a0a",
-  "generatedAtUtc": "2026-10-26T12:05:00Z",
+  "commitSha": "2eb86b21354292cbb10368ed9b6e32d1f4b08557",
+  "generatedAtUtc": "2026-10-27T00:15:00Z",
   "historicalMilestone": {
     "suite": "Backend Core Smoke Tests (Initial Milestone)",
     "total": 9,
     "passed": 9,
     "failed": 0,
-    "note": "Documented in early QA reports prior to Posts Logic Invariant (15 tests) and Authorization Boundary test expansions (17 tests)."
+    "note": "Documented in early QA reports prior to Posts Logic Invariant (15 tests), Authorization Boundary test expansions (17 tests), and Token Validation Regression expansions (19 tests)."
   },
   "backend": {
     "build": "VERIFIED_PASS",
     "solution": "backend/Visionary.Backend.sln",
     "targetFramework": "net8.0",
     "tests": {
-      "total": 17,
-      "passed": 17,
+      "total": 19,
+      "passed": 19,
       "failed": 0,
       "skipped": 0,
       "suites": {
         "ApiIntegrationTests": 7,
         "AuthTests": 2,
         "PostsLogicAuditTests": 6,
-        "AuthorizationRegressionTests": 2
+        "AuthorizationRegressionTests": 4
       },
-      "workflowUrl": "https://github.com/lovemvaf/visionary-api/actions/runs/40319074276",
-      "runId": "40319074276",
+      "workflowUrl": "https://github.com/lovemvaf/visionary-api/actions/runs/40339904597",
+      "runId": "40339904597",
       "environment": "Ubuntu Latest / .NET 8.0 SDK"
     }
   },
@@ -83,5 +83,14 @@
     "website": "https://visionary-platform.vercel.app/",
     "backendHosting": "Render Web Service (AutoDeploy enabled)",
     "database": "Supabase PostgreSQL 16 (SSL Required)"
+  },
+  "contributorAttribution": {
+    "allFourVerified": true,
+    "members": [
+      { "login": "lovemvaf", "name": "Quách Khoa Đức", "role": "Lead / Web & Architecture", "status": "VERIFIED_CONTRIBUTOR" },
+      { "login": "HoKhangIT", "name": "Hồ Đoàn Nguyên Khang", "role": "ASP.NET Core Web API", "status": "VERIFIED_CONTRIBUTOR" },
+      { "login": "TS13lover1989", "name": "Đào Trí Khang", "role": "Android Native Java", "status": "VERIFIED_CONTRIBUTOR" },
+      { "login": "vongocminhdat", "name": "Võ Ngọc Minh Đạt", "role": "Windows Forms Desktop", "status": "VERIFIED_CONTRIBUTOR" }
+    ]
   }
 }

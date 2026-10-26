@@ -82,15 +82,15 @@ def check_test_consistency():
         data = json.load(f)
         
     backend_tests = data.get("backend", {}).get("tests", {}).get("total")
-    if backend_tests != 17:
-        print(f"  [FAIL]: Canonical verification.json expects 17 tests, got {backend_tests}.")
+    if backend_tests != 19:
+        print(f"  [FAIL]: Canonical verification.json expects 19 tests, got {backend_tests}.")
         return False
         
-    print(f"  [PASS]: Canonical verification.json accurately reflects {backend_tests}/17 tests.")
+    print(f"  [PASS]: Canonical verification.json accurately reflects {backend_tests}/19 tests.")
     return True
 
 def check_backend_solution_tests():
-    print("[4/6] Executing backend xUnit tests locally (17 tests expected)...")
+    print("[4/6] Executing backend xUnit tests locally (19 tests expected)...")
     root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     try:
         cmd = ["dotnet", "test", "backend/Visionary.Backend.sln", "--nologo"]
@@ -98,11 +98,11 @@ def check_backend_solution_tests():
         if res.returncode != 0:
             print(f"  [FAIL]: dotnet test failed:\n{res.stdout}\n{res.stderr}")
             return False
-        if "Passed!  - Failed:     0, Passed:    17" in res.stdout or "Passed: 17" in res.stdout:
-            print("  [PASS]: dotnet test 17/17 Passed 100%.")
+        if "Passed!  - Failed:     0, Passed:    19" in res.stdout or "Passed: 19" in res.stdout:
+            print("  [PASS]: dotnet test 19/19 Passed 100%.")
             return True
         else:
-            print(f"  [WARN]: Output did not match expected 17 passes:\n{res.stdout}")
+            print(f"  [WARN]: Output did not match expected 19 passes:\n{res.stdout}")
             return False
     except Exception as e:
         print(f"  [FAIL]: ERROR running dotnet test: {e}")

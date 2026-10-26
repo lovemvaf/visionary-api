@@ -11,7 +11,8 @@
 
 | Hạng mục kiểm thử | Công cụ / Môi trường | Quy mô kiểm thử | Đạt (Pass) | Thất bại (Fail) | Tỷ lệ thành công | Trạng thái & Bằng chứng |
 |---|---|---|---|---|---|---|
-| **Backend xUnit Suite (Hiện tại)** | xUnit, .NET 8.0 SDK | **17 tests** | **17** | 0 | **100%** | **VERIFIED PASS** (GitHub Actions Run #40319074276) |
+| **Backend xUnit Suite (Hiện tại)** | xUnit, .NET 8.0 SDK | **19 tests** | **19** | 0 | **100%** | **VERIFIED PASS** (GitHub Actions Run #40339904597) |
+| *Backend Auth Boundary (Mốc trước)* | xUnit, .NET 8.0 SDK | *17 tests* | *17* | *0* | *100%* | *HISTORICAL SNAPSHOT* (Giai đoạn trước khi thêm 2 bài test JWT Token Validation Regression) |
 | *Backend Posts Invariant (Mốc trước)* | xUnit, .NET 8.0 SDK | *15 tests* | *15* | *0* | *100%* | *HISTORICAL SNAPSHOT* (Giai đoạn trước khi thêm 2 bài test Authorization Boundary) |
 | *Backend Core Smoke (Mốc lịch sử)* | xUnit, .NET 8.0 SDK | *9 tests* | *9* | *0* | *100%* | *HISTORICAL SNAPSHOT* (Giai đoạn trước khi thêm 6 bài test Posts Logic) |
 | **Windows Forms Desktop Suite** | xUnit, .NET 8.0-windows | **21 tests** | **21** | 0 | **100%** | **VERIFIED PASS** (GitHub Actions Run #40317635884) |
@@ -21,11 +22,11 @@
 
 ---
 
-## 2. CHI TIẾT KIỂM THỬ BACKEND ASP.NET CORE (.NET 8) – HIỆN HÀNH 17 BÀI TEST
+## 2. CHI TIẾT KIỂM THỬ BACKEND ASP.NET CORE (.NET 8) – HIỆN HÀNH 19 BÀI TEST
 
-Lệnh thực thi: `dotnet test backend/Visionary.sln`  
-Kết quả: `Passed! - Failed: 0, Passed: 17, Skipped: 0, Total: 17, Duration: 2 s`  
-Minh chứng CI: GitHub Actions Run ID `40319074276` (Commit `fd6df2d` merged via `611bc65`)
+Lệnh thực thi: `dotnet test backend/Visionary.Backend.sln`  
+Kết quả: `Passed! - Failed: 0, Passed: 19, Skipped: 0, Total: 19, Duration: 5 s`  
+Minh chứng CI: GitHub Actions Run ID `40339904597` (Commit `45a56b3` & `2eb86b2` merged via PR #5, #7)
 
 | STT | Tên ca kiểm thử (Test Case) | Suite Kiểm thử | Module | Mục tiêu kiểm tra | Kết quả |
 |:---:|---|---|---|---|:---:|
@@ -46,6 +47,8 @@ Minh chứng CI: GitHub Actions Run ID `40319074276` (Commit `fd6df2d` merged vi
 | 15 | `GetPostBySlug_ValidPublishedPost_Returns200AndIncrementsView` | Logic Invariant | Content / Posts | Lấy chi tiết bài viết qua Slug và tự động tăng lượt xem | **PASS** |
 | 16 | `AdminUsers_AnonymousRequest_ReturnsUnauthorized` | Security Regression | Security / RBAC | Yêu cầu ẩn danh tới `/api/admin/users` trả về mã 401 Unauthorized | **PASS** |
 | 17 | `Student_CannotAccessAdminOrGrantSelfAdminRole` | Security Regression | Security / RBAC | Sinh viên không được phép truy cập endpoint admin hoặc tự cấp quyền Admin | **PASS** |
+| 18 | `AdminUsers_ExpiredBearerToken_ReturnsUnauthorized` | Security Regression | Security / JWT | Yêu cầu với JWT hết hạn tới `/api/admin/users` trả về mã 401 Unauthorized | **PASS** |
+| 19 | `AdminUsers_MalformedBearerToken_ReturnsUnauthorized` | Security Regression | Security / JWT | Yêu cầu với Bearer token sai cấu trúc tới `/api/admin/users` trả về mã 401 Unauthorized | **PASS** |
 
 ---
 
