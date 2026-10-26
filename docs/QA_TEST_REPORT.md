@@ -11,20 +11,21 @@
 
 | Hạng mục kiểm thử | Công cụ / Môi trường | Quy mô kiểm thử | Đạt (Pass) | Thất bại (Fail) | Tỷ lệ thành công | Trạng thái & Bằng chứng |
 |---|---|---|---|---|---|---|
-| **Backend xUnit Suite (Hiện tại)** | xUnit, .NET 8.0 SDK | **15 tests** | **15** | 0 | **100%** | **VERIFIED PASS** (GitHub Actions Run #40254874364) |
+| **Backend xUnit Suite (Hiện tại)** | xUnit, .NET 8.0 SDK | **17 tests** | **17** | 0 | **100%** | **VERIFIED PASS** (GitHub Actions Run #40319074276) |
+| *Backend Posts Invariant (Mốc trước)* | xUnit, .NET 8.0 SDK | *15 tests* | *15* | *0* | *100%* | *HISTORICAL SNAPSHOT* (Giai đoạn trước khi thêm 2 bài test Authorization Boundary) |
 | *Backend Core Smoke (Mốc lịch sử)* | xUnit, .NET 8.0 SDK | *9 tests* | *9* | *0* | *100%* | *HISTORICAL SNAPSHOT* (Giai đoạn trước khi thêm 6 bài test Posts Logic) |
+| **Windows Forms Desktop Suite** | xUnit, .NET 8.0-windows | **21 tests** | **21** | 0 | **100%** | **VERIFIED PASS** (GitHub Actions Run #40317635884) |
+| **Android Native Java Suite** | JUnit 4, Gradle, JDK 17 | **15 tests** | **15** | 0 | **100%** | **VERIFIED PASS** (GitHub Actions Run #40319077411) |
 | **Frontend Production Build** | Next.js 14, TypeScript | **19 routes** | **19** | 0 | **100%** | **VERIFIED PASS** (Tất cả 19 tuyến đường biên dịch sạch) |
-| **Windows Forms Desktop Build** | .NET 8 Windows Desktop | 1 project | 1 | 0 | **100%** | **VERIFIED PASS** (0 Warning, 0 Error) |
-| **Android Native Java Build** | Gradle, JDK 17, SDK 34 | 1 project | 1 | 0 | **100%** | **CONFIG_VERIFIED** (Đã cấu hình `network_security_config.xml`) |
 | **Vercel Cloud Deployment** | Vercel Edge (`visionary19`) | Production | 1 | 0 | **100%** | **ONLINE 24/7** (`https://visionary-platform.vercel.app`) |
 
 ---
 
-## 2. CHI TIẾT KIỂM THỬ BACKEND ASP.NET CORE (.NET 8) – HIỆN HÀNH 15 BÀI TEST
+## 2. CHI TIẾT KIỂM THỬ BACKEND ASP.NET CORE (.NET 8) – HIỆN HÀNH 17 BÀI TEST
 
-Lệnh thực thi: `dotnet test backend/Visionary.Backend.sln`  
-Kết quả: `Passed! - Failed: 0, Passed: 15, Skipped: 0, Total: 15, Duration: 2 s`  
-Minh chứng CI: GitHub Actions Run ID `40254874364` (Commit `9f7b152`)
+Lệnh thực thi: `dotnet test backend/Visionary.sln`  
+Kết quả: `Passed! - Failed: 0, Passed: 17, Skipped: 0, Total: 17, Duration: 2 s`  
+Minh chứng CI: GitHub Actions Run ID `40319074276` (Commit `fd6df2d` merged via `611bc65`)
 
 | STT | Tên ca kiểm thử (Test Case) | Suite Kiểm thử | Module | Mục tiêu kiểm tra | Kết quả |
 |:---:|---|---|---|---|:---:|
@@ -43,6 +44,8 @@ Minh chứng CI: GitHub Actions Run ID `40254874364` (Commit `9f7b152`)
 | 13 | `UnpublishedPosts_Draft_And_PendingReview_NeverLeakPublicly` | Security Invariant | Security / RBAC | Chặn hoàn toàn bài viết Draft/Pending rò rỉ ra API công khai | **PASS** |
 | 14 | `Search_WithCategory_And_EmptyState_AreAccurate` | Logic Invariant | Content / Search | Tìm kiếm kết hợp lọc danh mục và trạng thái danh sách rỗng | **PASS** |
 | 15 | `GetPostBySlug_ValidPublishedPost_Returns200AndIncrementsView` | Logic Invariant | Content / Posts | Lấy chi tiết bài viết qua Slug và tự động tăng lượt xem | **PASS** |
+| 16 | `AdminUsers_AnonymousRequest_ReturnsUnauthorized` | Security Regression | Security / RBAC | Yêu cầu ẩn danh tới `/api/admin/users` trả về mã 401 Unauthorized | **PASS** |
+| 17 | `Student_CannotAccessAdminOrGrantSelfAdminRole` | Security Regression | Security / RBAC | Sinh viên không được phép truy cập endpoint admin hoặc tự cấp quyền Admin | **PASS** |
 
 ---
 

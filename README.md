@@ -125,8 +125,12 @@ Tất cả các biến môi trường cần thiết được cung cấp dưới 
 ## 🧪 Kiểm thử và Đảm bảo Chất lượng (Quality Assurance)
 
 Dự án áp dụng quy trình kiểm thử nghiêm ngặt trên GitHub Actions CI/CD:
-- **Bộ 15 xUnit Tests Backend:** Bao gồm 7 bài kiểm thử tích hợp RESTful API (`ApiIntegrationTests`), 2 bài kiểm thử xác thực bảo mật (`AuthTests`), và 6 bài kiểm thử toàn vẹn logic bài viết (`PostsLogicAuditTests`).
-- **Báo cáo Kiểm định Trực tiếp:** Xem chi tiết tại [docs/TEST_VERIFICATION_REPORT.md](docs/TEST_VERIFICATION_REPORT.md).
+- **Hệ thống Kiểm thử Tự động Đa Nền tảng (53 Automated Tests):**
+  - **17 xUnit Tests Backend:** Bao gồm 7 kiểm thử tích hợp RESTful API (`ApiIntegrationTests`), 2 kiểm thử bảo mật (`AuthTests`), 6 kiểm thử logic bài viết (`PostsLogicAuditTests`), và 2 kiểm thử kiểm soát quyền Admin & chống leo quyền (`AuthorizationRegressionTests`).
+  - **21 Unit Tests Desktop (WinForms):** Kiểm thử toàn diện `ApiClient` (mô phỏng timeout, lỗi mạng, JWT hết hạn, hủy request) và `AppState`.
+  - **15 Unit Tests Mobile (Android Java):** Kiểm thử deserialization hợp đồng JSON, xử lý RFC 7807 problem details, và an toàn dữ liệu.
+  - **19 Routes Frontend (Next.js 14):** Kiểm thử tĩnh hóa SSG & SSR không lỗi typecheck.
+- **Báo cáo Kiểm định Trực tiếp:** Xem chi tiết tại [docs/TEST_VERIFICATION_REPORT.md](docs/TEST_VERIFICATION_REPORT.md) và [docs/QA_TEST_REPORT.md](docs/QA_TEST_REPORT.md).
 - **Lệnh kiểm tra Quality Gate tự động:**
   ```powershell
   python scripts/verify_repository.py

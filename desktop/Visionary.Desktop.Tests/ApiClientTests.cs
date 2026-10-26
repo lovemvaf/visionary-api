@@ -130,14 +130,14 @@ public class ApiClientTests : IDisposable
     public async Task GetMembersAsync_SearchTerm_IsUrlEncoded()
     {
         string? requestedUrl = null;
-        var handler = new StubHttpMessageHandler(async (request, _) =>
+        var handler = new StubHttpMessageHandler((request, _) =>
         {
             // AbsoluteUri giữ nguyên phần đã escape, ToString() sẽ giải mã lại.
             requestedUrl = request.RequestUri?.AbsoluteUri;
-            return new HttpResponseMessage(HttpStatusCode.OK)
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new StringContent(OkJson(new { items = Array.Empty<object>(), pageIndex = 1, pageSize = 50, totalCount = 0 }))
-            };
+            });
         });
 
         var client = CreateClient(handler);
@@ -210,14 +210,14 @@ public class ApiClientTests : IDisposable
     {
         string? authHeader = null;
         string? url = null;
-        var handler = new StubHttpMessageHandler(async (request, _) =>
+        var handler = new StubHttpMessageHandler((request, _) =>
         {
             authHeader = request.Headers.Authorization?.ToString();
             url = request.RequestUri?.ToString();
-            return new HttpResponseMessage(HttpStatusCode.OK)
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
             {
                 Content = new StringContent(OkJson("Điểm danh thành công!"))
-            };
+            });
         });
 
         AppState.Token = "jwt-token-abc";
