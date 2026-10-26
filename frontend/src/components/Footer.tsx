@@ -110,19 +110,51 @@ export default function Footer() {
             <ul className="space-y-1.5 text-xs text-gray-300">
               <li className="font-medium text-white flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-tealAccent"></span>
-                Quách Khoa Đức (Lead)
+                <a
+                  href="https://github.com/lovemvaf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-tealAccent transition-colors flex items-center gap-1"
+                >
+                  <span>Quách Khoa Đức (Lead)</span>
+                  <ExternalLink className="w-2.5 h-2.5 text-gray-500" />
+                </a>
               </li>
               <li className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-gray-500"></span>
-                Võ Ngọc Minh Đạt
+                <a
+                  href="https://github.com/vongocminhdat"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-tealAccent transition-colors flex items-center gap-1"
+                >
+                  <span>Võ Ngọc Minh Đạt</span>
+                  <ExternalLink className="w-2.5 h-2.5 text-gray-500" />
+                </a>
               </li>
               <li className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-gray-500"></span>
-                Hồ Đoàn Nguyên Khang
+                <a
+                  href="https://github.com/HoKhangIT"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-tealAccent transition-colors flex items-center gap-1"
+                >
+                  <span>Hồ Đoàn Nguyên Khang</span>
+                  <ExternalLink className="w-2.5 h-2.5 text-gray-500" />
+                </a>
               </li>
               <li className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-gray-500"></span>
-                Đào Trí Khang
+                <a
+                  href="https://github.com/TS13lover1989"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-tealAccent transition-colors flex items-center gap-1"
+                >
+                  <span>Đào Trí Khang</span>
+                  <ExternalLink className="w-2.5 h-2.5 text-gray-500" />
+                </a>
               </li>
             </ul>
             <div className="mt-4 pt-3 border-t border-gray-800 text-[11px] text-gray-400 space-y-1">
