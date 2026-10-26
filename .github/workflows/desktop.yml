@@ -29,11 +29,17 @@ jobs:
       - name: Restore Desktop Client
         run: dotnet restore desktop/Visionary.Desktop/Visionary.Desktop.csproj
 
+      - name: Restore Desktop Unit Tests
+        run: dotnet restore desktop/Visionary.Desktop.Tests/Visionary.Desktop.Tests.csproj
+
       - name: Build Desktop Executable (Release)
         run: dotnet build desktop/Visionary.Desktop/Visionary.Desktop.csproj --configuration Release --no-restore
+
+      - name: Run Desktop Unit Tests
+        run: dotnet test desktop/Visionary.Desktop.Tests/Visionary.Desktop.Tests.csproj --configuration Release --no-restore
 
       - name: Upload Binary Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Visionary-Desktop-WinForms
-          path: desktop/Visionary.Desktop/bin/Release/net8.0-windows/
+          path: desktop/Visionary.Desktop/bin/Release/net8.0-windows/,
