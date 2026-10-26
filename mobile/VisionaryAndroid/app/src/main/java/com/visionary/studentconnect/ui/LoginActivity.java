@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.visionary.studentconnect.R;
 import com.visionary.studentconnect.api.ApiClient;
+import com.visionary.studentconnect.api.ApiErrorParser;
 import com.visionary.studentconnect.models.ApiResponse;
 import com.visionary.studentconnect.models.AuthModels.AuthResponse;
 import com.visionary.studentconnect.models.AuthModels.LoginRequest;
@@ -80,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (!server.isEmpty()) {
             session.saveBaseUrl(server);
+            ApiClient.resetService();
         }
 
         progressBar.setVisibility(View.VISIBLE);
@@ -90,16 +92,22 @@ public class LoginActivity extends AppCompatActivity {
         ApiClient.getService(this).login(req).enqueue(new Callback<ApiResponse<AuthResponse>>() {
             @Override
             public void onResponse(@NonNull Call<ApiResponse<AuthResponse>> call, @NonNull Response<ApiResponse<AuthResponse>> response) {
+                if (isFinishing() || isDestroyed()) return;
                 progressBar.setVisibility(View.GONE);
                 btnLogin.setEnabled(true);
 
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     AuthResponse auth = response.body().getData();
-                    session.saveAuth(auth.getToken(), auth.getUser());
-                    Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                    startMainActivity();
+                    if (auth != null) {
+                        session.saveAuth(auth.getToken(), auth.getUser());
+                        Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+                        startMainActivity();
+                    } else {
+                        tvStatus.setVisibility(View.VISIBLE);
+                        tvStatus.setText("Lỗi: Dữ liệu phản hồi xác thực không hợp lệ từ máy chủ.");
+                    }
                 } else {
-                    String msg = response.body() != null ? response.body().getMessage() : "Sai thông tin đăng nhập";
+                    String msg = ApiErrorParser.parseError(response);
                     tvStatus.setVisibility(View.VISIBLE);
                     tvStatus.setText("Lỗi: " + msg);
                 }
@@ -107,10 +115,11 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<ApiResponse<AuthResponse>> call, @NonNull Throwable t) {
+                if (isFinishing() || isDestroyed()) return;
                 progressBar.setVisibility(View.GONE);
                 btnLogin.setEnabled(true);
                 tvStatus.setVisibility(View.VISIBLE);
-                tvStatus.setText("Không thể kết nối máy chủ API: " + t.getMessage());
+                tvStatus.setText(ApiErrorParser.parseThrowable(t));
             }
         });
     }

@@ -32,12 +32,13 @@ public class OpportunitiesAdapter extends RecyclerView.Adapter<OpportunitiesAdap
     @Override
     public void onBindViewHolder(@NonNull OpportunityViewHolder holder, int position) {
         OpportunityItem item = items.get(position);
-        holder.tvTitle.setText(item.getTitle());
-        holder.tvCategory.setText(item.getCategory());
-        holder.tvOrganizer.setText("Đơn vị: " + item.getOrganizer());
-        holder.tvDesc.setText(item.getDescription());
+        holder.tvTitle.setText(item.getTitle() != null ? item.getTitle() : "Cơ hội");
+        holder.tvCategory.setText(item.getCategory() != null ? item.getCategory() : "Chung");
+        holder.tvOrganizer.setText("Đơn vị: " + (item.getOrganizer() != null ? item.getOrganizer() : "CLB VISIONARY"));
+        holder.tvDesc.setText(item.getDescription() != null ? item.getDescription() : "");
 
-        String deadline = "📅 Hạn: " + (item.getDeadline() != null ? item.getDeadline().split("T")[0] : "Đang mở") +
+        String deadline = "📅 Hạn: " + (item.getDeadline() != null && item.getDeadline().contains("T") ?
+                item.getDeadline().split("T")[0] : (item.getDeadline() != null ? item.getDeadline() : "Đang mở")) +
                 " • 📍 " + (item.getLocation() != null ? item.getLocation() : "Online");
         holder.tvDeadline.setText(deadline);
     }

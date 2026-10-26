@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Visionary.Core.DTOs;
@@ -52,15 +53,40 @@ public class MainForm : Form
     private DataGridView _dgvRegistrations = null!;
     private Label _lblSelectedEvent = null!;
     private Guid _currentEventId = Guid.Empty;
+    private Button _btnCreateEventDashboard = null!;
+    private Button _btnCreateEventEvents = null!;
+    private Button _btnCheckIn = null!;
 
     // Sync controls
     private DataGridView _dgvSources = null!;
     private Label _lblSyncStatus = null!;
 
+    // Global status strip (hiển thị lỗi/thông báo chung cho toàn bộ màn hình)
+    private Label _lblGlobalStatus = null!;
+
+    // Hủy các request đang chờ khi Form đóng
+    private readonly CancellationTokenSource _cts = new();
+
+    // Cờ chống thao tác trùng lặp (double-click) trong lúc request đang chạy
+    private bool _isLoadingInitialData;
+    private bool _isCheckingIn;
+    private bool _isReviewing;
+    private bool _isSyncing;
+    private bool _isCreatingEvent;
+
     public MainForm()
     {
         InitializeComponent();
-        _ = LoadInitialDataAsync();
+        ApplyPermissionVisibility();
+
+        FormClosed += (s, e) =>
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+        };
+
+        // Nạp dữ liệu sau khi Form đã hiển thị để không chặn UI thread khi khởi tạo.
+        Shown += async (s, e) => await LoadInitialDataAsync();
     }
 
     private void InitializeComponent()
@@ -117,8 +143,19 @@ public class MainForm : Form
             Close();
         };
 
+        _lblGlobalStatus = new Label
+        {
+            Text = string.Empty,
+            Font = new Font("Segoe UI", 8.5f),
+            ForeColor = Color.FromArgb(203, 213, 225),
+            Location = new Point(320, 42),
+            Size = new Size(740, 18),
+            TextAlign = ContentAlignment.MiddleLeft
+        };
+
         _pnlHeader.Controls.Add(lblBrand);
         _pnlHeader.Controls.Add(_lblHeaderUser);
+        _pnlHeader.Controls.Add(_lblGlobalStatus);
         _pnlHeader.Controls.Add(btnLogout);
 
         // Sidebar Panel
@@ -270,6 +307,7 @@ public class MainForm : Form
         };
         btnCreateEv.FlatAppearance.BorderSize = 0;
         btnCreateEv.Click += (s, e) => ShowCreateEventDialog();
+        _btnCreateEventDashboard = btnCreateEv;
 
         var btnViewApps = new Button
         {
@@ -554,6 +592,7 @@ public class MainForm : Form
         };
         btnCreate.FlatAppearance.BorderSize = 0;
         btnCreate.Click += (s, e) => ShowCreateEventDialog();
+        _btnCreateEventEvents = btnCreate;
 
         var btnRefresh = new Button
         {
@@ -599,7 +638,12 @@ public class MainForm : Form
                 {
                     _currentEventId = ev.Id;
                     _lblSelectedEvent.Text = $"Người đăng ký & Điểm danh sự kiện: {ev.Title} (Giới hạn: {ev.MaxCapacity})";
-                    await LoadEventRegistrationsAsync(ev.Id);
+
+                    // Danh sách đăng ký/điểm danh chỉ dành cho Admin/Committee.
+                    if (AppState.IsCommittee)
+                    {
+                        await LoadEventRegistrationsAsync(ev.Id);
+                    }
                 }
             }
         };
@@ -627,6 +671,7 @@ public class MainForm : Form
         };
         btnCheckIn.FlatAppearance.BorderSize = 0;
         btnCheckIn.Click += OnCheckInClick;
+        _btnCheckIn = btnCheckIn;
 
         _dgvRegistrations = new DataGridView
         {
@@ -844,20 +889,103 @@ public class MainForm : Form
     #endregion
 
     #region Data Loading & Actions
+
+    /// <summary>
+    /// Ẩn các mục quản trị mà tài khoản hiện tại không được phép truy cập.
+    /// Backend phân quyền: Dashboard/Đơn/Sự kiện cần Admin hoặc Committee,
+    /// Nguồn dữ liệu tự động chỉ dành cho Admin.
+    /// </summary>
+    private void ApplyPermissionVisibility()
+    {
+        var isAdmin = AppState.IsAdmin;
+        var isCommittee = AppState.IsCommittee;
+
+        _btnNavDashboard.Visible = isCommittee;
+        _btnNavApplications.Visible = isCommittee;
+        _btnNavSync.Visible = isAdmin;
+
+        // Tạo sự kiện và điểm danh đều yêu cầu quyền Admin/Committee ở backend.
+        _btnCreateEventDashboard.Visible = isCommittee;
+        _btnCreateEventEvents.Visible = isCommittee;
+        _btnCheckIn.Visible = isCommittee;
+
+        if (!isCommittee)
+        {
+            // Tài khoản không phải BCN: màn hình mặc định là Danh sách thành viên.
+            SwitchView(_viewMembers, _btnNavMembers);
+            SetGlobalStatus("Tài khoản hiện tại chỉ có quyền xem danh sách thành viên và sự kiện.");
+        }
+    }
+
+    private void SetGlobalStatus(string message, bool isError = false)
+    {
+        _lblGlobalStatus.Text = message;
+        _lblGlobalStatus.ForeColor = isError
+            ? Color.FromArgb(252, 165, 165)
+            : Color.FromArgb(203, 213, 225);
+    }
+
+    /// <summary>
+    /// Hiển thị lỗi thân thiện. Nếu phiên đăng nhập đã hết hạn (HTTP 401) thì đưa người dùng
+    /// về màn hình đăng nhập thay vì tiếp tục hiển thị dữ liệu rỗng.
+    /// </summary>
+    private void HandleApiError(Exception ex, string context)
+    {
+        if (ex is OperationCanceledException)
+        {
+            return;
+        }
+
+        if (ex is ApiException apiException && apiException.IsSessionExpired)
+        {
+            MessageBox.Show(this, apiException.UserMessage, "Phiên đăng nhập hết hạn",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            AppState.Logout();
+            new LoginForm().Show();
+            Close();
+            return;
+        }
+
+        SetGlobalStatus($"{context}: {(ex is ApiException a ? a.UserMessage : ex.Message)}", isError: true);
+    }
+
     private async Task LoadInitialDataAsync()
     {
-        await LoadDashboardStatsAsync();
-        await LoadMembersAsync();
-        await LoadApplicationsAsync();
-        await LoadEventsAsync();
-        await LoadSourcesAsync();
+        if (_isLoadingInitialData)
+        {
+            return;
+        }
+
+        _isLoadingInitialData = true;
+        try
+        {
+            // Chỉ gọi những endpoint mà tài khoản hiện tại được phép truy cập,
+            // tránh nhận 403 làm nhiễu trạng thái màn hình.
+            if (AppState.IsCommittee)
+            {
+                await LoadDashboardStatsAsync();
+                await LoadApplicationsAsync();
+            }
+
+            await LoadMembersAsync();
+            await LoadEventsAsync();
+
+            if (AppState.IsAdmin)
+            {
+                await LoadSourcesAsync();
+            }
+        }
+        finally
+        {
+            _isLoadingInitialData = false;
+        }
     }
 
     private async Task LoadDashboardStatsAsync()
     {
         try
         {
-            var stats = await ApiClient.GetDashboardStatsAsync();
+            var stats = await ApiClient.Default.GetDashboardStatsAsync(_cts.Token);
             _lblCardMembers.Text = stats.TotalMembers.ToString();
             _lblCardPending.Text = stats.PendingApplications.ToString();
             _lblCardEvents.Text = stats.TotalEvents.ToString();
@@ -878,12 +1006,13 @@ public class MainForm : Form
         }
         catch (Exception ex)
         {
-            // API may be offline or loading
             _lblCardMembers.Text = "N/A";
             _lblCardPending.Text = "N/A";
             _lblCardEvents.Text = "N/A";
             _lblCardSources.Text = "N/A";
-            _lstRecentActivities.Items.Add($"Lỗi kết nối API máy chủ: {ex.Message}");
+            _lstRecentActivities.Items.Clear();
+            _lstRecentActivities.Items.Add($"Không tải được thống kê: {(ex is ApiException a ? a.UserMessage : ex.Message)}");
+            HandleApiError(ex, "Lỗi tải thống kê");
         }
     }
 
@@ -891,7 +1020,7 @@ public class MainForm : Form
     {
         try
         {
-            var paged = await ApiClient.GetMembersAsync(search);
+            var paged = await ApiClient.Default.GetMembersAsync(search, cancellationToken: _cts.Token);
             _dgvMembers.DataSource = paged.Items.Select(m => new
             {
                 Họ_Và_Tên = m.FullName,
@@ -904,9 +1033,10 @@ public class MainForm : Form
                 Ngày_Gia_Nhập = m.JoinedDate.ToLocalTime().ToString("dd/MM/yyyy")
             }).ToList();
         }
-        catch
+        catch (Exception ex)
         {
-            // Ignore if server offline
+            _dgvMembers.DataSource = null;
+            HandleApiError(ex, "Lỗi tải danh sách thành viên");
         }
     }
 
@@ -922,7 +1052,7 @@ public class MainForm : Form
                 _ => null
             };
 
-            _cachedApplications = await ApiClient.GetApplicationsAsync(status);
+            _cachedApplications = await ApiClient.Default.GetApplicationsAsync(status, _cts.Token);
             _dgvApplications.DataSource = _cachedApplications.Select(a => new
             {
                 Họ_Và_Tên = a.ApplicantName,
@@ -934,14 +1064,20 @@ public class MainForm : Form
                 Ngày_Nộp = a.SubmittedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")
             }).ToList();
         }
-        catch
+        catch (Exception ex)
         {
-            // Ignore if server offline
+            _dgvApplications.DataSource = null;
+            HandleApiError(ex, "Lỗi tải đơn đăng ký");
         }
     }
 
     private async void OnReviewApplicationClick(object? sender, EventArgs e)
     {
+        if (_isReviewing)
+        {
+            return;
+        }
+
         if (_dgvApplications.SelectedRows.Count == 0)
         {
             MessageBox.Show("Vui lòng chọn một đơn đăng ký để xét duyệt!", "Chưa chọn đơn", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -959,20 +1095,28 @@ public class MainForm : Form
         }
 
         using var dlg = new ReviewApplicationDialog(app);
-        if (dlg.ShowDialog(this) == DialogResult.OK)
+        if (dlg.ShowDialog(this) != DialogResult.OK)
         {
-            try
-            {
-                var msg = await ApiClient.ReviewApplicationAsync(app.Id, dlg.IsApproved, dlg.ClubRole, null, dlg.ReviewNotes);
-                MessageBox.Show(msg, "Kết quả xét duyệt", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                await LoadApplicationsAsync();
-                await LoadDashboardStatsAsync();
-                await LoadMembersAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi xét duyệt: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            return;
+        }
+
+        _isReviewing = true;
+        try
+        {
+            var msg = await ApiClient.Default.ReviewApplicationAsync(
+                app.Id, dlg.IsApproved, dlg.ClubRole, null, dlg.ReviewNotes, _cts.Token);
+            MessageBox.Show(msg, "Kết quả xét duyệt", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            await LoadApplicationsAsync();
+            await LoadDashboardStatsAsync();
+            await LoadMembersAsync();
+        }
+        catch (Exception ex)
+        {
+            HandleApiError(ex, "Lỗi xét duyệt đơn đăng ký");
+        }
+        finally
+        {
+            _isReviewing = false;
         }
     }
 
@@ -980,7 +1124,7 @@ public class MainForm : Form
     {
         try
         {
-            var paged = await ApiClient.GetEventsAsync();
+            var paged = await ApiClient.Default.GetEventsAsync(cancellationToken: _cts.Token);
             _dgvEvents.DataSource = paged.Items.Select(e => new
             {
                 Id = e.Id,
@@ -996,12 +1140,17 @@ public class MainForm : Form
             if (paged.Items.Count > 0)
             {
                 _currentEventId = paged.Items[0].Id;
-                await LoadEventRegistrationsAsync(_currentEventId);
+                // Danh sách đăng ký chỉ dành cho Admin/Committee (backend trả 403 nếu không có quyền).
+                if (AppState.IsCommittee)
+                {
+                    await LoadEventRegistrationsAsync(_currentEventId);
+                }
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // Ignore if server offline
+            _dgvEvents.DataSource = null;
+            HandleApiError(ex, "Lỗi tải danh sách sự kiện");
         }
     }
 
@@ -1009,7 +1158,7 @@ public class MainForm : Form
     {
         try
         {
-            var regs = await ApiClient.GetEventRegistrationsAsync(eventId);
+            var regs = await ApiClient.Default.GetEventRegistrationsAsync(eventId, _cts.Token);
             _dgvRegistrations.DataSource = regs.Select(r => new
             {
                 UserId = r.UserId,
@@ -1022,14 +1171,20 @@ public class MainForm : Form
                 Thời_Gian_CheckIn = r.CheckInTime.HasValue ? r.CheckInTime.Value.ToLocalTime().ToString("HH:mm:ss dd/MM") : "-"
             }).ToList();
         }
-        catch
+        catch (Exception ex)
         {
             _dgvRegistrations.DataSource = null;
+            HandleApiError(ex, "Lỗi tải danh sách người đăng ký");
         }
     }
 
     private async void OnCheckInClick(object? sender, EventArgs e)
     {
+        if (_isCheckingIn)
+        {
+            return;
+        }
+
         if (_currentEventId == Guid.Empty)
         {
             MessageBox.Show("Vui lòng chọn một sự kiện trước!", "Chưa chọn sự kiện", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1043,39 +1198,61 @@ public class MainForm : Form
         }
 
         var row = _dgvRegistrations.SelectedRows[0];
-        if (row.Cells["UserId"].Value is Guid userId)
+        if (row.Cells["UserId"].Value is not Guid userId)
         {
-            var name = row.Cells["Họ_Và_Tên"].Value?.ToString() ?? "sinh viên";
-            try
-            {
-                var msg = await ApiClient.CheckInAttendeeAsync(_currentEventId, userId);
-                MessageBox.Show(msg, "Điểm danh thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                await LoadEventRegistrationsAsync(_currentEventId);
-                await LoadDashboardStatsAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi điểm danh: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            MessageBox.Show("Không đọc được thông tin sinh viên từ dòng đã chọn.", "Dữ liệu không hợp lệ",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
+        _isCheckingIn = true;
+        _btnCheckIn.Enabled = false;
+        try
+        {
+            var msg = await ApiClient.Default.CheckInAttendeeAsync(_currentEventId, userId, _cts.Token);
+            MessageBox.Show(msg, "Điểm danh thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            await LoadEventRegistrationsAsync(_currentEventId);
+            await LoadDashboardStatsAsync();
+        }
+        catch (Exception ex)
+        {
+            HandleApiError(ex, "Lỗi điểm danh");
+        }
+        finally
+        {
+            _isCheckingIn = false;
+            _btnCheckIn.Enabled = true;
         }
     }
 
     private async void ShowCreateEventDialog()
     {
-        using var dlg = new CreateEventDialog();
-        if (dlg.ShowDialog(this) == DialogResult.OK && dlg.CreatedRequest != null)
+        if (_isCreatingEvent)
         {
-            try
-            {
-                var created = await ApiClient.CreateEventAsync(dlg.CreatedRequest);
-                MessageBox.Show($"Đã tạo thành công sự kiện: {created.Title}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                await LoadEventsAsync();
-                await LoadDashboardStatsAsync();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi tạo sự kiện: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            return;
+        }
+
+        using var dlg = new CreateEventDialog();
+        if (dlg.ShowDialog(this) != DialogResult.OK || dlg.CreatedRequest == null)
+        {
+            return;
+        }
+
+        _isCreatingEvent = true;
+        try
+        {
+            var created = await ApiClient.Default.CreateEventAsync(dlg.CreatedRequest, _cts.Token);
+            MessageBox.Show($"Đã tạo thành công sự kiện: {created.Title}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            await LoadEventsAsync();
+            await LoadDashboardStatsAsync();
+        }
+        catch (Exception ex)
+        {
+            HandleApiError(ex, "Lỗi tạo sự kiện");
+        }
+        finally
+        {
+            _isCreatingEvent = false;
         }
     }
 
@@ -1083,7 +1260,7 @@ public class MainForm : Form
     {
         try
         {
-            var sources = await ApiClient.GetSourcesAsync();
+            var sources = await ApiClient.Default.GetSourcesAsync(_cts.Token);
             _dgvSources.DataSource = sources.Select(s => new
             {
                 Id = s.Id,
@@ -1096,14 +1273,20 @@ public class MainForm : Form
                 Trạng_Thái = s.LastStatus ?? "OK"
             }).ToList();
         }
-        catch
+        catch (Exception ex)
         {
-            // Ignore if server offline
+            _dgvSources.DataSource = null;
+            HandleApiError(ex, "Lỗi tải nguồn dữ liệu tự động");
         }
     }
 
     private async void OnTriggerSyncClick(object? sender, EventArgs e)
     {
+        if (_isSyncing)
+        {
+            return;
+        }
+
         if (_dgvSources.SelectedRows.Count == 0)
         {
             MessageBox.Show("Vui lòng chọn một nguồn trong bảng để kích hoạt đồng bộ!", "Chưa chọn nguồn", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -1111,25 +1294,35 @@ public class MainForm : Form
         }
 
         var row = _dgvSources.SelectedRows[0];
-        if (row.Cells["Id"].Value is Guid sourceId)
+        if (row.Cells["Id"].Value is not Guid sourceId)
         {
-            var name = row.Cells["Tên_Nguồn"].Value?.ToString() ?? "nguồn";
-            _lblSyncStatus.ForeColor = Color.FromArgb(34, 100, 172);
-            _lblSyncStatus.Text = $"Đang đồng bộ dữ liệu từ {name}...";
+            MessageBox.Show("Không đọc được thông tin nguồn từ dòng đã chọn.", "Dữ liệu không hợp lệ",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
 
-            try
-            {
-                var res = await ApiClient.TriggerSourceAsync(sourceId);
-                _lblSyncStatus.ForeColor = Color.FromArgb(22, 163, 74);
-                _lblSyncStatus.Text = res;
-                await LoadSourcesAsync();
-                await LoadDashboardStatsAsync();
-            }
-            catch (Exception ex)
-            {
-                _lblSyncStatus.ForeColor = Color.FromArgb(220, 38, 38);
-                _lblSyncStatus.Text = $"Lỗi: {ex.Message}";
-            }
+        var name = row.Cells["Tên_Nguồn"].Value?.ToString() ?? "nguồn";
+        _lblSyncStatus.ForeColor = Color.FromArgb(34, 100, 172);
+        _lblSyncStatus.Text = $"Đang đồng bộ dữ liệu từ {name}...";
+
+        _isSyncing = true;
+        try
+        {
+            var res = await ApiClient.Default.TriggerSourceAsync(sourceId, _cts.Token);
+            _lblSyncStatus.ForeColor = Color.FromArgb(22, 163, 74);
+            _lblSyncStatus.Text = res;
+            await LoadSourcesAsync();
+            await LoadDashboardStatsAsync();
+        }
+        catch (Exception ex)
+        {
+            _lblSyncStatus.ForeColor = Color.FromArgb(220, 38, 38);
+            _lblSyncStatus.Text = $"Lỗi: {(ex is ApiException a ? a.UserMessage : ex.Message)}";
+            HandleApiError(ex, "Lỗi đồng bộ nguồn dữ liệu");
+        }
+        finally
+        {
+            _isSyncing = false;
         }
     }
     #endregion

@@ -98,6 +98,7 @@ assets/
 # Local Autonomous AI Engine Working State
 .agent/
 .visionary-local/
+*_GITHUB_ACTION.md
 
 # Temporary folders
 tmp/

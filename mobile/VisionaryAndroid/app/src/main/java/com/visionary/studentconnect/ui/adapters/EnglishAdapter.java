@@ -32,9 +32,11 @@ public class EnglishAdapter extends RecyclerView.Adapter<EnglishAdapter.EnglishV
     @Override
     public void onBindViewHolder(@NonNull EnglishViewHolder holder, int position) {
         LearningResourceItem item = items.get(position);
-        holder.tvTerm.setText(item.getTitle());
-        holder.tvCategory.setText(item.getCategory() + " • " + item.getLevel());
-        holder.tvDefinition.setText(item.getContentMarkdown());
+        holder.tvTerm.setText(item.getTitle() != null ? item.getTitle() : "");
+        String category = item.getCategory() != null ? item.getCategory() : "English for IT";
+        String level = item.getLevel() != null ? item.getLevel() : "General";
+        holder.tvCategory.setText(category + " • " + level);
+        holder.tvDefinition.setText(item.getContentMarkdown() != null ? item.getContentMarkdown() : "");
         holder.tvExample.setText(item.getSampleSentence() != null ? "Ví dụ: " + item.getSampleSentence() : "");
     }
 

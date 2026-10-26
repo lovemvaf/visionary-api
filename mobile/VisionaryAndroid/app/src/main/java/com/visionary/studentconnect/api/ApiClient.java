@@ -14,7 +14,8 @@ public class ApiClient {
     private static String currentBaseUrl;
 
     public static synchronized VisionaryApiService getService(Context context) {
-        SessionManager session = new SessionManager(context);
+        Context appContext = context != null ? context.getApplicationContext() : null;
+        SessionManager session = new SessionManager(appContext != null ? appContext : context);
         String baseUrl = session.getBaseUrl();
         if (!baseUrl.endsWith("/")) {
             baseUrl += "/";
@@ -24,7 +25,7 @@ public class ApiClient {
             currentBaseUrl = baseUrl;
 
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            // Log headers in development to avoid leaking sensitive request/response bodies in logcat
+            // Log headers to avoid leaking sensitive credentials/tokens in request/response bodies in logcat
             logging.setLevel(HttpLoggingInterceptor.Level.HEADERS);
 
             OkHttpClient client = new OkHttpClient.Builder()
@@ -56,5 +57,10 @@ public class ApiClient {
         }
 
         return apiService;
+    }
+
+    public static synchronized void resetService() {
+        apiService = null;
+        currentBaseUrl = null;
     }
 }

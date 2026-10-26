@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.visionary.studentconnect.R;
 import com.visionary.studentconnect.api.ApiClient;
+import com.visionary.studentconnect.api.ApiErrorParser;
 import com.visionary.studentconnect.models.ApiResponse;
 import com.visionary.studentconnect.models.EventModels.EventItem;
 import com.visionary.studentconnect.models.PagedResponse;
@@ -44,27 +45,30 @@ public class EventsFragment extends Fragment {
     }
 
     private void loadEvents() {
-        if (getContext() == null) return;
+        if (!isAdded() || getContext() == null) return;
         swipeRefresh.setRefreshing(true);
 
-        ApiClient.getService(getContext()).getEvents(1, 20).enqueue(new Callback<ApiResponse<PagedResponse<EventItem>>>() {
+        ApiClient.getService(requireContext()).getEvents(1, 20).enqueue(new Callback<ApiResponse<PagedResponse<EventItem>>>() {
             @Override
             public void onResponse(@NonNull Call<ApiResponse<PagedResponse<EventItem>>> call, @NonNull Response<ApiResponse<PagedResponse<EventItem>>> response) {
+                if (!isAdded() || getContext() == null) return;
                 swipeRefresh.setRefreshing(false);
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
                     PagedResponse<EventItem> paged = response.body().getData();
                     if (paged != null) {
-                        adapter.setEvents(paged.getItems());
+                        adapter.setEvents(paged.getSafeItems());
                     }
                 } else {
-                    Toast.makeText(getContext(), "Không thể tải danh sách sự kiện", Toast.LENGTH_SHORT).show();
+                    String msg = ApiErrorParser.parseError(response);
+                    Toast.makeText(getContext(), msg != null ? msg : "Không thể tải danh sách sự kiện", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ApiResponse<PagedResponse<EventItem>>> call, @NonNull Throwable t) {
+                if (!isAdded() || getContext() == null) return;
                 swipeRefresh.setRefreshing(false);
-                Toast.makeText(getContext(), "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), ApiErrorParser.parseThrowable(t), Toast.LENGTH_SHORT).show();
             }
         });
     }
