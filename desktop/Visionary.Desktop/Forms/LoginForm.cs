@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Threading;
 using System.Windows.Forms;
 using Visionary.Desktop.Services;
 
@@ -15,10 +16,17 @@ public class LoginForm : Form
     private Button _btnQuickBcn = null!;
     private Label _lblStatus = null!;
     private ProgressBar _progressBar = null!;
+    private readonly CancellationTokenSource _cts = new();
 
     public LoginForm()
     {
         InitializeComponent();
+        FormClosed += (s, e) =>
+        {
+            // Hủy request đang chờ khi Form đóng để không giữ kết nối treo.
+            _cts.Cancel();
+            _cts.Dispose();
+        };
     }
 
     private void InitializeComponent()
@@ -238,42 +246,70 @@ public class LoginForm : Form
 
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(pass))
         {
+            _lblStatus.ForeColor = Color.FromArgb(220, 38, 38);
             _lblStatus.Text = "Vui lòng nhập đầy đủ Email và Mật khẩu!";
             return;
         }
 
-        AppState.ServerBaseUrl = string.IsNullOrWhiteSpace(server) ? "http://localhost:5000" : server;
+        if (!Uri.TryCreate(server, UriKind.Absolute, out var serverUri) ||
+            (serverUri.Scheme != Uri.UriSchemeHttp && serverUri.Scheme != Uri.UriSchemeHttps))
+        {
+            _lblStatus.ForeColor = Color.FromArgb(220, 38, 38);
+            _lblStatus.Text = "Địa chỉ máy chủ không hợp lệ. Ví dụ hợp lệ: http://localhost:5000";
+            return;
+        }
 
+        AppState.ServerBaseUrl = server;
+
+        // Chống bấm nút nhiều lần: vô hiệu hoá toàn bộ thao tác trong lúc đang xác thực.
         _btnLogin.Enabled = false;
         _btnQuickAdmin.Enabled = false;
         _btnQuickBcn.Enabled = false;
+        _txtServerUrl.Enabled = false;
+        _txtEmail.Enabled = false;
+        _txtPassword.Enabled = false;
         _progressBar.Visible = true;
         _lblStatus.ForeColor = Color.FromArgb(34, 100, 172);
         _lblStatus.Text = "Đang kết nối và xác thực với ASP.NET Core API...";
 
         try
         {
-            var auth = await ApiClient.LoginAsync(email, pass);
+            var auth = await ApiClient.Default.LoginAsync(email, pass, _cts.Token);
             _lblStatus.ForeColor = Color.FromArgb(22, 163, 74);
             _lblStatus.Text = $"Đăng nhập thành công! Xin chào {auth.User.FullName}";
 
-            await System.Threading.Tasks.Task.Delay(500);
+            await Task.Delay(500, _cts.Token);
 
             var mainForm = new MainForm();
             mainForm.FormClosed += (s, args) => Close();
             Hide();
             mainForm.Show();
         }
+        catch (OperationCanceledException)
+        {
+            // Form đã đóng trong lúc đang chờ -> không hiển thị lỗi.
+            return;
+        }
         catch (Exception ex)
         {
             _lblStatus.ForeColor = Color.FromArgb(220, 38, 38);
-            _lblStatus.Text = $"Lỗi: {ex.Message}";
+
+            // Với lỗi nghiệp vụ từ backend (sai email/mật khẩu) hiển thị đúng thông điệp
+            // mà backend trả về; các lỗi kỹ thuật dùng thông điệp thân thiện.
+            _lblStatus.Text = ex is Services.ApiException apiEx
+                ? $"Lỗi: {(apiEx.Kind == Services.ApiErrorKind.Unauthorized || apiEx.Kind == Services.ApiErrorKind.Client
+                    ? apiEx.Message
+                    : apiEx.UserMessage)}"
+                : $"Lỗi: {ex.Message}";
         }
         finally
         {
             _btnLogin.Enabled = true;
             _btnQuickAdmin.Enabled = true;
             _btnQuickBcn.Enabled = true;
+            _txtServerUrl.Enabled = true;
+            _txtEmail.Enabled = true;
+            _txtPassword.Enabled = true;
             _progressBar.Visible = false;
         }
     }
