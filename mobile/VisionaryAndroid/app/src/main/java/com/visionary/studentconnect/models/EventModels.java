@@ -41,16 +41,36 @@ public class EventModels {
         @SerializedName("qrCheckInCode")
         private String qrCheckInCode;
 
+        public EventItem() {
+        }
+
+        public EventItem(String id, String title, String slug, String description, String location,
+                         String startTime, String endTime, int maxCapacity, int currentRegistrationsCount,
+                         String status, boolean isRegisteredByCurrentUser, String qrCheckInCode) {
+            this.id = id;
+            this.title = title;
+            this.slug = slug;
+            this.description = description;
+            this.location = location;
+            this.startTime = startTime;
+            this.endTime = endTime;
+            this.maxCapacity = maxCapacity;
+            this.currentRegistrationsCount = currentRegistrationsCount;
+            this.status = status;
+            this.isRegisteredByCurrentUser = isRegisteredByCurrentUser;
+            this.qrCheckInCode = qrCheckInCode;
+        }
+
         public String getId() { return id; }
         public String getTitle() { return title; }
         public String getSlug() { return slug; }
         public String getDescription() { return description; }
-        public String getLocation() { return location; }
+        public String getLocation() { return location != null ? location : "DNTU"; }
         public String getStartTime() { return startTime; }
         public String getEndTime() { return endTime; }
         public int getMaxCapacity() { return maxCapacity; }
         public int getCurrentRegistrationsCount() { return currentRegistrationsCount; }
-        public String getStatus() { return status; }
+        public String getStatus() { return status != null ? status : "Active"; }
         public boolean isRegisteredByCurrentUser() { return isRegisteredByCurrentUser; }
         public String getQrCheckInCode() { return qrCheckInCode; }
 

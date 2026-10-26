@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.visionary.studentconnect.R;
 import com.visionary.studentconnect.api.ApiClient;
+import com.visionary.studentconnect.api.ApiErrorParser;
 import com.visionary.studentconnect.models.ApiResponse;
 import com.visionary.studentconnect.models.ContentModels.LearningResourceItem;
 import com.visionary.studentconnect.models.PagedResponse;
 import com.visionary.studentconnect.ui.adapters.EnglishAdapter;
-import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,24 +45,27 @@ public class EnglishForItFragment extends Fragment {
     }
 
     private void loadResources() {
-        if (getContext() == null) return;
+        if (!isAdded() || getContext() == null) return;
         swipeRefresh.setRefreshing(true);
 
-        ApiClient.getService(getContext()).getEnglishResources(1, 20).enqueue(new Callback<ApiResponse<PagedResponse<LearningResourceItem>>>() {
+        ApiClient.getService(requireContext()).getEnglishResources(1, 20).enqueue(new Callback<ApiResponse<PagedResponse<LearningResourceItem>>>() {
             @Override
             public void onResponse(@NonNull Call<ApiResponse<PagedResponse<LearningResourceItem>>> call, @NonNull Response<ApiResponse<PagedResponse<LearningResourceItem>>> response) {
+                if (!isAdded() || getContext() == null) return;
                 swipeRefresh.setRefreshing(false);
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess() && response.body().getData() != null) {
-                    adapter.setItems(response.body().getData().getItems());
+                    adapter.setItems(response.body().getData().getSafeItems());
                 } else {
-                    Toast.makeText(getContext(), "Không thể tải danh sách tài liệu", Toast.LENGTH_SHORT).show();
+                    String msg = ApiErrorParser.parseError(response);
+                    Toast.makeText(getContext(), msg != null ? msg : "Không thể tải danh sách tài liệu", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ApiResponse<PagedResponse<LearningResourceItem>>> call, @NonNull Throwable t) {
+                if (!isAdded() || getContext() == null) return;
                 swipeRefresh.setRefreshing(false);
-                Toast.makeText(getContext(), "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), ApiErrorParser.parseThrowable(t), Toast.LENGTH_SHORT).show();
             }
         });
     }

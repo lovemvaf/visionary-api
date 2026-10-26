@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.visionary.studentconnect.R;
 import com.visionary.studentconnect.api.ApiClient;
+import com.visionary.studentconnect.api.ApiErrorParser;
 import com.visionary.studentconnect.models.ApiResponse;
 import com.visionary.studentconnect.models.EventModels.EventItem;
 import java.util.ArrayList;
@@ -46,12 +47,12 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         EventItem item = events.get(position);
-        holder.tvTitle.setText(item.getTitle());
-        holder.tvStatus.setText(item.getStatus());
-        holder.tvDesc.setText(item.getDescription());
+        holder.tvTitle.setText(item.getTitle() != null ? item.getTitle() : "Sự kiện");
+        holder.tvStatus.setText(item.getStatus() != null ? item.getStatus() : "Active");
+        holder.tvDesc.setText(item.getDescription() != null ? item.getDescription() : "");
 
-        String info = "📍 " + (item.getLocation() != null ? item.getLocation() : "DNTU") +
-                " • 👥 " + item.getCurrentRegistrationsCount() + "/" + item.getMaxCapacity();
+        String location = item.getLocation() != null ? item.getLocation() : "DNTU";
+        String info = "📍 " + location + " • 👥 " + item.getCurrentRegistrationsCount() + "/" + item.getMaxCapacity();
         holder.tvInfo.setText(info);
 
         if (item.isRegisteredByCurrentUser()) {
@@ -74,7 +75,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
             String code = item.getQrCheckInCode() != null ? item.getQrCheckInCode() : "N/A";
             new AlertDialog.Builder(context)
                     .setTitle("Mã QR Điểm Danh Sự Kiện")
-                    .setMessage("Sự kiện: " + item.getTitle() + "\n\nMã xác thực Check-in: " + code + "\n\nHãy xuất trình mã này tại bàn điểm danh của CLB.")
+                    .setMessage("Sự kiện: " + (item.getTitle() != null ? item.getTitle() : "") +
+                            "\n\nMã xác thực Check-in: " + code +
+                            "\n\nHãy xuất trình mã này tại bàn điểm danh của CLB.")
                     .setPositiveButton("Đã hiểu", null)
                     .show();
         });
@@ -91,15 +94,15 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
                     notifyItemChanged(holder.getAdapterPosition());
                     Toast.makeText(context, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
                 } else {
-                    String msg = response.body() != null ? response.body().getMessage() : "Lỗi đăng ký";
-                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                    String msg = ApiErrorParser.parseError(response);
+                    Toast.makeText(context, msg != null ? msg : "Lỗi đăng ký sự kiện", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ApiResponse<String>> call, @NonNull Throwable t) {
                 holder.btnRegister.setEnabled(true);
-                Toast.makeText(context, "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, ApiErrorParser.parseThrowable(t), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -115,15 +118,15 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventViewH
                     notifyItemChanged(holder.getAdapterPosition());
                     Toast.makeText(context, "Đã hủy đăng ký!", Toast.LENGTH_SHORT).show();
                 } else {
-                    String msg = response.body() != null ? response.body().getMessage() : "Lỗi hủy đăng ký";
-                    Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+                    String msg = ApiErrorParser.parseError(response);
+                    Toast.makeText(context, msg != null ? msg : "Lỗi hủy đăng ký", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<ApiResponse<String>> call, @NonNull Throwable t) {
                 holder.btnRegister.setEnabled(true);
-                Toast.makeText(context, "Lỗi mạng: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, ApiErrorParser.parseThrowable(t), Toast.LENGTH_SHORT).show();
             }
         });
     }
