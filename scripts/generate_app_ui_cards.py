@@ -104,7 +104,7 @@ def create_winforms_dashboard():
     rows = [
         ("Quach Khoa Duc", "1923040025", "Ban Chuyen mon & Hoc thuat", "Active", "2026-09-15"),
         ("Vo Ngoc Minh Dat", "1923040088", "Ban Truyen thong & Su kien", "Active", "2026-09-15"),
-        ("Ho Doang Nguyen Khang", "1923040112", "Ban Doi ngoai & Doanh nghiep", "Active", "2026-09-18"),
+        ("Ho Doan Nguyen Khang", "1923040112", "Ban Doi ngoai & Doanh nghiep", "Active", "2026-09-18"),
         ("Dao Tri Khang", "1923040156", "Ban Chuyen mon & Hoc thuat", "Active", "2026-09-20"),
     ]
     ry = 345

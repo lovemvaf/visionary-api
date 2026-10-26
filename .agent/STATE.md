@@ -4,7 +4,7 @@
 - **Development Team:** VISIONARY API
   - **Quách Khoa Đức (1923040025):** Trưởng nhóm, Phụ trách Web Client & Kiến trúc tổng thể (Người số 1 - Mở màn)
   - **Đào Trí Khang (1923040156):** Mobile Software Engineer – Phụ trách Android Native Java (Người số 2)
-  - **Hồ Đoàng Nguyên Khang (1923040112):** API Engineer – Phụ trách ASP.NET Core Web API, Swagger & Database (Người số 3)
+  - **Hồ Đoàn Nguyên Khang (1923040112):** API Engineer – Phụ trách ASP.NET Core Web API, Swagger & Database (Người số 3)
   - **Võ Ngọc Minh Đạt (1923040088):** Desktop Software Engineer – Phụ trách Windows Forms, Sự cố & Kết luận (Người số 4 - Kết thúc)
 - **Current Phase:** Phase 12 – Final Defense Preparation, 100-Point Audit, Multi-Platform Verification & Comprehensive Deliverables Generation (COMPLETED & VERIFIED)
 - **GitHub Monorepo:** [https://github.com/lovemvaf/visionary-api](https://github.com/lovemvaf/visionary-api) (Owner: `lovemvaf`)
@@ -23,7 +23,7 @@
   - `VISIONARY_LIVE_DEMO_AND_SWAGGER_TEST_GUIDE.docx` & `.pdf` (Step-by-step 3-platform demo and Swagger test guide)
   - `member-guides/01_QUACH_KHOA_DUC_EASY_PRESENTATION_GUIDE.docx` & `.pdf` (Optimized for easiest delivery)
   - `member-guides/02_DAO_TRI_KHANG_ANDROID_GUIDE.docx` & `.pdf` (Android Retrofit & Threading)
-  - `member-guides/03_HO_DOANG_NGUYEN_KHANG_API_GUIDE.docx` & `.pdf` (API, Swagger, 6-stage lifecycle, JWT, DB)
+  - `member-guides/03_HO_DOAN_NGUYEN_KHANG_API_GUIDE.docx` & `.pdf` (API, Swagger, 6-stage lifecycle, JWT, DB)
   - `member-guides/04_VO_NGOC_MINH_DAT_WINFORMS_GUIDE.docx` & `.pdf` (WinForms, incident analysis, 3 differences, conclusion)
   - `evidence/` (17 real screenshot PNGs documenting live system verification)
 - **Automated Regression Suite:** 15/15 xUnit tests passed (`dotnet test backend/Visionary.Backend.sln`)

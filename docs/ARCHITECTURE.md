@@ -52,7 +52,7 @@ graph TD
 - **Thành viên:**
   1. **Quách Khoa Đức** (Lead Architect & Full-Stack Engineer): Kiến trúc tổng thể, ASP.NET Core Web API, PostgreSQL/Supabase, Frontend Web, CI/CD và Tự động hóa.
   2. **Võ Ngọc Minh Đạt** (Club Operations & Desktop Engineer): Nghiệp vụ CLB Tiếng Anh, Quản lý Thành viên, Quản lý Sự kiện & Điểm danh, Ứng dụng Windows Forms C#.
-  3. **Hồ Đoàng Nguyên Khang** (Data Engineer & Opportunities Specialist): Cổng thông tin cơ hội, Cuộc thi, Học bổng, Career Gateway, Pipeline thu thập và làm sạch dữ liệu.
+  3. **Hồ Đoàn Nguyên Khang** (Data Engineer & Opportunities Specialist): Cổng thông tin cơ hội, Cuộc thi, Học bổng, Career Gateway, Pipeline thu thập và làm sạch dữ liệu.
   4. **Đào Trí Khang** (Mobile Engineer & Tech Lead): Ứng dụng Android Native Java, Chuyên trang English for IT & Technology Radar, Kiểm thử và bảo đảm chất lượng.
 
 ---

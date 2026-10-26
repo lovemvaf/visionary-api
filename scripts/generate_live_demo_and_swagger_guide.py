@@ -189,7 +189,7 @@ def generate_live_demo_guide():
         ("Chặng 1", "Quách Khoa Đức\n(Website Next.js)", "Mở trang Web, vào tab Sự kiện. Hiển thị sự kiện 'Hội thảo Kỹ năng Hội nhập Quốc tế' với 0 lượt đăng ký ban đầu.", "Gọi GET /api/events thành công. Giao diện Web hiển thị thẻ Card trực quan."),
         ("Chặng 2", "Đào Trí Khang\n(Android Emulator)", "Sinh viên đăng nhập app Android. Mở chi tiết sự kiện 'Hội thảo Kỹ năng Hội nhập Quốc tế'. Bấm nút 'Đăng ký tham gia'.", "Gọi POST /api/events/{id}/register. Nhận thông báo thành công và mã QR sinh ra."),
         ("Chặng 3", "Võ Ngọc Minh Đạt\n(WinForms C#)", "Ban Chủ nhiệm mở WinForms, chọn sự kiện trên DataGridView, bấm 'Xem danh sách đăng ký'. Thấy ngay sinh viên vừa đăng ký trên Android. Bấm 'Điểm danh'.", "Gọi GET /api/events/{id}/registrations và POST .../attendance. Giao diện tick xanh thành công."),
-        ("Chặng 4", "Hồ Đoàng Nguyên Khang\n(Swagger UI)", "Mở Swagger, gọi lại GET /api/events/{id} để kiểm chứng dữ liệu thật trong DB PostgreSQL. Số người tham gia tăng lên và trạng thái điểm danh khớp 100%.", "Phản hồi JSON 200 OK xác nhận dữ liệu nhất quán trên cùng một Database.")
+        ("Chặng 4", "Hồ Đoàn Nguyên Khang\n(Swagger UI)", "Mở Swagger, gọi lại GET /api/events/{id} để kiểm chứng dữ liệu thật trong DB PostgreSQL. Số người tham gia tăng lên và trạng thái điểm danh khớp 100%.", "Phản hồi JSON 200 OK xác nhận dữ liệu nhất quán trên cùng một Database.")
     ]
     for r_idx, r_data in enumerate(chain_steps):
         for c_idx, val in enumerate(r_data):

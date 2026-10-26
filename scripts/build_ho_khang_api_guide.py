@@ -15,7 +15,7 @@ def build_ho_khang_api_guide():
 
     add_header_banner(
         doc,
-        member_name="Hồ Đoàng Nguyên Khang",
+        member_name="Hồ Đoàn Nguyên Khang",
         student_id="1923040112",
         role="API Engineer – Phụ trách ASP.NET Core Web API, Swagger & Database",
         presentation_order="Người số 3 (Trình bày Kỹ thuật Lõi Backend)",
@@ -63,7 +63,7 @@ def build_ho_khang_api_guide():
     r.bold = True
     r.font.color.rgb = RGBColor(34, 100, 172)
     doc.add_paragraph(
-        "\"Kính chào Thầy và các bạn, em là Hồ Đoàng Nguyên Khang. Tiếp nối phần demo của Trí Khang, em xin đi sâu vào trái tim của toàn bộ hệ thống: ASP.NET Core 8 Web API và Hợp đồng API.\n\n"
+        "\"Kính chào Thầy và các bạn, em là Hồ Đoàn Nguyên Khang. Tiếp nối phần demo của Trí Khang, em xin đi sâu vào trái tim của toàn bộ hệ thống: ASP.NET Core 8 Web API và Hợp đồng API.\n\n"
         "Nhóm áp dụng triệt để nguyên tắc 'API First': Mọi ứng dụng client muốn kết nối đều phải đọc tài liệu Swagger trước để nắm rõ cấu trúc JSON và phương thức HTTP. Trên slide là ảnh chụp giao diện Swagger thực tế đang chạy tại địa chỉ cloud của nhóm.\n\n"
         "Bảng hợp đồng thể hiện rõ: Endpoint GET /api/events là mở công khai để khách và sinh viên cùng xem danh sách. Endpoint POST /api/events/{id}/register yêu cầu xác thực người dùng thường. Và đặc biệt endpoint POST /api/events tạo sự kiện mới bắt buộc phải có quyền Admin hoặc Ban Chủ nhiệm (Committee). Mọi tên trường JSON trả về đều tuân thủ nghiêm ngặt chuẩn camelCase.\""
     )
@@ -188,7 +188,7 @@ def build_ho_khang_api_guide():
         r.font.size = Pt(9.5)
         p.paragraph_format.space_after = Pt(2)
 
-    output_path = "deliverables/member-guides/03_HO_DOANG_NGUYEN_KHANG_API_GUIDE.docx"
+    output_path = "deliverables/member-guides/03_HO_DOAN_NGUYEN_KHANG_API_GUIDE.docx"
     doc.save(output_path)
     print(f"Generated: {output_path}")
 

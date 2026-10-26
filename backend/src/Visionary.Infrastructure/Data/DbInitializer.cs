@@ -134,14 +134,14 @@ namespace Visionary.Infrastructure.Data
                 context.UserRoles.Add(new UserRole { UserId = dat.Id, RoleId = memberRole.Id });
             }
 
-            // Hồ Đoàng Nguyên Khang - Data Pipeline Specialist
+            // Hồ Đoàn Nguyên Khang - Data Pipeline Specialist
             var khangH = await context.Users.FirstOrDefaultAsync(u => u.Email == "hodoangnguyenkhang@visionary.dntu.edu.vn");
             if (khangH == null)
             {
                 khangH = new User
                 {
                     Email = "hodoangnguyenkhang@visionary.dntu.edu.vn",
-                    FullName = "Hồ Đoàng Nguyên Khang",
+                    FullName = "Hồ Đoàn Nguyên Khang",
                     PasswordHash = defaultPassword,
                     Department = "Công nghệ Thông tin",
                     Bio = "Data Pipeline & Opportunities Specialist. Nhóm phát triển VISIONARY API.",
@@ -277,7 +277,7 @@ namespace Visionary.Infrastructure.Data
                     Title = "Chào mừng đến với Hệ sinh thái VISIONARY DNTU 2026",
                     Slug = "chao-mung-he-sinh-thai-visionary-2026",
                     Summary = "VISIONARY là nền tảng tích hợp quản lý CLB Tiếng Anh, trung tâm học tập English for IT, radar công nghệ và cổng cơ hội quốc tế.",
-                    ContentMarkdown = "### VISIONARY – Nơi kết nối Sinh viên, Công nghệ và Cơ hội Quốc tế\n\nĐược phát triển bởi nhóm **VISIONARY API** (Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàng Nguyên Khang, Đào Trí Khang), nền tảng hướng đến mục tiêu chuẩn hóa nghiệp vụ và tạo đột phá trong năng lực hội nhập cho sinh viên DNTU.",
+                    ContentMarkdown = "### VISIONARY – Nơi kết nối Sinh viên, Công nghệ và Cơ hội Quốc tế\n\nĐược phát triển bởi nhóm **VISIONARY API** (Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàn Nguyên Khang, Đào Trí Khang), nền tảng hướng đến mục tiêu chuẩn hóa nghiệp vụ và tạo đột phá trong năng lực hội nhập cho sinh viên DNTU.",
                     ContentHtml = "<h3>VISIONARY – Nơi kết nối Sinh viên, Công nghệ và Cơ hội Quốc tế</h3><p>Được phát triển bởi nhóm <strong>VISIONARY API</strong>, nền tảng hướng đến mục tiêu chuẩn hóa nghiệp vụ và tạo đột phá trong năng lực hội nhập cho sinh viên DNTU.</p>",
                     Status = PostStatus.Published,
                     PublishedAt = baseTime.AddHours(-1)

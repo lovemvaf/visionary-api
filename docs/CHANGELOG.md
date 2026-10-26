@@ -34,7 +34,7 @@ Tất cả các thay đổi quan trọng của hệ sinh thái **VISIONARY** đ�
   - Thiết kế kiến trúc chuẩn Clean Architecture: Một Backend ASP.NET Core 8 Web API dùng chung cho 3 nền tảng (Web Next.js, Desktop Windows Forms, Mobile Android Native Java).
   - Không tạo database riêng cho từng nền tảng, không phân mảnh logic nghiệp vụ.
   - Phân quyền RBAC nghiêm ngặt: Guest, Registered Student, Club Member, Collaborator, Club Committee/BCN, System Administrator.
-  - Tích hợp chuẩn nhận diện nhóm **VISIONARY API** với 4 thành viên: Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàng Nguyên Khang, Đào Trí Khang.
+  - Tích hợp chuẩn nhận diện nhóm **VISIONARY API** với 4 thành viên: Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàn Nguyên Khang, Đào Trí Khang.
   - Thông cáo học phần TH71108 rõ ràng, minh bạch trên toàn bộ giao diện và tài liệu.
 
 - **Backend ASP.NET Core 8 Web API (`backend/`):**

@@ -146,7 +146,7 @@ def generate_perfect_presentation():
     members = [
         ("1. Quách Khoa Đức", "1923040025", "Lead, Kiến trúc hệ thống\n& Web Client (Next.js)", "Phần 1: Dễ nhất, mở đầu\n& Web Client Demo", C_BLUE),
         ("2. Đào Trí Khang", "1923040156", "Mobile Software Engineer\n(Android Native Java)", "Phần 2: Ứng dụng Android,\nThreading & Demo App", C_TEAL),
-        ("3. Hồ Đoàng Nguyên Khang", "1923040112", "API Engineer & Database\n(ASP.NET Core & Swagger)", "Phần 3: Swagger, 6 chặng,\nJWT 401/403 & DB DTO", C_NAVY),
+        ("3. Hồ Đoàn Nguyên Khang", "1923040112", "API Engineer & Database\n(ASP.NET Core & Swagger)", "Phần 3: Swagger, 6 chặng,\nJWT 401/403 & DB DTO", C_NAVY),
         ("4. Võ Ngọc Minh Đạt", "1923040088", "Desktop Software Engineer\n(WinForms C#) & BCN CLB", "Phần 4: WinForms, Sự cố CI,\nSo sánh & KẾT THÚC", C_BLUE)
     ]
     x_start = 0.8
@@ -224,7 +224,7 @@ def generate_perfect_presentation():
         "Kính chào Thầy và các bạn trong hội đồng! Em tên là Quách Khoa Đức, đại diện nhóm VISIONARY API bảo vệ đồ án tốt nghiệp môn Web API. "
         "Hệ thống của nhóm gồm một Web API trung tâm trên ASP.NET Core 8 và ba ứng dụng khách: Web Next.js, Desktop Windows Forms và Mobile Android. "
         "Bốn thành viên tham gia trình bày theo đúng thứ tự: Em Quách Khoa Đức phụ trách mở đầu, kiến trúc và Web Client; "
-        "bạn Đào Trí Khang phụ trách Android; bạn Hồ Đoàng Nguyên Khang phụ trách Web API, Swagger và Database; "
+        "bạn Đào Trí Khang phụ trách Android; bạn Hồ Đoàn Nguyên Khang phụ trách Web API, Swagger và Database; "
         "và bạn Võ Ngọc Minh Đạt phụ trách Windows Forms cùng phân tích sự cố và kết luận."
     )
 
@@ -547,6 +547,7 @@ def generate_perfect_presentation():
 
     # ==========================================
         # ==========================================
+        # ==========================================
     # SLIDE 5: ANDROID NATIVE JAVA (ĐÀO TRÍ KHANG)
     # ==========================================
     s5 = prs.slides.add_slide(blank_layout)
@@ -832,14 +833,14 @@ def generate_perfect_presentation():
         "Ứng dụng gửi request POST lên Web API kèm mã Bearer token của sinh viên. "
         "Server xác nhận thành công và hiển thị thông báo đã đăng ký. "
         "Dữ liệu này đã lập tức được lưu vào cơ sở dữ liệu chung và sẽ được anh Đạt kiểm tra ngay trên WinForms ở phần sau. "
-        "Sau đây, em xin chuyển lời sang bạn Hồ Đoàng Nguyên Khang để phân tích về Web API và Swagger."
+        "Sau đây, em xin chuyển lời sang bạn Hồ Đoàn Nguyên Khang để phân tích về Web API và Swagger."
     )
 
     # ==========================================
-    # SLIDE 8: SWAGGER & HỢP ĐỒNG API (HỒ ĐOÀNG NGUYÊN KHANG)
+    # SLIDE 8: SWAGGER & HỢP ĐỒNG API (HỒ ĐOÀN NGUYÊN KHANG)
     # ==========================================
     s8 = prs.slides.add_slide(blank_layout)
-    add_header(s8, "SWAGGER UI & BẢNG HỢP ĐỒNG API THỰC TẾ TIÊU THỤ", "07. Hợp đồng API", 8, "Hồ Đoàng Nguyên Khang")
+    add_header(s8, "SWAGGER UI & BẢNG HỢP ĐỒNG API THỰC TẾ TIÊU THỤ", "07. Hợp đồng API", 8, "Hồ Đoàn Nguyên Khang")
 
     img_sw = os.path.join(EVIDENCE_DIR, "04_swagger_overview.png")
     if os.path.exists(img_sw):
@@ -897,8 +898,8 @@ def generate_perfect_presentation():
     p.font.color.rgb = C_NAVY
 
     s8.notes_slide.notes_text_frame.text = (
-        "LỜI THUYẾT TRÌNH (HỒ ĐOÀNG NGUYÊN KHANG - 1'00\"):\n"
-        "Kính chào Thầy và các bạn! Em tên là Hồ Đoàng Nguyên Khang, phụ trách ASP.NET Core Web API, tài liệu Swagger và Cơ sở dữ liệu. "
+        "LỜI THUYẾT TRÌNH (HỒ ĐOÀN NGUYÊN KHANG - 1'00\"):\n"
+        "Kính chào Thầy và các bạn! Em tên là Hồ Đoàn Nguyên Khang, phụ trách ASP.NET Core Web API, tài liệu Swagger và Cơ sở dữ liệu. "
         "Bên trái là ảnh chụp Swagger UI thực tế của hệ thống tại địa chỉ visionary-api-gb51.onrender.com/swagger. "
         "Bảng bên phải là hợp đồng API thực tế mà nhóm đã triển khai và tiêu thụ. "
         "Các endpoint được phân định quyền rõ ràng: GET /api/events mở công khai; POST /api/events/{id}/register cần đăng nhập; "
@@ -908,10 +909,11 @@ def generate_perfect_presentation():
 
     # ==========================================
         # ==========================================
-    # SLIDE 9: SƠ ĐỒ XUYÊN SUỐT MỘT YÊU CẦU (6 CHẶNG) (HỒ ĐOÀNG NGUYÊN KHANG)
+        # ==========================================
+    # SLIDE 9: SƠ ĐỒ XUYÊN SUỐT MỘT YÊU CẦU (6 CHẶNG) (HỒ ĐOÀN NGUYÊN KHANG)
     # ==========================================
     s9 = prs.slides.add_slide(blank_layout)
-    add_header(s9, "SƠ ĐỒ CHU TRÌNH 6 CHẶNG CỦA MỘT YÊU CẦU: GET /api/events", "08. Chu trình Request", 9, "Hồ Đoàng Nguyên Khang")
+    add_header(s9, "SƠ ĐỒ CHU TRÌNH 6 CHẶNG CỦA MỘT YÊU CẦU: GET /api/events", "08. Chu trình Request", 9, "Hồ Đoàn Nguyên Khang")
 
     # 2x3 Grid with 6 Connected Stages
     stages_grid = [
@@ -1020,7 +1022,7 @@ def generate_perfect_presentation():
     p.font.color.rgb = C_NAVY
 
     s9.notes_slide.notes_text_frame.text = (
-        "LỜI THUYẾT TRÌNH (HỒ ĐOÀNG NGUYÊN KHANG - 1p00s):\n"
+        "LỜI THUYẾT TRÌNH (HỒ ĐOÀN NGUYÊN KHANG - 1p00s):\n"
         "Thưa Thầy, để minh họa một chu trình request hoàn chỉnh, nhóm em chọn endpoint GET /api/events "
         "đi qua đủ 6 chặng kỹ thuật: "
         "Chặng 1: Bắt đầu từ thao tác của người dùng trên giao diện. "
@@ -1034,10 +1036,11 @@ def generate_perfect_presentation():
 
     # ==========================================
         # ==========================================
-    # SLIDE 10: SƠ ĐỒ XÁC THỰC & PHÂN QUYỀN JWT (HỒ ĐOÀNG NGUYÊN KHANG)
+        # ==========================================
+    # SLIDE 10: SƠ ĐỒ XÁC THỰC & PHÂN QUYỀN JWT (HỒ ĐOÀN NGUYÊN KHANG)
     # ==========================================
     s10 = prs.slides.add_slide(blank_layout)
-    add_header(s10, "SƠ ĐỒ VÒNG ĐỜI JWT, XÁC THỰC & PHÂN BIỆT 401 VS 403", "09. Bảo mật & Xác thực", 10, "Hồ Đoàng Nguyên Khang")
+    add_header(s10, "SƠ ĐỒ VÒNG ĐỜI JWT, XÁC THỰC & PHÂN BIỆT 401 VS 403", "09. Bảo mật & Xác thực", 10, "Hồ Đoàn Nguyên Khang")
 
     jwt_steps = [
         ("1. Đăng nhập", "POST /api/auth/login\nGửi username & password", C_BLUE, Inches(0.8)),
@@ -1099,7 +1102,7 @@ def generate_perfect_presentation():
     p.font.color.rgb = C_NAVY
 
     s10.notes_slide.notes_text_frame.text = (
-        "LỜI THUYẾT TRÌNH (HỒ ĐOÀNG NGUYÊN KHANG - 1p05s):\n"
+        "LỜI THUYẾT TRÌNH (HỒ ĐOÀN NGUYÊN KHANG - 1p05s):\n"
         "Về cơ chế xác thực và phân quyền, hệ thống sử dụng chuẩn JWT HMAC-SHA256. "
         "Lưu ý quan trọng: JWT là token được ký số chứ không phải chuỗi mã hóa; bất kỳ ai cũng có thể giải mã Base64 phần payload "
         "nhưng không thể làm giả chữ ký nếu không có Secret Key trên server. "
@@ -1111,10 +1114,10 @@ def generate_perfect_presentation():
     )
 
     # ==========================================
-    # SLIDE 11: JSON & DATABASE (HỒ ĐOÀNG NGUYÊN KHANG)
+    # SLIDE 11: JSON & DATABASE (HỒ ĐOÀN NGUYÊN KHANG)
     # ==========================================
     s11 = prs.slides.add_slide(blank_layout)
-    add_header(s11, "JSON, DTO, PHÂN TRANG & THIẾT KẾ CƠ SỞ DỮ LIỆU", "10. Quản lý Dữ liệu", 11, "Hồ Đoàng Nguyên Khang")
+    add_header(s11, "JSON, DTO, PHÂN TRANG & THIẾT KẾ CƠ SỞ DỮ LIỆU", "10. Quản lý Dữ liệu", 11, "Hồ Đoàn Nguyên Khang")
 
     # Left Column: Real JSON Response Box + C# PagedResponse DTO Code Box
     # Top Left: JSON Structure Box
@@ -1242,7 +1245,7 @@ def generate_perfect_presentation():
     p.font.color.rgb = C_NAVY
 
     s11.notes_slide.notes_text_frame.text = (
-        "LỜI THUYẾT TRÌNH (HỒ ĐOÀNG NGUYÊN KHANG - 1p00s):\n"
+        "LỜI THUYẾT TRÌNH (HỒ ĐOÀN NGUYÊN KHANG - 1p00s):\n"
         "Về thiết kế dữ liệu, nhóm sử dụng DTO thay vì trả thẳng thực thể Entity ra ngoài. "
         "DTO giúp che giấu mật khẩu đã băm, tránh lỗi vòng lặp đệ quy trong Entity Framework và giảm tải đường truyền. "
         "Mọi danh sách đều được bọc trong PagedResponse có phân trang rõ ràng. "
@@ -1478,6 +1481,7 @@ def generate_perfect_presentation():
     )
 
     # ==========================================
+        # ==========================================
         # ==========================================
     # SLIDE 15: SỰ CỐ THẬT: GITHUB ACTIONS CI RUN #12 -> RUN #40231783994 (VÕ NGỌC MINH ĐẠT)
     # ==========================================

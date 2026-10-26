@@ -32,18 +32,29 @@ jobs:
           echo "Scanning backend NuGet dependencies for known CVEs..."
           dotnet list backend/Visionary.Backend.sln package --vulnerable --include-transitive
 
-      - name: Audit Frontend npm Dependencies & Generate Report
+      - name: Audit Frontend npm Dependencies & Enforce Security Policy
         working-directory: ./frontend
         run: |
           echo "Running structured npm security audit..."
           npm audit --json > ../npm-audit-report.json || true
-          npm audit --omit=dev --audit-level=critical || echo "Notice: Upstream Next.js CVE exception documented in docs/security/DEPENDENCY_VULNERABILITY_REPORT.md"
+          # Verify dependency vulnerabilities against documented exception policy
+          node -e '
+            const fs = require("fs");
+            const report = JSON.parse(fs.readFileSync("../npm-audit-report.json", "utf8"));
+            const vulns = report.vulnerabilities || {};
+            const allowedPackages = new Set(["next", "postcss", "postcss-nested", "postcss-selector-parser", "tailwindcss"]);
+            const unhandled = Object.keys(vulns).filter(pkg => !allowedPackages.has(pkg));
+            if (unhandled.length > 0) {
+              console.error("CRITICAL SECURITY ERROR: Unhandled vulnerabilities found in dependencies:", unhandled);
+              process.exit(1);
+            }
+            console.log("Security Audit PASS: All detected vulnerabilities are documented in docs/security/DEPENDENCY_VULNERABILITY_REPORT.md");
+          '
 
       - name: Run Gitleaks Secret Detection
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
 
       - name: Upload Security Audit Artifacts
         uses: actions/upload-artifact@v4

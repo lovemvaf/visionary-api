@@ -5,7 +5,7 @@
 **Nhóm sinh viên thực hiện:** VISIONARY API  
 1. **Quách Khoa Đức** (MSSV: 1923040025) – Trưởng nhóm / Kiến trúc hệ thống & Web Client Next.js 14  
 2. **Đào Trí Khang** (MSSV: 1923040156) – Thành viên / Mobile Software Engineer (Android Native Java)  
-3. **Hồ Đoàng Nguyên Khang** (MSSV: 1923040112) – Thành viên / Web API Engineer, Swagger, JWT & Database  
+3. **Hồ Đoàn Nguyên Khang** (MSSV: 1923040112) – Thành viên / Web API Engineer, Swagger, JWT & Database  
 4. **Võ Ngọc Minh Đạt** (MSSV: 1923040088) – Thành viên / Windows Forms Desktop, Quản lý Sự cố CI & Tổng kết  
 
 **Ngày nghiệm thu:** 26/10/2026  
@@ -90,8 +90,8 @@ deliverables/
 │   ├── 01_QUACH_KHOA_DUC_EASY_PRESENTATION_GUIDE.pdf
 │   ├── 02_DAO_TRI_KHANG_ANDROID_GUIDE.docx            (Hướng dẫn Android cho Trí Khang)
 │   ├── 02_DAO_TRI_KHANG_ANDROID_GUIDE.pdf
-│   ├── 03_HO_DOANG_NGUYEN_KHANG_API_GUIDE.docx        (Hướng dẫn API cho Hồ Khang)
-│   ├── 03_HO_DOANG_NGUYEN_KHANG_API_GUIDE.pdf
+│   ├── 03_HO_DOAN_NGUYEN_KHANG_API_GUIDE.docx        (Hướng dẫn API cho Hồ Khang)
+│   ├── 03_HO_DOAN_NGUYEN_KHANG_API_GUIDE.pdf
 │   ├── 04_VO_NGOC_MINH_DAT_WINFORMS_GUIDE.docx        (Hướng dẫn WinForms & CI cho Đạt)
 │   └── 04_VO_NGOC_MINH_DAT_WINFORMS_GUIDE.pdf
 ├── evidence/                                          (17 ảnh chụp bằng chứng thực tế)
@@ -111,7 +111,7 @@ docs/
 | :---: | :--- | :---: | :--- | :---: | :--- |
 | **1** | **Quách Khoa Đức** | 1 – 4 | Mở đầu, giới thiệu nhóm, bài toán, mục tiêu, kiến trúc tổng thể một API ba nền tảng, Web Next.js. | **2 phút 45 giây** | **Phần dễ nhất:** Thuộc lòng kịch bản, nói to rõ, tự tin, tạo ấn tượng mở màn tốt cho nhóm. |
 | **2** | **Đào Trí Khang** | 5 – 7 | Ứng dụng Android Java Native, điều phối luồng giao diện, mã Retrofit enqueue, demo trực tiếp trên điện thoại. | **3 phút 15 giây** | **Kỹ thuật di động:** Trực quan, thao tác demo mượt mà, nhấn mạnh cơ chế tránh lỗi NetworkOnMainThread. |
-| **3** | **Hồ Đoàng Nguyên Khang** | 8 – 11 | Hợp đồng Swagger, chu trình 6 chặng của `GET /api/events`, vòng đời JWT, phân biệt 401 vs 403, thiết kế DTO/EF Core/DB. | **4 phút 15 giây** | **Trọng tâm môn học:** Thể hiện kiến thức vững chắc về RESTful, HTTP headers, Claims-based identity và database. |
+| **3** | **Hồ Đoàn Nguyên Khang** | 8 – 11 | Hợp đồng Swagger, chu trình 6 chặng của `GET /api/events`, vòng đời JWT, phân biệt 401 vs 403, thiết kế DTO/EF Core/DB. | **4 phút 15 giây** | **Trọng tâm môn học:** Thể hiện kiến thức vững chắc về RESTful, HTTP headers, Claims-based identity và database. |
 | **4** | **Võ Ngọc Minh Đạt** | 12 – 16 | WinForms C#, Singleton HttpClient, demo điểm danh, 3 điểm khác biệt, phân tích sự cố CI Run #12, hạn chế và kết luận. | **4 phút 45 giây** | **Kết thúc quyết định:** Bản lĩnh kỹ thuật, giải thích thuyết phục sự cố thật và tự tin mở lời mời phản biện. |
 | **-** | **TỔNG CỘNG** | **16 Slide** | **Toàn bộ bài thuyết trình bao gồm cả 2 phần live demo** | **15 phút 00 giây** | **Không để Đức kết luận; Đạt là người chốt bài.** |
 

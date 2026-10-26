@@ -152,7 +152,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:text="Quách Khoa Đức • Võ Ngọc Minh Đạt • Hồ Đoàng Nguyên Khang • Đào Trí Khang"
+                android:text="Quách Khoa Đức • Võ Ngọc Minh Đạt • Hồ Đoàn Nguyên Khang • Đào Trí Khang"
                 android:textColor="@color/text_muted"
                 android:textSize="11sp" />
         </LinearLayout>

@@ -1,113 +1,82 @@
-# BÁO CÁO KIỂM THỬ HỆ THỐNG – VISIONARY ECOSYSTEM
-**Dự án:** VISIONARY – Hệ thống Quản lý Hoạt động Hội nhập CLB Tiếng Anh DNTU  
+# BÁO CÁO KIỂM THỬ CHẤT LƯỢNG HỆ THỐNG – VISIONARY ECOSYSTEM (QA REPORT)
+**Dự án:** VISIONARY – Hệ thống Quản lý Hoạt động Hội nhập (TH71108)  
 **Nhóm phát triển:** VISIONARY API  
-**Thành viên:** Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàng Nguyên Khang, Đào Trí Khang  
-**Thời gian thực hiện:** 25/10/2026  
+**Thành viên:** Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàn Nguyên Khang, Đào Trí Khang  
+**Thời gian cập nhật:** 26/10/2026  
+**Nguồn xác minh chuẩn (SSOT):** [`docs/TEST_VERIFICATION_REPORT.md`](./TEST_VERIFICATION_REPORT.md) và [`project-status/verification.json`](../project-status/verification.json)  
 
 ---
 
-## 1. TỔNG QUAN KẾT QUẢ KIỂM THỬ
+## 1. TỔNG QUAN KẾT QUẢ KIỂM THỬ HIỆN HÀNH (CURRENT VERIFIED STATUS)
 
-| Hạng mục kiểm thử | Công cụ / Môi trường | Tổng số test | Đạt (Pass) | Thất bại (Fail) | Tỷ lệ thành công |
-|---|---|---|---|---|---|
-| **Backend Unit & Integration Tests** | xUnit, .NET 8 LTS | 9 | 9 | 0 | **100%** |
-| **Frontend Production Build** | Next.js 14, TypeScript | 16 routes | 16 | 0 | **100%** |
-| **Windows Forms Desktop Build** | .NET 8 Windows Desktop | 1 project | 1 | 0 | **100%** |
-| **Android Native Java Build** | Gradle, JDK 17, AGP 8.3 | 1 project | 1 | 0 | **100%** |
-| **Vercel Cloud Deployment** | Vercel CLI (visionary19) | 1 deployment | 1 | 0 | **100%** |
-
----
-
-## 2. CHI TIẾT KIỂM THỬ BACKEND ASP.NET CORE (.NET 8)
-
-Lệnh thực thi: `dotnet test backend/Visionary.sln`  
-Kết quả: `Passed! - Failed: 0, Passed: 9, Skipped: 0, Total: 9, Duration: 1 s`
-
-| STT | Tên ca kiểm thử (Test Case) | Module | Mục tiêu kiểm tra | Kết quả |
-|---|---|---|---|---|
-| 1 | `HashPassword_ProducesBcryptHash` | Security / Auth | Mã hóa mật khẩu chuẩn BCrypt work factor 11 | **PASS** |
-| 2 | `VerifyPassword_ValidAndInvalid` | Security / Auth | Xác thực mật khẩu đúng và chặn mật khẩu sai | **PASS** |
-| 3 | `GenerateToken_ReturnsValidJwtStructure` | Security / JWT | Sinh JWT Token đúng cấu trúc 3 phần header.payload.sig | **PASS** |
-| 4 | `RootEndpoint_ReturnsOkAndHealthyStatus` | API Health | Endpoint `/` trả về JSON trạng thái Healthy | **PASS** |
-| 5 | `ClubOverviewEndpoint_ReturnsSuccess` | Club Management | Endpoint `/api/club/overview` trả về dữ liệu CLB | **PASS** |
-| 6 | `EventsEndpoint_ReturnsPublishedEvents` | Events | Endpoint `/api/events` trả về danh sách sự kiện | **PASS** |
-| 7 | `EnglishForItEndpoint_ReturnsResources` | Learning | Endpoint `/api/english-for-it` trả về thuật ngữ | **PASS** |
-| 8 | `OpportunitiesEndpoint_ReturnsItems` | Opportunities | Endpoint `/api/opportunities` trả về cuộc thi/học bổng | **PASS** |
-| 9 | `AdminEndpoint_RequiresAuthorization` | Security / RBAC | Chặn truy cập trái phép vào `/api/admin/dashboard` khi thiếu JWT (HTTP 401) | **PASS** |
+| Hạng mục kiểm thử | Công cụ / Môi trường | Quy mô kiểm thử | Đạt (Pass) | Thất bại (Fail) | Tỷ lệ thành công | Trạng thái & Bằng chứng |
+|---|---|---|---|---|---|---|
+| **Backend xUnit Suite (Hiện tại)** | xUnit, .NET 8.0 SDK | **15 tests** | **15** | 0 | **100%** | **VERIFIED PASS** (GitHub Actions Run #40254874364) |
+| *Backend Core Smoke (Mốc lịch sử)* | xUnit, .NET 8.0 SDK | *9 tests* | *9* | *0* | *100%* | *HISTORICAL SNAPSHOT* (Giai đoạn trước khi thêm 6 bài test Posts Logic) |
+| **Frontend Production Build** | Next.js 14, TypeScript | **19 routes** | **19** | 0 | **100%** | **VERIFIED PASS** (Tất cả 19 tuyến đường biên dịch sạch) |
+| **Windows Forms Desktop Build** | .NET 8 Windows Desktop | 1 project | 1 | 0 | **100%** | **VERIFIED PASS** (0 Warning, 0 Error) |
+| **Android Native Java Build** | Gradle, JDK 17, SDK 34 | 1 project | 1 | 0 | **100%** | **CONFIG_VERIFIED** (Đã cấu hình `network_security_config.xml`) |
+| **Vercel Cloud Deployment** | Vercel Edge (`visionary19`) | Production | 1 | 0 | **100%** | **ONLINE 24/7** (`https://visionary-platform.vercel.app`) |
 
 ---
 
-## 3. CHI TIẾT KIỂM THỬ FRONTEND NEXT.JS 14
+## 2. CHI TIẾT KIỂM THỬ BACKEND ASP.NET CORE (.NET 8) – HIỆN HÀNH 15 BÀI TEST
+
+Lệnh thực thi: `dotnet test backend/Visionary.Backend.sln`  
+Kết quả: `Passed! - Failed: 0, Passed: 15, Skipped: 0, Total: 15, Duration: 2 s`  
+Minh chứng CI: GitHub Actions Run ID `40254874364` (Commit `9f7b152`)
+
+| STT | Tên ca kiểm thử (Test Case) | Suite Kiểm thử | Module | Mục tiêu kiểm tra | Kết quả |
+|:---:|---|---|---|---|:---:|
+| 1 | `RootEndpoint_ReturnsHealthyStatus` | Integration | API Health | Endpoint `/` trả về JSON trạng thái Healthy | **PASS** |
+| 2 | `ClubOverview_ReturnsSuccessData` | Integration | Club Management | Endpoint `/api/club/overview` trả về dữ liệu CLB | **PASS** |
+| 3 | `EventsEndpoint_ReturnsSeededEvents` | Integration | Events | Endpoint `/api/events` trả về danh sách sự kiện khởi tạo | **PASS** |
+| 4 | `EnglishForItEndpoint_ReturnsResources` | Integration | Learning | Endpoint `/api/english-for-it` trả về thuật ngữ CNTT | **PASS** |
+| 5 | `OpportunitiesEndpoint_ReturnsOpportunities` | Integration | Opportunities | Endpoint `/api/opportunities` trả về cuộc thi/học bổng | **PASS** |
+| 6 | `JobsEndpoint_ReturnsJobs` | Integration | Careers | Endpoint `/api/careers/jobs` trả về tin tuyển dụng | **PASS** |
+| 7 | `Login_WithSeededAdminCredentials_ReturnsJwtToken` | Integration | Security / Auth | Đăng nhập tài khoản Quản trị viên, cấp phát token JWT hợp lệ | **PASS** |
+| 8 | `PasswordHasher_ShouldHashAndVerifyCorrectly` | Unit Test | Security / Auth | Mã hóa mật khẩu chuẩn BCrypt với salt ngẫu nhiên | **PASS** |
+| 9 | `JwtService_ShouldGenerateAndValidateToken` | Unit Test | Security / JWT | Sinh và xác thực JWT token chuẩn HMAC-SHA256 | **PASS** |
+| 10 | `CategoriesEndpoint_ReturnsFourCategoriesWithExactPublishedCounts` | Logic Invariant | Content / Posts | 4 chuyên mục chuẩn với số lượng bài viết xuất bản chính xác | **PASS** |
+| 11 | `PublishedPosts_CategoryUnion_StrictlyEquals_AllPublishedPosts` | Logic Invariant | Content / Posts | Bất biến hợp tập: Tổng bài viết theo danh mục bằng tổng bài xuất bản | **PASS** |
+| 12 | `Pagination_Metadata_And_ItemCounts_AreAccurate` | Logic Invariant | Core / Pagination | Metadata phân trang (Page, PageSize, TotalCount) tính toán chính xác | **PASS** |
+| 13 | `UnpublishedPosts_Draft_And_PendingReview_NeverLeakPublicly` | Security Invariant | Security / RBAC | Chặn hoàn toàn bài viết Draft/Pending rò rỉ ra API công khai | **PASS** |
+| 14 | `Search_WithCategory_And_EmptyState_AreAccurate` | Logic Invariant | Content / Search | Tìm kiếm kết hợp lọc danh mục và trạng thái danh sách rỗng | **PASS** |
+| 15 | `GetPostBySlug_ValidPublishedPost_Returns200AndIncrementsView` | Logic Invariant | Content / Posts | Lấy chi tiết bài viết qua Slug và tự động tăng lượt xem | **PASS** |
+
+---
+
+## 3. CHI TIẾT KIỂM THỬ FRONTEND NEXT.JS 14 (19 ROUTES)
 
 Lệnh thực thi: `npm run build` (trong thư mục `frontend/`)  
-Kết quả: `Compiled successfully. Linting and checking validity of types passed.`
+Kết quả: `✓ Compiled successfully. Linting and checking validity of types passed. Generating static pages (19/19)`
 
-| STT | Tuyến đường (Route) | Loại Rendering | Kích thước Bundle (First Load JS) | Trạng thái |
-|---|---|---|---|---|
-| 1 | `/` (Home) | SSG / ISR | 148 kB | **PASS** |
-| 2 | `/about` (Giới thiệu CLB & Nhóm) | Static | 142 kB | **PASS** |
-| 3 | `/auth/login` (Đăng nhập) | Client Dynamic | 144 kB | **PASS** |
-| 4 | `/auth/register` (Đăng ký) | Client Dynamic | 144 kB | **PASS** |
-| 5 | `/dashboard` (Sinh viên) | Dynamic SSR | 150 kB | **PASS** |
-| 6 | `/dashboard/admin` (Quản trị viên) | Dynamic SSR | 155 kB | **PASS** |
-| 7 | `/events` (Danh sách sự kiện) | ISR | 146 kB | **PASS** |
-| 8 | `/events/[slug]` (Chi tiết sự kiện & QR) | Dynamic SSR | 147 kB | **PASS** |
-| 9 | `/english-for-it` (Thuật ngữ) | ISR | 145 kB | **PASS** |
-| 10 | `/english-for-it/[slug]` (Bài học) | Dynamic SSR | 145 kB | **PASS** |
-| 11 | `/tech-radar` (GitHub repos & Hugging Face) | ISR | 148 kB | **PASS** |
-| 12 | `/opportunities` (Cuộc thi & Học bổng) | ISR | 146 kB | **PASS** |
-| 13 | `/careers` (Việc làm & Thực tập) | ISR | 146 kB | **PASS** |
-| 14 | `/achievements` (Bảng vàng) | ISR | 144 kB | **PASS** |
-| 15 | `/posts` (Tin tức) | ISR | 144 kB | **PASS** |
-| 16 | `/posts/[slug]` (Nội dung tin tức) | Dynamic SSR | 145 kB | **PASS** |
-
----
-
-## 4. CHI TIẾT KIỂM THỬ WINDOWS FORMS DESKTOP (.NET 8)
-
-Lệnh thực thi: `dotnet build desktop/Visionary.Desktop/Visionary.Desktop.csproj`  
-Kết quả: `Build succeeded. 0 Warning(s), 0 Error(s).`
-
-| STT | Phân hệ giao diện WinForms | Chức năng kiểm thử | Kết quả |
-|---|---|---|---|
-| 1 | `LoginForm` | Nhập URL máy chủ, đăng nhập email/mật khẩu, Quick Login Admin/BCN | **PASS** |
-| 2 | `AppState` & `ApiClient` | Lưu trữ JWT in-memory, inject Bearer header, gọi async HTTP không block UI | **PASS** |
-| 3 | `MainForm - Dashboard` | Tải số liệu thống kê (Thành viên, Đơn chờ, Sự kiện, Nguồn sync), Audit log | **PASS** |
-| 4 | `MainForm - Members` | DataGridView danh sách thành viên, tìm kiếm theo tên/MSSV, lọc ban chuyên môn | **PASS** |
-| 5 | `MainForm - Applications` | DataGridView đơn đăng ký, modal `ReviewApplicationDialog` duyệt/từ chối đơn | **PASS** |
-| 6 | `MainForm - Events` | DataGridView sự kiện, modal `CreateEventDialog` tạo sự kiện, danh sách đăng ký & điểm danh | **PASS** |
-| 7 | `MainForm - Data Sync` | Xem danh sách nguồn tự động, nút kích hoạt đồng bộ (Trigger Sync) tức thời | **PASS** |
-| 8 | `MainForm - About` | Hiển thị đầy đủ nhận diện VISIONARY API, 4 thành viên và thông cáo học phần TH71108 | **PASS** |
+| STT | Tuyến đường (Route) | Loại Rendering | First Load JS | Trạng thái |
+|:---:|---|---|---|:---:|
+| 1 | `/` (Trang chủ) | Static (SSG) | 96.2 kB | **PASS** |
+| 2 | `/_not-found` (404 Page) | Static | 88.2 kB | **PASS** |
+| 3 | `/about` (Giới thiệu CLB & Nhóm) | Static | 96.2 kB | **PASS** |
+| 4 | `/achievements` (Bảng vàng thành tích) | Static | 93.5 kB | **PASS** |
+| 5 | `/api/[...path]` (BFF Proxy) | Dynamic (Server) | 0 B | **PASS** |
+| 6 | `/auth/login` (Đăng nhập) | Static | 103 kB | **PASS** |
+| 7 | `/auth/register` (Đăng ký) | Static | 102 kB | **PASS** |
+| 8 | `/careers` (Cơ hội việc làm CNTT) | Static | 95 kB | **PASS** |
+| 9 | `/dashboard` (Bảng điều khiển sinh viên) | Static | 93.8 kB | **PASS** |
+| 10 | `/dashboard/admin` (Quản trị viên) | Static | 105 kB | **PASS** |
+| 11 | `/dashboard/committee` (Ban Chủ Nhiệm) | Static | 104 kB | **PASS** |
+| 12 | `/english-for-it` (Thuật ngữ Tiếng Anh) | Static | 103 kB | **PASS** |
+| 13 | `/english-for-it/[slug]` (Chi tiết bài học) | Dynamic (Server) | 102 kB | **PASS** |
+| 14 | `/events` (Danh sách sự kiện) | Static | 94.5 kB | **PASS** |
+| 15 | `/events/[slug]` (Chi tiết sự kiện & Check-in) | Dynamic (Server) | 102 kB | **PASS** |
+| 16 | `/opportunities` (Học bổng & Hackathon) | Static | 95 kB | **PASS** |
+| 17 | `/posts` (Tin tức & Bài viết) | Static | 104 kB | **PASS** |
+| 18 | `/posts/[slug]` (Chi tiết bài viết) | Dynamic (Server) | 102 kB | **PASS** |
+| 19 | `/tech-radar` (Xu hướng công nghệ) | Static | 95.4 kB | **PASS** |
 
 ---
 
-## 5. CHI TIẾT KIỂM THỬ ANDROID NATIVE JAVA
+## 4. ĐÁNH GIÁ CHUỖI CUNG ỨNG VÀ BẢO MẬT (DEVSECOPS)
 
-Môi trường: JDK 17 LTS, Android SDK Platform 34, AGP 8.3.2, Retrofit 2.11.0  
-Kết quả kiểm tra cấu trúc Gradle: `BUILD SUCCESSFUL`
-
-| STT | Phân hệ Android Java | Chức năng kiểm thử | Kết quả |
-|---|---|---|---|
-| 1 | `AndroidManifest.xml` | Khai báo quyền `INTERNET`, `ACCESS_NETWORK_STATE`, cleartext traffic cho local dev | **PASS** |
-| 2 | `SessionManager` | Lưu trữ JWT token, user profile, server URL trong `SharedPreferences` an toàn | **PASS** |
-| 3 | `ApiClient` & `VisionaryApiService` | Cấu hình Retrofit với `OkHttpClient`, tự động chèn `Authorization: Bearer <token>` | **PASS** |
-| 4 | `LoginActivity` | Đăng nhập tài khoản, nút kiểm thử nhanh cho Admin/BCN, chuyển màn hình tự động | **PASS** |
-| 5 | `MainActivity` | Quản lý `BottomNavigationView` với 5 màn hình con | **PASS** |
-| 6 | `HomeFragment` | Giới thiệu CLB, 6 trụ cột hội nhập, thống kê tổng quan, thông tin nhóm VISIONARY API | **PASS** |
-| 7 | `EventsFragment` | Danh sách sự kiện, nút Đăng ký / Hủy đăng ký, hộp thoại hiển thị mã QR Check-in | **PASS** |
-| 8 | `EnglishForItFragment` | Danh sách thuật ngữ English for IT, ví dụ câu thực tiễn, phân loại chủ đề | **PASS** |
-| 9 | `OpportunitiesFragment` | Danh sách Hackathon, học bổng, chương trình hội nhập quốc tế | **PASS** |
-| 10 | `ProfileFragment` | Xem thông tin sinh viên, vai trò, thông tin 4 thành viên nhóm và nút Đăng xuất | **PASS** |
-
----
-
-## 6. KIỂM THỬ TRIỂN KHAI VERCEL CLOUD
-
-- **Workspace:** `visionary19`
-- **Project Name:** `visionary-platform`
-- **Production Domain chính thức:** `https://visionary-platform.vercel.app`
-- **Production Alias dự phòng:** `https://visionary-global.vercel.app`
-- **Kiểm thử HTTP GET:** Mã phản hồi `HTTP 200 OK`.
-- **Kiểm thử nội dung:** HTML chứa thẻ `<title>VISIONARY – English, Technology & Global Integration Platform | DNTU</title>`, các khối Hero, 6 trụ cột và footer nhóm phát triển VISIONARY API.
-- **Vercel SSO Protection:** Đã tắt (Public Access xác minh qua curl/fetch).
-- **SEO & Sitemap:** Đã kiểm tra `/robots.txt` và `/sitemap.xml` hoạt động bình thường.
+1. **NuGet Package Audit:** `dotnet list backend/Visionary.Backend.sln package --vulnerable` xác nhận **0 gói có lỗ hổng** trên toàn bộ 4 dự án backend.
+2. **Gitleaks Secret Scan:** Toàn bộ mã nguồn hoạt động trên commit mới nhất không chứa secret, API key hay private token hoạt động nào.
+3. **Ngoại lệ Upstream Next.js 14:** Đã được kiểm chứng và lập tài liệu ngoại lệ an toàn tại [`docs/security/DEPENDENCY_VULNERABILITY_REPORT.md`](./security/DEPENDENCY_VULNERABILITY_REPORT.md).

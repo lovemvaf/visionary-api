@@ -64,7 +64,7 @@ def build_duc_guide():
     r.font.color.rgb = RGBColor(34, 100, 172)
     doc.add_paragraph(
         "\"Kính chào Thầy và các bạn trong hội đồng. Em tên là Quách Khoa Đức, đại diện nhóm phát triển đề tài: 'Hệ thống Quản lý Hoạt động Hội nhập – VISIONARY' trong học phần Web API TH71108.\n\n"
-        "Nhóm chúng em gồm bốn thành viên: Em Quách Khoa Đức phụ trách mở đầu, kiến trúc và Web Client; bạn Đào Trí Khang phụ trách ứng dụng Android; bạn Hồ Đoàng Nguyên Khang phụ trách Web API, Swagger và Cơ sở dữ liệu; và bạn Võ Ngọc Minh Đạt phụ trách ứng dụng Windows Forms cùng phân tích sự cố.\n\n"
+        "Nhóm chúng em gồm bốn thành viên: Em Quách Khoa Đức phụ trách mở đầu, kiến trúc và Web Client; bạn Đào Trí Khang phụ trách ứng dụng Android; bạn Hồ Đoàn Nguyên Khang phụ trách Web API, Swagger và Cơ sở dữ liệu; và bạn Võ Ngọc Minh Đạt phụ trách ứng dụng Windows Forms cùng phân tích sự cố.\n\n"
         "Hệ thống của nhóm đã được triển khai hoàn chỉnh. Backend Web API đang chạy trực tiếp trên cloud tại địa chỉ có thể mở ngay Swagger để kiểm chứng. Trong quá trình thực hiện, nhóm có sử dụng công cụ AI Google Antigravity để hỗ trợ rà soát mã nguồn và kiểm thử tự động, toàn bộ logic nghiệp vụ đều do nhóm trực tiếp kiểm chứng và làm chủ.\""
     )
 

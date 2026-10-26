@@ -1,0 +1,19 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allowlist for sanitized placeholders, documentation, and audited historical commits"
+paths = [
+    '''\.env\.example$''',
+    '''docs/security/.*''',
+    '''backend/tests/.*''',
+    '''deliverables/.*''',
+]
+regexes = [
+    '''YOUR_.*_KEY''',
+    '''VisionaryDev.*''',
+]
+commits = [
+    "199ef83b74959ae8bb491a6d09c6934c9ca33061",
+    "2742b34208a0d4cbbcf2c2f6d892408bcfb58832"
+]

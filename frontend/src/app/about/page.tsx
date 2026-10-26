@@ -32,7 +32,7 @@ export default function AboutPage() {
       isLead: false
     },
     {
-      name: "Hồ Đoàng Nguyên Khang",
+      name: "Hồ Đoàn Nguyên Khang",
       role: "Data Pipeline & Opportunities Specialist",
       department: "Khoa Công nghệ Thông tin",
       responsibilities: "Cổng thông tin Cuộc thi quốc tế, Hackathon, Học bổng, Career Gateway, Pipeline thu thập và làm sạch dữ liệu tự động.",

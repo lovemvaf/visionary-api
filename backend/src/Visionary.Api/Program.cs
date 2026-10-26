@@ -165,7 +165,7 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "VISIONARY API – Hệ thống Quản lý Hoạt động Hội nhập DNTU",
         Version = "v1",
-        Description = "RESTful API cung cấp dữ liệu thống nhất cho Web Next.js, Windows Forms C# và Android Java.\nNhóm phát triển: VISIONARY API (Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàng Nguyên Khang, Đào Trí Khang)."
+        Description = "RESTful API cung cấp dữ liệu thống nhất cho Web Next.js, Windows Forms C# và Android Java.\nNhóm phát triển: VISIONARY API (Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàn Nguyên Khang, Đào Trí Khang)."
     });
 
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

@@ -171,7 +171,7 @@ function PostsPageContent() {
           Tin tức Hội nhập & Thông báo Hoạt động
         </h1>
         <p className="text-sm text-gray-600 dark:text-gray-300">
-          Cập nhật thông tin công nghệ mới, thông báo từ Ban Chủ Nhiệm và các bài chia sẻ kinh nghiệm kỹ thuật từ nhóm VISIONARY API (Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàng Nguyên Khang, Đào Trí Khang).
+          Cập nhật thông tin công nghệ mới, thông báo từ Ban Chủ Nhiệm và các bài chia sẻ kinh nghiệm kỹ thuật từ nhóm VISIONARY API (Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàn Nguyên Khang, Đào Trí Khang).
         </p>
       </div>
 

@@ -1,6 +1,6 @@
 # BÁO CÁO KHẢO SÁT DỰ ÁN (PROJECT AUDIT REPORT)
 **Hệ thống:** VISIONARY – Hệ thống Quản lý Hoạt động Hội nhập  
-**Đơn vị thực hiện:** VISIONARY API (Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàng Nguyên Khang, Đào Trí Khang)  
+**Đơn vị thực hiện:** VISIONARY API (Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàn Nguyên Khang, Đào Trí Khang)  
 **Thời gian khảo sát:** 25/10/2026  
 
 ---

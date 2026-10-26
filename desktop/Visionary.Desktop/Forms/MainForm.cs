@@ -785,7 +785,7 @@ public class MainForm : Form
         {
             "1. Quách Khoa Đức — Vai trò: Principal Software Architect, Full-Stack & ASP.NET Core Web API Lead",
             "2. Võ Ngọc Minh Đạt — Vai trò: Club Operations, Business Analyst & Windows Forms Desktop Software Engineer",
-            "3. Hồ Đoàng Nguyên Khang — Vai trò: Data Pipeline & Automation Engineer, Opportunities & Jobs Specialist",
+            "3. Hồ Đoàn Nguyên Khang — Vai trò: Data Pipeline & Automation Engineer, Opportunities & Jobs Specialist",
             "4. Đào Trí Khang — Vai trò: Mobile Software Engineer (Android Native Java) & QA Testing Lead"
         };
 

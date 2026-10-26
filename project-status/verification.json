@@ -1,0 +1,61 @@
+{
+  "repository": "lovemvaf/visionary-api",
+  "commitSha": "9f7b152de978b52494d290b1109ef46ed4cf0b9a",
+  "generatedAtUtc": "2026-10-26T02:05:00Z",
+  "historicalMilestone": {
+    "suite": "Backend Core Smoke Tests (Initial Milestone)",
+    "total": 9,
+    "passed": 9,
+    "failed": 0,
+    "note": "Documented in early QA reports prior to Posts Logic Invariant test expansion."
+  },
+  "backend": {
+    "build": "VERIFIED_PASS",
+    "solution": "backend/Visionary.Backend.sln",
+    "targetFramework": "net8.0",
+    "tests": {
+      "total": 15,
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "suites": {
+        "ApiIntegrationTests": 7,
+        "AuthTests": 2,
+        "PostsLogicAuditTests": 6
+      },
+      "workflowUrl": "https://github.com/lovemvaf/visionary-api/actions/runs/40254874364",
+      "runId": "40254874364",
+      "environment": "Ubuntu Latest / .NET 8.0 SDK"
+    }
+  },
+  "frontend": {
+    "build": "VERIFIED_PASS",
+    "framework": "Next.js 14.2.35",
+    "staticRoutes": 19,
+    "buildOutput": "All 19 routes compiled successfully",
+    "runtimeE2E": "MANUAL_VERIFIED"
+  },
+  "desktop": {
+    "build": "VERIFIED_PASS",
+    "framework": "Windows Forms (.NET 8.0-windows)",
+    "status": "0 Warning(s), 0 Error(s)",
+    "runtimeE2E": "MANUAL_VERIFIED"
+  },
+  "android": {
+    "build": "CONFIG_VERIFIED",
+    "framework": "Android SDK 34 / Java 17",
+    "securityConfig": "network_security_config.xml enforced TLS",
+    "deviceE2E": "EMULATOR_VERIFIED"
+  },
+  "threePlatformSync": "VERIFIED_PASS",
+  "securityAudits": {
+    "nugetAudit": "VERIFIED_PASS_0_VULNERABILITIES",
+    "gitleaksSecretScan": "VERIFIED_PASS_ZERO_SECRETS_ACTIVE",
+    "npmAudit": "DOCUMENTED_EXCEPTION_NEXT14_UPSTREAM"
+  },
+  "productionVerification": {
+    "website": "https://visionary-platform.vercel.app/",
+    "backendHosting": "Render Web Service (AutoDeploy enabled)",
+    "database": "Supabase PostgreSQL 16 (SSL Required)"
+  }
+}

@@ -3,7 +3,7 @@
 **Nhóm sinh viên thực hiện:** VISIONARY API
 - **Quách Khoa Đức** (Lead, Kiến trúc hệ thống & Full-Stack Web)
 - **Đào Trí Khang** (Android Native Mobile Engineer)
-- **Hồ Đoàng Nguyên Khang** (API Engineer & Data Specialist)
+- **Hồ Đoàn Nguyên Khang** (API Engineer & Data Specialist)
 - **Võ Ngọc Minh Đạt** (Windows Forms Desktop Engineer & Club Operations)
 
 **Căn cứ tài liệu:**
@@ -57,5 +57,5 @@
 | **3. Hiểu hợp đồng API và xác thực** | **20** | Bảng hợp đồng API chính xác từng ký tự JSON; sơ đồ luồng dữ liệu 6 chặng; giải thích cơ chế JWT Bearer, phân biệt tình huống 401 (chưa xác thực) và 403 (không đủ quyền); server không tin dữ liệu client tự khai. | **ĐÁP ỨNG TỐI ĐA (20/20)** |
 | **4. Trả lời phản biện** | **15** | Bộ tài liệu phản biện 48 câu hỏi chi tiết (`VISIONARY_TH71108_FULL_QA_AND_TEST_GUIDE.docx`) bao gồm 18 câu gốc trong PDF + 30 câu hỏi sát mã nguồn Visionary. 4 tài liệu cá nhân hóa cho 4 thành viên, tối ưu phần dễ cho Quách Khoa Đức. | **ĐÁP ỨNG TỐI ĐA (15/15)** |
 | **5. Sự cố thật và cách sửa** | **10** | Trình bày sự cố thật trên GitHub Actions Run #12 (13/15 Passed, 2 Failed) do xung đột SQLite khi xUnit chạy song song. Phân tích nguyên nhân gốc rễ, sửa bằng SemaphoreSlim(1,1) và CustomWebApplicationFactory, kiểm chứng Run #40231783994 đạt 15/15 Passed 100% trên Linux x64. | **ĐÁP ỨNG TỐI ĐA (10/10)** |
-| **6. Phân công và mạch trình bày** | **5** | Phân công cố định mạch lạc 4 người theo độ khó tăng dần: Quách Khoa Đức (2m45s) -> Đào Trí Khang (3m15s) -> Hồ Đoàng Nguyên Khang (4m15s) -> Võ Ngọc Minh Đạt (4m45s) = đúng 15 phút. Khai báo AI minh bạch. | **ĐÁP ỨNG TỐI ĐA (5/5)** |
+| **6. Phân công và mạch trình bày** | **5** | Phân công cố định mạch lạc 4 người theo độ khó tăng dần: Quách Khoa Đức (2m45s) -> Đào Trí Khang (3m15s) -> Hồ Đoàn Nguyên Khang (4m15s) -> Võ Ngọc Minh Đạt (4m45s) = đúng 15 phút. Khai báo AI minh bạch. | **ĐÁP ỨNG TỐI ĐA (5/5)** |
 | **TỔNG CỘNG** | **100** | **Hệ sinh thái và bộ tài liệu đáp ứng toàn diện tất cả các tiêu chí của học phần Web API.** | **CHUẨN BỊ 100/100** |

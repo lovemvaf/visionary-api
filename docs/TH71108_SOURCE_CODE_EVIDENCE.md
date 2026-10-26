@@ -1,7 +1,7 @@
 # BẢNG BẰNG CHỨNG MÃ NGUỒN HỆ THỐNG VISIONARY (TH71108)
 ## PHỤC VỤ GIẢI THÍCH MÃ NGUỒN VÀ TRẢ LỜI PHẢN BIỆN (30 ĐIỂM + 15 ĐIỂM)
 **Học phần:** Web API – TH71108 | **Trường Đại học Công nghệ Đồng Nai (DNTU)**
-**Nhóm phát triển:** VISIONARY API (*Quách Khoa Đức, Đào Trí Khang, Hồ Đoàng Nguyên Khang, Võ Ngọc Minh Đạt*)
+**Nhóm phát triển:** VISIONARY API (*Quách Khoa Đức, Đào Trí Khang, Hồ Đoàn Nguyên Khang, Võ Ngọc Minh Đạt*)
 **Commit SHA kiểm chứng:** `af38413` / `77a20d4`
 
 ---
@@ -92,7 +92,7 @@ public async Task<ActionResult<ApiResponse<PagedResponse<EventDto>>>> GetEvents(
   - `e.Status != EventStatus.Draft`: Bảo mật tuyệt đối, ngăn chặn rò rỉ sự kiện nháp ra công chúng.
   - `Skip((pageIndex - 1) * pageSize).Take(pageSize)`: Phân trang trực tiếp tại câu lệnh SQL (`OFFSET / LIMIT` trên PostgreSQL), không tải toàn bộ dữ liệu vào RAM server.
   - `ApiResponse<PagedResponse<T>>`: Cấu trúc JSON thống nhất bao bọc kết quả, trả về `items`, `totalCount`, `pageIndex`, `pageSize`.
-- **Người trình bày:** Hồ Đoàng Nguyên Khang
+- **Người trình bày:** Hồ Đoàn Nguyên Khang
 - **Bằng chứng ảnh:** `deliverables/evidence/05_swagger_endpoint.png`
 
 ---
@@ -118,7 +118,7 @@ return new JwtSecurityTokenHandler().WriteToken(token);
 - **Điểm chốt bảo mật:**
   - JWT không phải là chuỗi mã hóa bí mật (bất kỳ ai cũng giải mã Base64 đọc được Header và Payload).
   - Tính toàn vẹn được đảm bảo bởi **Chữ ký số (Signature)**. Khi client gửi header `Authorization: Bearer <token>`, middleware `UseAuthentication()` dùng Secret Key để xác thực chữ ký. Nếu người dùng tự ý đổi `roles` từ `Student` thành `Admin`, chữ ký sẽ sai lệch và server trả về mã **401 Unauthorized** ngay lập tức.
-- **Người trình bày:** Hồ Đoàng Nguyên Khang
+- **Người trình bày:** Hồ Đoàn Nguyên Khang
 - **Bằng chứng ảnh:** `deliverables/evidence/13_401_response.png`, `deliverables/evidence/14_403_response.png`
 
 ---

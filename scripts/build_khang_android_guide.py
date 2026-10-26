@@ -89,7 +89,7 @@ def build_khang_android_guide():
         "- Bước 3: Nhấn nút 'Đăng ký tham gia' (btnDangKy). Ứng dụng gửi yêu cầu POST /api/events/{id}/register kèm JWT Token của sinh viên.\n"
         "- Bước 4: Server phản hồi HTTP 200 thành công, giao diện hiển thị Dialog chúc mừng và mã QR điểm danh.\n\n"
         "Dữ liệu đăng ký này đã lập tức được lưu vào cơ sở dữ liệu chung và sẽ được anh Đạt kiểm tra ngay trên WinForms ở phần sau.\n\n"
-        "Sau đây, em xin chuyển lời sang bạn Hồ Đoàng Nguyên Khang để phân tích chuyên sâu về Web API, tài liệu Swagger và hợp đồng dữ liệu. Xin mời Khang!\""
+        "Sau đây, em xin chuyển lời sang bạn Hồ Đoàn Nguyên Khang để phân tích chuyên sâu về Web API, tài liệu Swagger và hợp đồng dữ liệu. Xin mời Khang!\""
     )
 
     # Section 3: Mã nguồn cần mở & 3 điểm nóng
@@ -175,7 +175,7 @@ def build_khang_android_guide():
         "Cài sẵn file app-debug.apk đã biên dịch (6.4 MB) vào máy ảo, không compile lại tại chỗ.",
         "Kiểm tra máy ảo kết nối được internet và API.",
         "Luyện tập nói Slide 5, 6, 7 bấm giờ chuẩn dưới 3 phút 15 giây.",
-        "Nhớ câu kết chuyển giao: 'Sau đây em xin chuyển lời sang bạn Hồ Đoàng Nguyên Khang...'"
+        "Nhớ câu kết chuyển giao: 'Sau đây em xin chuyển lời sang bạn Hồ Đoàn Nguyên Khang...'"
     ]
     for c in checks:
         p = doc.add_paragraph()

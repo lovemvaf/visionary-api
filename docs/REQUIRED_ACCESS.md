@@ -1,6 +1,6 @@
 # BẢNG TỔNG HỢP YÊU CẦU TRUY CẬP VÀ CẤU HÌNH DỊCH VỤ NGOẠI VI
 > **DỰ ÁN:** VISIONARY – Hệ sinh thái Quản lý Hoạt động Hội nhập (DNTU)  
-> **NHÓM PHÁT TRIỂN:** `VISIONARY API` (Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàng Nguyên Khang, Đào Trí Khang)  
+> **NHÓM PHÁT TRIỂN:** `VISIONARY API` (Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàn Nguyên Khang, Đào Trí Khang)  
 > **KHO MÃ NGUỒN GITHUB:** [https://github.com/lovemvaf/visionary-api](https://github.com/lovemvaf/visionary-api)  
 > **VERCEL PRODUCTION:** [https://visionary-platform.vercel.app](https://visionary-platform.vercel.app) (Alias: `https://visionary-global.vercel.app`)
 

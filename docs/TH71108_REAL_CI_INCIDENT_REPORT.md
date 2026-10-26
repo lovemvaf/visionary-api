@@ -2,7 +2,7 @@
 ## SỰ CỐ GITHUB ACTIONS BACKEND CI RUN #12 – HỌC PHẦN WEB API (TH71108)
 
 **Dự án:** VISIONARY – Hệ thống Quản lý Hoạt động Hội nhập  
-**Nhóm sinh viên:** VISIONARY API (Quách Khoa Đức, Đào Trí Khang, Hồ Đoàng Nguyên Khang, Võ Ngọc Minh Đạt)  
+**Nhóm sinh viên:** VISIONARY API (Quách Khoa Đức, Đào Trí Khang, Hồ Đoàn Nguyên Khang, Võ Ngọc Minh Đạt)  
 **Mục tiêu học phần:** Minh chứng năng lực đọc thông điệp lỗi nguyên văn, xác định nguyên nhân gốc rễ, đưa ra giải pháp kỹ thuật chuẩn mực và kiểm thử hồi quy thành công (Năng lực số 8 & Tiêu chí số 5 Thang điểm 100).
 
 ---

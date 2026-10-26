@@ -5,10 +5,10 @@ def update_slides_10_and_11():
         content = f.read()
 
     new_s10 = '''    # ==========================================
-    # SLIDE 10: SƠ ĐỒ XÁC THỰC & PHÂN QUYỀN JWT (HỒ ĐOÀNG NGUYÊN KHANG)
+    # SLIDE 10: SƠ ĐỒ XÁC THỰC & PHÂN QUYỀN JWT (HỒ ĐOÀN NGUYÊN KHANG)
     # ==========================================
     s10 = prs.slides.add_slide(blank_layout)
-    add_header(s10, "SƠ ĐỒ VÒNG ĐỜI JWT, XÁC THỰC & PHÂN BIỆT 401 VS 403", "09. Bảo mật & Xác thực", 10, "Hồ Đoàng Nguyên Khang")
+    add_header(s10, "SƠ ĐỒ VÒNG ĐỜI JWT, XÁC THỰC & PHÂN BIỆT 401 VS 403", "09. Bảo mật & Xác thực", 10, "Hồ Đoàn Nguyên Khang")
 
     jwt_steps = [
         ("1. Đăng nhập", "POST /api/auth/login\\nGửi username & password", C_BLUE, Inches(0.8)),
@@ -70,7 +70,7 @@ def update_slides_10_and_11():
     p.font.color.rgb = C_NAVY
 
     s10.notes_slide.notes_text_frame.text = (
-        "LỜI THUYẾT TRÌNH (HỒ ĐOÀNG NGUYÊN KHANG - 1p05s):\\n"
+        "LỜI THUYẾT TRÌNH (HỒ ĐOÀN NGUYÊN KHANG - 1p05s):\\n"
         "Về cơ chế xác thực và phân quyền, hệ thống sử dụng chuẩn JWT HMAC-SHA256. "
         "Lưu ý quan trọng: JWT là token được ký số chứ không phải chuỗi mã hóa; bất kỳ ai cũng có thể giải mã Base64 phần payload "
         "nhưng không thể làm giả chữ ký nếu không có Secret Key trên server. "
@@ -83,10 +83,10 @@ def update_slides_10_and_11():
 '''
 
     new_s11 = '''    # ==========================================
-    # SLIDE 11: JSON & DATABASE (HỒ ĐOÀNG NGUYÊN KHANG)
+    # SLIDE 11: JSON & DATABASE (HỒ ĐOÀN NGUYÊN KHANG)
     # ==========================================
     s11 = prs.slides.add_slide(blank_layout)
-    add_header(s11, "JSON, DTO, PHÂN TRANG & THIẾT KẾ CƠ SỞ DỮ LIỆU", "10. Quản lý Dữ liệu", 11, "Hồ Đoàng Nguyên Khang")
+    add_header(s11, "JSON, DTO, PHÂN TRANG & THIẾT KẾ CƠ SỞ DỮ LIỆU", "10. Quản lý Dữ liệu", 11, "Hồ Đoàn Nguyên Khang")
 
     # Left Column: Real JSON Response Box + C# PagedResponse DTO Code Box
     # Top Left: JSON Structure Box
@@ -214,7 +214,7 @@ def update_slides_10_and_11():
     p.font.color.rgb = C_NAVY
 
     s11.notes_slide.notes_text_frame.text = (
-        "LỜI THUYẾT TRÌNH (HỒ ĐOÀNG NGUYÊN KHANG - 1p00s):\\n"
+        "LỜI THUYẾT TRÌNH (HỒ ĐOÀN NGUYÊN KHANG - 1p00s):\\n"
         "Về thiết kế dữ liệu, nhóm sử dụng DTO thay vì trả thẳng thực thể Entity ra ngoài. "
         "DTO giúp che giấu mật khẩu đã băm, tránh lỗi vòng lặp đệ quy trong Entity Framework và giảm tải đường truyền. "
         "Mọi danh sách đều được bọc trong PagedResponse có phân trang rõ ràng. "

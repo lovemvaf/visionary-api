@@ -73,7 +73,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1. Quách Khoa Đức — Full-Stack &amp; Web API Lead\n2. Võ Ngọc Minh Đạt — Club Operations &amp; WinForms\n3. Hồ Đoàng Nguyên Khang — Data Automation &amp; Opportunities\n4. Đào Trí Khang — Android Java &amp; Testing Lead"
+                android:text="1. Quách Khoa Đức — Full-Stack &amp; Web API Lead\n2. Võ Ngọc Minh Đạt — Club Operations &amp; WinForms\n3. Hồ Đoàn Nguyên Khang — Data Automation &amp; Opportunities\n4. Đào Trí Khang — Android Java &amp; Testing Lead"
                 android:textColor="@color/text_secondary"
                 android:lineSpacingExtra="4dp"
                 android:textSize="12sp" />

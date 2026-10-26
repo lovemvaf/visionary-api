@@ -431,7 +431,7 @@ export default function HomePage() {
                 Được nghiên cứu, thiết kế kiến trúc và phát triển đồng bộ bởi 4 thành viên:{" "}
                 <strong className="text-navy dark:text-white">Quách Khoa Đức</strong>,{" "}
                 <strong className="text-navy dark:text-white">Võ Ngọc Minh Đạt</strong>,{" "}
-                <strong className="text-navy dark:text-white">Hồ Đoàng Nguyên Khang</strong>, và{" "}
+                <strong className="text-navy dark:text-white">Hồ Đoàn Nguyên Khang</strong>, và{" "}
                 <strong className="text-navy dark:text-white">Đào Trí Khang</strong>.
               </p>
             </div>

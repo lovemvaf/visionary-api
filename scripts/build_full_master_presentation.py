@@ -150,7 +150,7 @@ def generate_master_presentation():
     members_text = [
         "1. Quách Khoa Đức (1923040025) – Trưởng nhóm, Kiến trúc hệ thống & Web Client Next.js [Người bắt đầu: 2'45\"]",
         "2. Đào Trí Khang (1923040156) – Kỹ sư Mobile, Ứng dụng di động Android Native Java [3'15\"]",
-        "3. Hồ Đoàng Nguyên Khang (1923040112) – Kỹ sư API, Swagger Contract, JWT & PostgreSQL [4'15\"]",
+        "3. Hồ Đoàn Nguyên Khang (1923040112) – Kỹ sư API, Swagger Contract, JWT & PostgreSQL [4'15\"]",
         "4. Võ Ngọc Minh Đạt (1923040088) – Kỹ sư Desktop, Windows Forms C#, Sự cố & Tổng kết [Người kết thúc: 4'45\"]"
     ]
     for mt in members_text:
@@ -677,14 +677,14 @@ def generate_master_presentation():
         "Ứng dụng sẽ gửi HTTP POST tới endpoint /api/events/register kèm mã token. "
         "Server xác thực thành công và trả về mã QR check-in như trên màn hình. "
         "Đồng thời, dữ liệu này đã được ghi nhận ngay lập tức vào cơ sở dữ liệu chung. "
-        "Tiếp theo, em xin kính mời bạn Hồ Đoàng Nguyên Khang trình bày chi tiết về máy chủ Web API, Swagger và cơ chế xác thực JWT."
+        "Tiếp theo, em xin kính mời bạn Hồ Đoàn Nguyên Khang trình bày chi tiết về máy chủ Web API, Swagger và cơ chế xác thực JWT."
     )
 
     # ==========================================
-    # SLIDE 8: SWAGGER & HỢP ĐỒNG API (HỒ ĐOÀNG NGUYÊN KHANG)
+    # SLIDE 8: SWAGGER & HỢP ĐỒNG API (HỒ ĐOÀN NGUYÊN KHANG)
     # ==========================================
     s8 = prs.slides.add_slide(blank_layout)
-    add_header(s8, "SWAGGER UI VÀ HỢP ĐỒNG API NHÓM TIÊU THỤ", "07. Hợp đồng API & Swagger", 8, "Hồ Đoàng Nguyên Khang")
+    add_header(s8, "SWAGGER UI VÀ HỢP ĐỒNG API NHÓM TIÊU THỤ", "07. Hợp đồng API & Swagger", 8, "Hồ Đoàn Nguyên Khang")
 
     img_sw = os.path.join(EVIDENCE_DIR, "04_swagger_overview.png")
     if os.path.exists(img_sw):
@@ -731,8 +731,8 @@ def generate_master_presentation():
                 p.font.color.rgb = C_DARK
 
     s8.notes_slide.notes_text_frame.text = (
-        "LỜI THUYẾT TRÌNH (HỒ ĐOÀNG NGUYÊN KHANG - 1'00\"):\n"
-        "Kính chào Thầy và các bạn! Em tên là Hồ Đoàng Nguyên Khang, phụ trách phát triển Web API, tài liệu Swagger và cơ sở dữ liệu. "
+        "LỜI THUYẾT TRÌNH (HỒ ĐOÀN NGUYÊN KHANG - 1'00\"):\n"
+        "Kính chào Thầy và các bạn! Em tên là Hồ Đoàn Nguyên Khang, phụ trách phát triển Web API, tài liệu Swagger và cơ sở dữ liệu. "
         "Bên trái là giao diện Swagger UI thực tế đang chạy trực tuyến tại địa chỉ https://visionary-api-gb51.onrender.com/swagger. "
         "Bảng bên phải là hợp đồng API chính thức mà cả ba ứng dụng đều tuân thủ từng ký tự. "
         "Hợp đồng phân định rõ ràng các mức quyền: "
@@ -743,10 +743,10 @@ def generate_master_presentation():
     )
 
     # ==========================================
-    # SLIDE 9: XUYÊN SUỐT MỘT YÊU CẦU (HỒ ĐOÀNG NGUYÊN KHANG)
+    # SLIDE 9: XUYÊN SUỐT MỘT YÊU CẦU (HỒ ĐOÀN NGUYÊN KHANG)
     # ==========================================
     s9 = prs.slides.add_slide(blank_layout)
-    add_header(s9, "XUYÊN SUỐT MỘT YÊU CẦU: TỪ CÚ NHẤP CHUỘT TỚI DATABASE", "08. Luồng Dữ liệu Xuyên suốt", 9, "Hồ Đoàng Nguyên Khang")
+    add_header(s9, "XUYÊN SUỐT MỘT YÊU CẦU: TỪ CÚ NHẤP CHUỘT TỚI DATABASE", "08. Luồng Dữ liệu Xuyên suốt", 9, "Hồ Đoàn Nguyên Khang")
 
     stages = [
         ("Chặng 1: Thao tác Giao diện (UI Event)", "Người dùng nhấn nút Đăng ký (btnRegister) trên Android hoặc Xem chi tiết trên Web.", C_BLUE),
@@ -783,7 +783,7 @@ def generate_master_presentation():
         y_pos += 0.9
 
     s9.notes_slide.notes_text_frame.text = (
-        "LỜI THUYẾT TRÌNH (HỒ ĐOÀNG NGUYÊN KHANG - 1'00\"):\n"
+        "LỜI THUYẾT TRÌNH (HỒ ĐOÀN NGUYÊN KHANG - 1'00\"):\n"
         "Thưa Thầy, để minh họa một chu trình request hoàn chỉnh, nhóm em chọn endpoint GET /api/events và POST /api/events/register "
         "đi qua đủ 6 chặng kỹ thuật: "
         "Chặng 1: Bắt đầu từ cú nhấp chuột của người dùng. "
@@ -796,10 +796,10 @@ def generate_master_presentation():
     )
 
     # ==========================================
-    # SLIDE 10: XÁC THỰC VÀ PHÂN QUYỀN JWT (HỒ ĐOÀNG NGUYÊN KHANG)
+    # SLIDE 10: XÁC THỰC VÀ PHÂN QUYỀN JWT (HỒ ĐOÀN NGUYÊN KHANG)
     # ==========================================
     s10 = prs.slides.add_slide(blank_layout)
-    add_header(s10, "XÁC THỰC & PHÂN QUYỀN: VÒNG ĐỜI JWT VÀ BẢO MẬT SERVER", "09. Bảo mật & Xác thực", 10, "Hồ Đoàng Nguyên Khang")
+    add_header(s10, "XÁC THỰC & PHÂN QUYỀN: VÒNG ĐỜI JWT VÀ BẢO MẬT SERVER", "09. Bảo mật & Xác thực", 10, "Hồ Đoàn Nguyên Khang")
 
     img_401 = os.path.join(EVIDENCE_DIR, "13_401_response.png")
     if os.path.exists(img_401):
@@ -835,7 +835,7 @@ def generate_master_presentation():
         p.font.color.rgb = C_DARK
 
     s10.notes_slide.notes_text_frame.text = (
-        "LỜI THUYẾT TRÌNH (HỒ ĐOÀNG NGUYÊN KHANG - 1'15\"):\n"
+        "LỜI THUYẾT TRÌNH (HỒ ĐOÀN NGUYÊN KHANG - 1'15\"):\n"
         "Về cơ chế xác thực, nhóm em sử dụng JSON Web Token (JWT) theo chuẩn RFC 7519. "
         "Có hai bức ảnh chụp kết quả kiểm thử thực tế trên slide: "
         "Bên trái là mã HTTP 401 Unauthorized khi người dùng gọi endpoint quản trị mà chưa đăng nhập hoặc không gửi kèm Bearer token. "
@@ -847,10 +847,10 @@ def generate_master_presentation():
     )
 
     # ==========================================
-    # SLIDE 11: JSON & DATABASE (HỒ ĐOÀNG NGUYÊN KHANG)
+    # SLIDE 11: JSON & DATABASE (HỒ ĐOÀN NGUYÊN KHANG)
     # ==========================================
     s11 = prs.slides.add_slide(blank_layout)
-    add_header(s11, "JSON, CƠ SỞ DỮ LIỆU & QUYẾT ĐỊNH KỸ THUẬT", "10. Quản lý Dữ liệu & Kiến trúc", 11, "Hồ Đoàng Nguyên Khang")
+    add_header(s11, "JSON, CƠ SỞ DỮ LIỆU & QUYẾT ĐỊNH KỸ THUẬT", "10. Quản lý Dữ liệu & Kiến trúc", 11, "Hồ Đoàn Nguyên Khang")
 
     # 3 Cards
     cards11 = [
@@ -900,7 +900,7 @@ def generate_master_presentation():
         cx += 4.0
 
     s11.notes_slide.notes_text_frame.text = (
-        "LỜI THUYẾT TRÌNH (HỒ ĐOÀNG NGUYÊN KHANG - 1'00\"):\n"
+        "LỜI THUYẾT TRÌNH (HỒ ĐOÀN NGUYÊN KHANG - 1'00\"):\n"
         "Ở tầng dữ liệu, nhóm em đưa ra ba quyết định kỹ thuật quan trọng: "
         "Thứ nhất: Luôn sử dụng DTO (Data Transfer Object) để tách biệt hoàn toàn giữa cơ sở dữ liệu và giao diện. "
         "DTO giúp bảo mật trường mật khẩu đã băm và triệt tiêu lỗi vòng lặp tuần tự hóa JSON. "

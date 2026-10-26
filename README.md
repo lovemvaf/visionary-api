@@ -19,7 +19,7 @@
 |---|---|---|---|
 | 1 | **Quách Khoa Đức** | Principal Software Architect | Thiết kế kiến trúc tổng thể, ASP.NET Core Web API, Next.js Frontend, JWT & Database |
 | 2 | **Võ Ngọc Minh Đạt** | Club Operations & Desktop Engineer | Phân tích nghiệp vụ CLB, Windows Forms C# Desktop Administration, Xét duyệt & Điểm danh |
-| 3 | **Hồ Đoàng Nguyên Khang** | Data Pipeline & Automation Engineer | Data Automation (GitHub/Hugging Face/RSS), Hệ thống Cuộc thi (Hackathon), Học bổng & Việc làm |
+| 3 | **Hồ Đoàn Nguyên Khang** | Data Pipeline & Automation Engineer | Data Automation (GitHub/Hugging Face/RSS), Hệ thống Cuộc thi (Hackathon), Học bổng & Việc làm |
 | 4 | **Đào Trí Khang** | Mobile Software Engineer & QA Lead | Android Native Java Client (Retrofit, Material 3), Kiểm thử tích hợp đa nền tảng |
 
 ---
@@ -55,7 +55,7 @@ Mọi dữ liệu công khai (GitHub repository, Hugging Face model, tin tức c
 ┌─────────────────────────────────┐ ┌───────────────────┐ ┌─────────────────────────────────┐
 │     Web: Next.js 14 App Router  │ │ Desktop: WinForms │ │ Mobile: Android Native Java     │
 │  - TypeScript, Tailwind CSS     │ │ - .NET 8 Desktop  │ │ - JDK 17, Material Design 3     │
-│  - 16 Tuyến đường SSR/ISR       │ │ - Quản trị CLB    │ │ - Retrofit 2 + OkHttp 3         │
+│  - 19 Tuyến đường SSR/ISR       │ │ - Quản trị CLB    │ │ - Retrofit 2 + OkHttp 3         │
 │  - Deployed trên Vercel Cloud   │ │ - Duyệt & Checkin │ │ - Điểm danh QR & English IT     │
 └─────────────────────────────────┘ └───────────────────┘ └─────────────────────────────────┘
 ```
@@ -92,11 +92,11 @@ Mọi dữ liệu công khai (GitHub repository, Hugging Face model, tin tức c
 # Chạy trực tiếp qua .NET CLI
 dotnet run --project backend/src/Visionary.Api/Visionary.Api.csproj
 
-# Hoặc chạy kiểm thử tự động toàn bộ giải pháp (9/9 tests PASS)
-dotnet test backend/Visionary.sln
+# Hoặc chạy kiểm thử tự động toàn bộ giải pháp (15/15 tests PASS)
+dotnet test backend/Visionary.Backend.sln
 ```
 - Swagger UI tài liệu API: `http://localhost:5000/swagger`
-- Health check API: `http://localhost:5000/`
+- Health check API: `http://localhost:5000/health/live`
 
 ### 2. Khởi chạy Website Next.js 14
 ```powershell

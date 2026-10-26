@@ -118,7 +118,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-gray-500"></span>
-                Hồ Đoàng Nguyên Khang
+                Hồ Đoàn Nguyên Khang
               </li>
               <li className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-gray-500"></span>

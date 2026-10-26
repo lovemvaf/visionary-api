@@ -150,7 +150,7 @@ def build_all_16_slides():
     members_text = [
         "1. Quách Khoa Đức (1923040025) – Trưởng nhóm, Kiến trúc hệ thống & Web Client Next.js [Người bắt đầu: 2'45\"]",
         "2. Đào Trí Khang (1923040156) – Kỹ sư Mobile, Ứng dụng di động Android Native Java [3'15\"]",
-        "3. Hồ Đoàng Nguyên Khang (1923040112) – Kỹ sư API, Swagger Contract, JWT & PostgreSQL [4'15\"]",
+        "3. Hồ Đoàn Nguyên Khang (1923040112) – Kỹ sư API, Swagger Contract, JWT & PostgreSQL [4'15\"]",
         "4. Võ Ngọc Minh Đạt (1923040088) – Kỹ sư Desktop, Windows Forms C#, Sự cố & Tổng kết [Người kết thúc: 4'45\"]"
     ]
     for mt in members_text:
@@ -681,7 +681,7 @@ def build_all_16_slides():
         "Ứng dụng sẽ gửi HTTP POST tới endpoint /api/events/register kèm mã token. "
         "Server xác thực thành công và trả về mã QR check-in như trên màn hình. "
         "Đồng thời, dữ liệu này đã được ghi nhận ngay lập tức vào cơ sở dữ liệu chung. "
-        "Tiếp theo, em xin kính mời bạn Hồ Đoàng Nguyên Khang trình bày chi tiết về máy chủ Web API, Swagger và cơ chế xác thực JWT."
+        "Tiếp theo, em xin kính mời bạn Hồ Đoàn Nguyên Khang trình bày chi tiết về máy chủ Web API, Swagger và cơ chế xác thực JWT."
     )
 
     # Save progress after slide 7

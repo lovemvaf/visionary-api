@@ -29,7 +29,7 @@ def add_ci_chapter_to_qa_guide():
 
     ci_questions = [
         (49, "CI Build Failed vs Compiler Errors", "Vì sao trên GitHub Actions báo 'Build FAILED' nhưng lại ghi '0 Warning(s) 0 Error(s)'?",
-         "Cơ bản", "Võ Ngọc Minh Đạt", "Hồ Đoàng Nguyên Khang",
+         "Cơ bản", "Võ Ngọc Minh Đạt", "Hồ Đoàn Nguyên Khang",
          "Vì mã nguồn C# đã được biên dịch hoàn toàn thành công (0 lỗi cú pháp), nhưng lệnh 'dotnet test' sau đó thất bại do có 2 bài kiểm thử xUnit không vượt qua. Trong quy trình CI/CD chuyên nghiệp, dotnet test trả về Exit Code 1 khi có bất kỳ bài test nào fail, khiến runner đánh dấu cả step và workflow là thất bại.",
          "Nhiều sinh viên nhầm lẫn giữa lỗi biên dịch (Compile Error) và lỗi kiểm thử hồi quy (Test Assertion Failure). Trình biên dịch Roslyn hoàn thành 100% với 0 lỗi, nhưng xUnit Runner ném lỗi khi Assert.True() và HttpRequestException gặp sự cố logic.",
          "File: .github/workflows/backend-ci.yml bước 'Run unit & integration tests'.",
@@ -37,7 +37,7 @@ def add_ci_chapter_to_qa_guide():
          "Sai lầm: Cho rằng code bị lỗi cú pháp hoặc thiếu thư viện nuget."),
 
         (50, "Hai bài Test thất bại trong Run #12", "Chỉ rõ chính xác tên, file và dòng báo lỗi của hai bài test bị thất bại trong CI Run #12?",
-         "Cơ bản", "Võ Ngọc Minh Đạt", "Hồ Đoàng Nguyên Khang",
+         "Cơ bản", "Võ Ngọc Minh Đạt", "Hồ Đoàn Nguyên Khang",
          "Bài 1: Visionary.Tests.PostsLogicAuditTests.Search_WithCategory_And_EmptyState_AreAccurate tại dòng 168, thông báo 'Assert.True() Failure - Expected: True, Actual: False' (TotalCount = 0). Bài 2: Visionary.Tests.PostsLogicAuditTests.GetPostBySlug_ValidPublishedPost_Returns200AndIncrementsView tại dòng 183, thông báo 'System.Net.Http.HttpRequestException: 404 (Not Found)'.",
          "Cả hai bài test đều thuộc cùng test class PostsLogicAuditTests.cs và đều kiểm thử các endpoint đọc dữ liệu bài viết đã được seed vào database.",
          "File: backend/tests/Visionary.Tests/PostsLogicAuditTests.cs dòng 168 và dòng 183.",
@@ -45,7 +45,7 @@ def add_ci_chapter_to_qa_guide():
          "Sai lầm: Đọc nhầm sang các test của ApiIntegrationTests."),
 
         (51, "Nguyên nhân Search không ra kết quả", "Vì sao test tìm kiếm từ khóa 'Clean Architecture' lại trả về TotalCount = 0 dù trong code seed có bài viết này?",
-         "Khó", "Hồ Đoàng Nguyên Khang", "Võ Ngọc Minh Đạt",
+         "Khó", "Hồ Đoàn Nguyên Khang", "Võ Ngọc Minh Đạt",
          "Không phải do thuật toán tìm kiếm hay ToLower() bị sai, mà do chu trình SeedAsync() của DbInitializer đã bị hủy ngang (aborted) giữa chừng ở bước khởi tạo Role do đụng độ khóa ngoại/ràng buộc duy nhất với tiến trình test chạy song song. Hậu quả là bảng PostCategories và Posts chưa kịp được nạp vào cơ sở dữ liệu test, dẫn tới database rỗng và tìm kiếm trả về 0 kết quả.",
          "Nhóm đã kiểm tra thực tế: Logic lọc trong PostsController p.Title.ToLower().Contains(search) hoàn toàn đúng; nguyên nhân là do dữ liệu seed chưa hề vào được database SQLite lúc test chạy.",
          "File: backend/src/Visionary.Infrastructure/Data/DbInitializer.cs dòng 48-75.",
@@ -53,7 +53,7 @@ def add_ci_chapter_to_qa_guide():
          "Sai lầm: Vội vàng sửa controller hoặc đổi chuỗi tìm kiếm trong khi nguyên nhân nằm ở chu trình seed database."),
 
         (52, "Nguyên nhân Slug trả 404 Not Found", "Vì sao endpoint GET /api/posts/chao-mung-he-sinh-thai-visionary-2026 trả về HTTP 404?",
-         "Khó", "Hồ Đoàng Nguyên Khang", "Võ Ngọc Minh Đạt",
+         "Khó", "Hồ Đoàn Nguyên Khang", "Võ Ngọc Minh Đạt",
          "Tương tự bài search, bài viết với slug 'chao-mung-he-sinh-thai-visionary-2026' chưa được nạp vào bảng Posts do chu trình seed bị ngắt sớm. Khi controller gọi _context.Posts.FirstOrDefaultAsync(p => p.Slug == slug), kết quả trả về null và controller trả đúng chuẩn RESTful là NotFound(404).",
          "Ngoại lệ HttpRequestException: 404 xảy ra tại client test vì GetFromJsonAsync<T>() mặc định ném ngoại lệ khi mã trạng thái HTTP không thuộc dải 2xx Success.",
          "File: backend/src/Visionary.Api/Controllers/PostsController.cs dòng 110-125.",
@@ -61,7 +61,7 @@ def add_ci_chapter_to_qa_guide():
          "Sai lầm: Bắt try-catch trong controller để trả 200 giả mạo."),
 
         (53, "Lỗi UNIQUE constraint Roles.Name", "Thông điệp 'SQLite Error 19: UNIQUE constraint failed: Roles.Name' nghĩa là gì và tại sao lại xuất hiện?",
-         "Khó", "Hồ Đoàng Nguyên Khang", "Võ Ngọc Minh Đạt",
+         "Khó", "Hồ Đoàn Nguyên Khang", "Võ Ngọc Minh Đạt",
          "Trong xUnit, hai class test ApiIntegrationTests và PostsLogicAuditTests được chạy song song theo cơ chế mặc định. Cả hai class cùng khởi tạo WebApplicationFactory trỏ vào cùng file 'visionary.db'. Khi cả hai đồng thời gọi Program.cs -> DbInitializer.SeedAsync(), cả hai luồng cùng đọc thấy bảng Roles chưa có role 'Admin', rồi cả hai cùng phát lệnh INSERT. Luồng thứ hai đến sau bị SQLite chặn lại bởi ràng buộc duy nhất (Unique Index) trên cột Name của bảng Roles.",
          "Exception này không được cô lập, khiến task seeding của factory thứ hai bị dừng ngay lập tức, bỏ qua toàn bộ phần seed Categories và Posts phía sau.",
          "File: backend/src/Visionary.Infrastructure/Data/DbInitializer.cs dòng 52.",
@@ -69,7 +69,7 @@ def add_ci_chapter_to_qa_guide():
          "Sai lầm: Cho rằng database production bị lỗi trùng tên role."),
 
         (54, "Lỗi Table already exists", "Vì sao xuất hiện lỗi 'SQLite Error 1: table AchievementCategories already exists'?",
-         "Trung bình", "Hồ Đoàng Nguyên Khang", "Quách Khoa Đức",
+         "Trung bình", "Hồ Đoàn Nguyên Khang", "Quách Khoa Đức",
          "Do trong mã nguồn khởi tạo cũ gọi trực tiếp databaseCreator.CreateTablesAsync() mà không kiểm tra xem bảng đã tồn tại hay chưa. Khi factory thứ hai khởi động, schema đã được factory thứ nhất tạo xong, lệnh CREATE TABLE của SQLite ném lỗi Table already exists.",
          "Nhóm đã khắc phục bằng cách kiểm tra điều kiện bảo vệ: if (!await databaseCreator.HasTablesAsync()) mới gọi CreateTablesAsync().",
          "File: backend/src/Visionary.Infrastructure/Data/DbInitializer.cs dòng 25-32.",
@@ -77,7 +77,7 @@ def add_ci_chapter_to_qa_guide():
          "Sai lầm: Xóa bảng mỗi khi khởi động ứng dụng (làm mất toàn bộ dữ liệu thật)."),
 
         (55, "Vai trò của WebApplicationFactory", "WebApplicationFactory<Program> trong ASP.NET Core Integration Testing dùng để làm gì?",
-         "Trung bình", "Quách Khoa Đức", "Hồ Đoàng Nguyên Khang",
+         "Trung bình", "Quách Khoa Đức", "Hồ Đoàn Nguyên Khang",
          "WebApplicationFactory<Program> là lớp kiểm thử tích hợp chính thức của Microsoft trong gói Microsoft.AspNetCore.Mvc.Testing. Nó cho phép dựng toàn bộ máy chủ Web API trên TestServer trong bộ nhớ (In-Memory), nạp đầy đủ Dependency Injection, Middleware Pipeline, Routing và Authentication mà không cần phải chạy process server riêng biệt hay mở cổng socket thật.",
          "Nó cho phép nhóm tạo ra đối tượng HttpClient (_client) để gửi các yêu cầu HTTP thật tới các Controller và kiểm tra phản hồi từ đầu tới cuối.",
          "File: backend/tests/Visionary.Tests/CustomWebApplicationFactory.cs.",
@@ -85,7 +85,7 @@ def add_ci_chapter_to_qa_guide():
          "Sai lầm: Dùng Mock giả lập tất cả controller thay vì kiểm thử tích hợp thật."),
 
         (56, "Khái niệm Test Database Isolation", "Giải pháp cô lập cơ sở dữ liệu kiểm thử (Test Database Isolation) của nhóm hoạt động ra sao?",
-         "Khó", "Hồ Đoàng Nguyên Khang", "Võ Ngọc Minh Đạt",
+         "Khó", "Hồ Đoàn Nguyên Khang", "Võ Ngọc Minh Đạt",
          "Nhóm triển khai giải pháp hai tầng kiến trúc: Tầng 1: Trong DbInitializer.cs, nhóm đặt một khóa đồng bộ luồng tĩnh private static readonly SemaphoreSlim _seedLock = new(1, 1) bọc quanh toàn bộ phương thức SeedAsync() để đảm bảo chỉ một tiến trình được phép khởi tạo database tại một thời điểm. Tầng 2: Tạo lớp CustomWebApplicationFactory kế thừa WebApplicationFactory, ghi đè ConfigureWebHost để cấu hình mỗi lần test sử dụng một file SQLite tạm biệt lập visionary_test_{Guid:N}.db và dọn dẹp sau khi chạy xong.",
          "Đồng thời, nhóm gom cả hai test class vào cùng một [Collection(\"IntegrationTests\")] để xUnit chạy tuần tự trong cùng collection, triệt tiêu 100% race condition.",
          "File: backend/tests/Visionary.Tests/CustomWebApplicationFactory.cs và DbInitializer.cs dòng 16-35.",
@@ -93,7 +93,7 @@ def add_ci_chapter_to_qa_guide():
          "Sai lầm: Dùng chung file database visionary.db của production cho môi trường test."),
 
         (57, "Khái niệm Idempotent Seeding", "Seed Idempotent là gì và vì sao bắt buộc trong hệ thống Web API?",
-         "Trung bình", "Hồ Đoàng Nguyên Khang", "Quách Khoa Đức",
+         "Trung bình", "Hồ Đoàn Nguyên Khang", "Quách Khoa Đức",
          "Idempotent (Tính khả lũy) nghĩa là chạy thao tác đó một lần hay một ngàn lần thì kết quả trạng thái hệ thống vẫn không thay đổi và không sinh ra lỗi. Trong DbInitializer, hàm seed phải kiểm tra xem bản ghi đã tồn tại chưa (qua AnyAsync hoặc FindAsync), nếu chưa có mới INSERT, nếu đã có rồi thì bỏ qua hoặc cập nhật an toàn.",
          "Nếu seed không idempotent, mỗi lần khởi động lại server hoặc restart container, ứng dụng sẽ bị crash do trùng khóa chính hoặc dữ liệu bị nhân đôi (duplication).",
          "File: backend/src/Visionary.Infrastructure/Data/DbInitializer.cs các nhánh kiểm tra AnyAsync().",
@@ -101,7 +101,7 @@ def add_ci_chapter_to_qa_guide():
          "Sai lầm: Viết lệnh context.AddRange(...) trực tiếp mà không kiểm tra dữ liệu đã có hay chưa."),
 
         (58, "Tại sao không được nuốt lỗi Seed", "Tại sao tuyệt đối không được dùng try-catch rỗng (swallow exception) trong quá trình khởi tạo dữ liệu?",
-         "Khó", "Võ Ngọc Minh Đạt", "Hồ Đoàng Nguyên Khang",
+         "Khó", "Võ Ngọc Minh Đạt", "Hồ Đoàn Nguyên Khang",
          "Nếu nuốt lỗi bằng cách bắt exception rồi chỉ ghi log hoặc bỏ qua, hệ thống sẽ tiếp tục khởi động ở trạng thái dữ liệu dở dang (Inconsistent State). Server báo Ready nhưng bên trong không có Roles, không có Categories và không có Posts. Người dùng và các bài test sẽ gặp các lỗi 404, 500 bí ẩn rất khó debug.",
          "Nhóm tuân thủ nguyên tắc 'Fail Fast': Nếu khởi tạo schema hoặc dữ liệu nền tảng thất bại, phải ném lỗi để người quản trị biết ngay lập tức, không để API chạy trong trạng thái hỏng.",
          "File: DbInitializer.cs có transaction bảo vệ và log rõ ràng.",
@@ -117,7 +117,7 @@ def add_ci_chapter_to_qa_guide():
          "Sai lầm: Hardcode connection string của Supabase vào file kiểm thử."),
 
         (60, "Khác nhau giữa 404 thật và 404 do thiếu seed", "Làm sao phân biệt một lỗi HTTP 404 do logic đúng với HTTP 404 do thiếu dữ liệu seed?",
-         "Trung bình", "Hồ Đoàng Nguyên Khang", "Võ Ngọc Minh Đạt",
+         "Trung bình", "Hồ Đoàn Nguyên Khang", "Võ Ngọc Minh Đạt",
          "HTTP 404 đúng logic nghiệp vụ xảy ra khi client cố tình yêu cầu một slug không hề tồn tại (ví dụ: /api/posts/slug-khong-ton-tai-12345) hoặc cố tình đọc một bài viết đang ở trạng thái Nháp (Draft) mà không có quyền Admin. Còn HTTP 404 do thiếu dữ liệu seed xảy ra khi client gọi một slug chuẩn mực vốn phải tồn tại nhưng database test lại hoàn toàn rỗng.",
          "Nhóm phân biệt bằng bài test riêng: GetPostBySlug_NonExistentPost_Returns404 (mong đợi 404) và GetPostBySlug_ValidPublishedPost_Returns200AndIncrementsView (mong đợi 200).",
          "File: backend/tests/Visionary.Tests/PostsLogicAuditTests.cs dòng 175-195.",
@@ -125,7 +125,7 @@ def add_ci_chapter_to_qa_guide():
          "Sai lầm: Đổi Assert kiểm tra 200 thành 404 để test pass giả tạo."),
 
         (61, "Test PASS riêng lẻ nhưng FAIL cả suite", "Hiện tượng 'Một bài test chạy riêng lẻ thì PASS nhưng chạy chung cả bộ test thì FAIL' phản ánh điều gì?",
-         "Khó", "Võ Ngọc Minh Đạt", "Hồ Đoàng Nguyên Khang",
+         "Khó", "Võ Ngọc Minh Đạt", "Hồ Đoàn Nguyên Khang",
          "Đây là triệu chứng kinh điển của 'Test Pollution' (Nhiễm bẩn dữ liệu test) hoặc 'Race Condition' (Xung đột tài nguyên dùng chung). Khi chạy riêng một test, nó độc chiếm file SQLite nên không ai tranh chấp. Nhưng khi chạy cả suite, xUnit kích hoạt chế độ chạy song song đa luồng giữa các test classes, dẫn tới hai WebApplicationFactory cùng tranh chấp ghi dữ liệu vào một file db duy nhất.",
          "Giải pháp là phải cô lập môi trường của từng test fixture hoặc gộp chung Collection để đồng bộ hóa tài nguyên.",
          "File: [Collection(\"IntegrationTests\")] trên hai test class.",
@@ -157,7 +157,7 @@ def add_ci_chapter_to_qa_guide():
          "Sai lầm: Phủ nhận hoàn toàn việc dùng AI hoặc đổ lỗi mọi thứ do AI làm."),
 
         (65, "Bảo vệ bài viết Draft trong hệ thống", "Tại sao bài viết ở trạng thái Nháp (Draft) không được phép trả về cho người dùng bình thường?",
-         "Trung bình", "Hồ Đoàng Nguyên Khang", "Quách Khoa Đức",
+         "Trung bình", "Hồ Đoàn Nguyên Khang", "Quách Khoa Đức",
          "Bài viết nháp là nội dung chưa hoàn thiện, có thể chứa thông tin nội bộ hoặc chưa được ban chủ nhiệm phê duyệt. Nếu để lộ bài nháp ra ngoài, uy tín của câu lạc bộ có thể bị ảnh hưởng. Về mặt bảo mật thông tin, đây là lỗi rò rỉ dữ liệu (Information Disclosure).",
          "Do đó, trong PostsController, mọi truy vấn từ khách hoặc sinh viên đều bị ép cứng điều kiện status == PostStatus.Published ngay tại câu lệnh SQL.",
          "File: backend/src/Visionary.Api/Controllers/PostsController.cs dòng 52 và dòng 120.",
@@ -165,7 +165,7 @@ def add_ci_chapter_to_qa_guide():
          "Sai lầm: Cho rằng bài nháp chỉ cần ẩn nút trên giao diện là đủ an toàn."),
 
         (66, "Tính ổn định của thuật toán phân trang", "Vì sao thuật toán phân trang dữ liệu trong Web API bắt buộc phải có thứ tự sắp xếp ổn định (Stable Ordering)?",
-         "Khó", "Hồ Đoàng Nguyên Khang", "Võ Ngọc Minh Đạt",
+         "Khó", "Hồ Đoàn Nguyên Khang", "Võ Ngọc Minh Đạt",
          "Nếu không có mệnh đề OrderBy ổn định (ví dụ sắp xếp theo Id hoặc CreatedAt), cơ sở dữ liệu quan hệ không đảm bảo thứ tự trả về giữa các lần truy vấn. Khi người dùng bấm sang trang 2, cơ sở dữ liệu có thể trả lại một số bản ghi đã xuất hiện ở trang 1 hoặc bỏ sót các bản ghi chưa duyệt. Đây gọi là lỗi 'Pagination Inconsistency'.",
          "Trong EventService và PostService, nhóm luôn sắp xếp cố định theo CreatedAt giảm dần kết hợp Id trước khi gọi .Skip().Take().",
          "File: backend/src/Visionary.Infrastructure/Services/EventService.cs và PostService.cs.",

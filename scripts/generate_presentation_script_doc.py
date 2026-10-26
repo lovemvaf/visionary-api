@@ -65,7 +65,7 @@ def generate_presentation_script():
     data_summary = [
         ("1", "Quách Khoa Đức\n(Trưởng nhóm)", "Slide 1–4: Mở đầu, Bài toán thực tế, Kiến trúc hệ thống & Web Client", "2 phút 45 giây\n(Dễ nhớ nhất)"),
         ("2", "Đào Trí Khang", "Slide 5–7: Ứng dụng Android Native, Luồng mạng/UI & Demo Android", "3 phút 15 giây"),
-        ("3", "Hồ Đoàng Nguyên Khang", "Slide 8–11: Swagger Contract, 6 chặng request, JWT 401/403 & DB", "4 phút 15 giây"),
+        ("3", "Hồ Đoàn Nguyên Khang", "Slide 8–11: Swagger Contract, 6 chặng request, JWT 401/403 & DB", "4 phút 15 giây"),
         ("4", "Võ Ngọc Minh Đạt", "Slide 12–16: WinForms Desktop, Demo điểm danh, 3 khác biệt, Sự cố & Kết", "4 phút 45 giây\n(Kết thúc bài)")
     ]
     for row_idx, row in enumerate(data_summary, start=1):
@@ -85,7 +85,7 @@ def generate_presentation_script():
             ("Slide 1 – Trang bìa & Giới thiệu nhóm (45 giây)", [
                 "Lời thoại:",
                 "\"Kính chào Thầy và các bạn trong lớp! Em tên là Quách Khoa Đức, trưởng nhóm VISIONARY API.",
-                "Nhóm em gồm 4 thành viên: em, bạn Đào Trí Khang, bạn Hồ Đoàng Nguyên Khang và bạn Võ Ngọc Minh Đạt.",
+                "Nhóm em gồm 4 thành viên: em, bạn Đào Trí Khang, bạn Hồ Đoàn Nguyên Khang và bạn Võ Ngọc Minh Đạt.",
                 "Hôm nay, nhóm em rất vinh dự được đại diện báo cáo sản phẩm đồ án môn học Web API (TH71108) với đề tài: VISIONARY – Hệ thống Quản lý Hoạt động Hội nhập dành cho Câu lạc bộ Tiếng Anh và sinh viên DNTU.",
                 "Hệ sinh thái của nhóm được thiết kế chuẩn mực theo mô hình một Web API duy nhất viết bằng ASP.NET Core 8 kết nối cơ sở dữ liệu PostgreSQL trên nền tảng đám mây, phục vụ đồng bộ cho ba ứng dụng: Website Next.js, Desktop Windows Forms và Mobile Android Native.",
                 "Về việc sử dụng AI, nhóm em khai báo minh bạch có sử dụng Google Antigravity để hỗ trợ rà soát mã nguồn, thiết lập kiểm thử hồi quy tự động và biên soạn tài liệu; toàn bộ mã nguồn, cấu hình đám mây và kết quả chạy thực tế đều do nhóm em trực tiếp kiểm chứng và vận hành.\""
@@ -145,14 +145,14 @@ def generate_presentation_script():
                 "Ứng dụng gửi yêu cầu POST /api/events/{id}/register kèm mã JWT token.",
                 "Máy chủ kiểm tra sức chứa và hạn đăng ký, sau đó lưu bản ghi vào PostgreSQL và trả về mã QR check-in VIS-QR-E4B2A8C1.",
                 "Màn hình ngay lập tức chuyển sang trạng thái ĐÃ ĐĂNG KÝ.",
-                "Dữ liệu này đã được đồng bộ ngay lập tức lên hệ thống. Tiếp theo, em xin kính mời bạn Hồ Đoàng Nguyên Khang báo cáo phần Web API và Swagger.\""
+                "Dữ liệu này đã được đồng bộ ngay lập tức lên hệ thống. Tiếp theo, em xin kính mời bạn Hồ Đoàn Nguyên Khang báo cáo phần Web API và Swagger.\""
             ])
         ]),
 
-        ("PHẦN 3: HỒ ĐOÀNG NGUYÊN KHANG (SLIDE 8 – 11 | 4 PHÚT 15 GIÂY)", C_NAVY, [
+        ("PHẦN 3: HỒ ĐOÀN NGUYÊN KHANG (SLIDE 8 – 11 | 4 PHÚT 15 GIÂY)", C_NAVY, [
             ("Slide 8 – Swagger UI & Hợp đồng API (1 phút)", [
                 "Lời thoại:",
-                "\"Kính chào Thầy và các bạn! Em tên là Hồ Đoàng Nguyên Khang, phụ trách máy chủ Web API, tài liệu Swagger và cơ sở dữ liệu.",
+                "\"Kính chào Thầy và các bạn! Em tên là Hồ Đoàn Nguyên Khang, phụ trách máy chủ Web API, tài liệu Swagger và cơ sở dữ liệu.",
                 "Bên trái là giao diện Swagger UI đang chạy trực tuyến tại địa chỉ https://visionary-api-gb51.onrender.com/swagger.",
                 "Bảng bên phải là hợp đồng API chính thức của nhóm, khớp chính xác từng ký tự với phản hồi của server.",
                 "Hợp đồng phân chia rõ ràng các cấp độ quyền:",

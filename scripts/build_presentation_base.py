@@ -161,7 +161,7 @@ def build_presentation():
     members_text = [
         "1. Quách Khoa Đức (1923040025) – Trưởng nhóm, Kiến trúc hệ thống & Web Client Next.js [Người bắt đầu: 2'45\"]",
         "2. Đào Trí Khang (1923040156) – Kỹ sư Mobile, Ứng dụng di động Android Native Java [3'15\"]",
-        "3. Hồ Đoàng Nguyên Khang (1923040112) – Kỹ sư API, Swagger Contract, JWT & PostgreSQL [4'15\"]",
+        "3. Hồ Đoàn Nguyên Khang (1923040112) – Kỹ sư API, Swagger Contract, JWT & PostgreSQL [4'15\"]",
         "4. Võ Ngọc Minh Đạt (1923040088) – Kỹ sư Desktop, Windows Forms C#, Sự cố & Tổng kết [Người kết thúc: 4'45\"]"
     ]
     for mt in members_text:
@@ -190,7 +190,7 @@ def build_presentation():
     s1.notes_slide.notes_text_frame.text = (
         "LỜI THUYẾT TRÌNH (QUÁCH KHOA ĐỨC - 45s):\n"
         "Kính chào Thầy và các bạn! Em tên là Quách Khoa Đức, đại diện nhóm VISIONARY API gồm 4 thành viên: "
-        "em, bạn Đào Trí Khang, bạn Hồ Đoàng Nguyên Khang và bạn Võ Ngọc Minh Đạt. "
+        "em, bạn Đào Trí Khang, bạn Hồ Đoàn Nguyên Khang và bạn Võ Ngọc Minh Đạt. "
         "Hôm nay nhóm em xin báo cáo đồ án học phần Web API với đề tài: VISIONARY – Hệ thống Quản lý Hoạt động Hội nhập. "
         "Đề tài của nhóm em xây dựng một Web API duy nhất bằng ASP.NET Core 8, phục vụ đồng bộ cho ba ứng dụng: "
         "Website Next.js, Desktop Windows Forms và Mobile Android Native. Sau đây em xin bắt đầu phần giới thiệu bài toán và kiến trúc."

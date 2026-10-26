@@ -249,10 +249,10 @@ def apply_updates():
 
     # Define new slide 9
     new_s9 = '''    # ==========================================
-    # SLIDE 9: SƠ ĐỒ XUYÊN SUỐT MỘT YÊU CẦU (6 CHẶNG) (HỒ ĐOÀNG NGUYÊN KHANG)
+    # SLIDE 9: SƠ ĐỒ XUYÊN SUỐT MỘT YÊU CẦU (6 CHẶNG) (HỒ ĐOÀN NGUYÊN KHANG)
     # ==========================================
     s9 = prs.slides.add_slide(blank_layout)
-    add_header(s9, "SƠ ĐỒ CHU TRÌNH 6 CHẶNG CỦA MỘT YÊU CẦU: GET /api/events", "08. Chu trình Request", 9, "Hồ Đoàng Nguyên Khang")
+    add_header(s9, "SƠ ĐỒ CHU TRÌNH 6 CHẶNG CỦA MỘT YÊU CẦU: GET /api/events", "08. Chu trình Request", 9, "Hồ Đoàn Nguyên Khang")
 
     # 2x3 Grid with 6 Connected Stages
     stages_grid = [
@@ -361,7 +361,7 @@ def apply_updates():
     p.font.color.rgb = C_NAVY
 
     s9.notes_slide.notes_text_frame.text = (
-        "LỜI THUYẾT TRÌNH (HỒ ĐOÀNG NGUYÊN KHANG - 1'00\"):\\n"
+        "LỜI THUYẾT TRÌNH (HỒ ĐOÀN NGUYÊN KHANG - 1'00\"):\\n"
         "Thưa Thầy, để minh họa một chu trình request hoàn chỉnh, nhóm em chọn endpoint GET /api/events "
         "đi qua đủ 6 chặng kỹ thuật: "
         "Chặng 1: Bắt đầu từ thao tác của người dùng trên giao diện. "
@@ -376,10 +376,10 @@ def apply_updates():
 
     # Define new slide 10
     new_s10 = '''    # ==========================================
-    # SLIDE 10: SƠ ĐỒ XÁC THỰC & PHÂN QUYỀN JWT (HỒ ĐOÀNG NGUYÊN KHANG)
+    # SLIDE 10: SƠ ĐỒ XÁC THỰC & PHÂN QUYỀN JWT (HỒ ĐOÀN NGUYÊN KHANG)
     # ==========================================
     s10 = prs.slides.add_slide(blank_layout)
-    add_header(s10, "SƠ ĐỒ VÒNG ĐỜI JWT, XÁC THỰC & PHÂN BIỆT 401 VS 403", "09. Bảo mật & Xác thực", 10, "Hồ Đoàng Nguyên Khang")
+    add_header(s10, "SƠ ĐỒ VÒNG ĐỜI JWT, XÁC THỰC & PHÂN BIỆT 401 VS 403", "09. Bảo mật & Xác thực", 10, "Hồ Đoàn Nguyên Khang")
 
     jwt_steps = [
         ("1. Đăng nhập", "POST /api/auth/login\\nGửi username & password", C_BLUE, Inches(0.8)),
@@ -441,7 +441,7 @@ def apply_updates():
     p.font.color.rgb = C_NAVY
 
     s10.notes_slide.notes_text_frame.text = (
-        "LỜI THUYẾT TRÌNH (HỒ ĐOÀNG NGUYÊN KHANG - 1'05\"):\\n"
+        "LỜI THUYẾT TRÌNH (HỒ ĐOÀN NGUYÊN KHANG - 1'05\"):\\n"
         "Về cơ chế xác thực và phân quyền, hệ thống sử dụng chuẩn JWT HMAC-SHA256. "
         "Lưu ý quan trọng: JWT là token được ký số chứ không phải chuỗi mã hóa; bất kỳ ai cũng có thể giải mã Base64 phần payload "
         "nhưng không thể làm giả chữ ký nếu không có Secret Key trên server. "

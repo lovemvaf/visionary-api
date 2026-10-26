@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://visionary-platform.vercel.app"),
   title: "VISIONARY – English, Technology & Global Integration Platform | DNTU",
   description:
-    "Hệ thống Quản lý Hoạt động Hội nhập – Kết nối Sinh viên, Công nghệ và Cơ hội Quốc tế. Phát triển bởi nhóm VISIONARY API (Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàng Nguyên Khang, Đào Trí Khang).",
+    "Hệ thống Quản lý Hoạt động Hội nhập – Kết nối Sinh viên, Công nghệ và Cơ hội Quốc tế. Phát triển bởi nhóm VISIONARY API (Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàn Nguyên Khang, Đào Trí Khang).",
   keywords: [
     "VISIONARY",
     "DNTU",

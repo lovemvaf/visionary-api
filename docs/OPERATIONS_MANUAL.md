@@ -1,7 +1,7 @@
 # HƯỚNG DẪN VẬN HÀNH HỆ THỐNG – VISIONARY OPERATIONS MANUAL
 **Dự án:** VISIONARY – Hệ thống Quản lý Hoạt động Hội nhập CLB Tiếng Anh DNTU  
 **Nhóm phát triển:** VISIONARY API  
-**Thành viên:** Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàng Nguyên Khang, Đào Trí Khang  
+**Thành viên:** Quách Khoa Đức, Võ Ngọc Minh Đạt, Hồ Đoàn Nguyên Khang, Đào Trí Khang  
 **Học phần:** Web API (TH71108) – Trường Đại học Công nghệ Đồng Nai (DNTU)  
 
 ---
@@ -130,7 +130,7 @@ Tất cả tài khoản kiểm thử đã được cấu hình trong hệ thốn
 |---|---|---|---|---|
 | **Quản trị viên (Admin)** | Quách Khoa Đức | `quachkhoaduc@visionary.dntu.edu.vn` | Quản lý qua `ADMIN_SEED_PASSWORD` / Nội bộ | Toàn quyền quản trị hệ thống, quản lý tài khoản, cấu hình nguồn |
 | **Ban Chủ Nhiệm (BCN)** | Võ Ngọc Minh Đạt | `vongocminhdat@visionary.dntu.edu.vn` | Quản lý qua `ADMIN_SEED_PASSWORD` / Nội bộ | Duyệt đơn gia nhập, tạo sự kiện, điểm danh sinh viên, xem báo cáo |
-| **Thành viên Ban Dữ liệu** | Hồ Đoàng Nguyên Khang | `hodoangnguyenkhang@visionary.dntu.edu.vn` | Quản lý qua `ADMIN_SEED_PASSWORD` / Nội bộ | Quản lý cơ hội, học bổng, việc làm và kiểm tra nguồn dữ liệu |
+| **Thành viên Ban Dữ liệu** | Hồ Đoàn Nguyên Khang | `hodoangnguyenkhang@visionary.dntu.edu.vn` | Quản lý qua `ADMIN_SEED_PASSWORD` / Nội bộ | Quản lý cơ hội, học bổng, việc làm và kiểm tra nguồn dữ liệu |
 | **Thành viên Ban Kỹ thuật** | Đào Trí Khang | `daotrikhang@visionary.dntu.edu.vn` | Quản lý qua `ADMIN_SEED_PASSWORD` / Nội bộ | Quản lý nội dung công nghệ, kiểm thử di động, hỗ trợ thành viên |
 | **Sinh viên mẫu** | Nguyễn Văn An | `student.test@visionary.dntu.edu.vn` | Quản lý qua `ADMIN_SEED_PASSWORD` / Nội bộ | Đăng ký sự kiện, nộp đơn gia nhập CLB, xem thuật ngữ và cơ hội |
 

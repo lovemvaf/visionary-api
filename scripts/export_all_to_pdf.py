@@ -75,7 +75,7 @@ if __name__ == "__main__":
     member_files = [
         ("deliverables/member-guides/01_QUACH_KHOA_DUC_EASY_PRESENTATION_GUIDE.docx", "deliverables/member-guides/01_QUACH_KHOA_DUC_EASY_PRESENTATION_GUIDE.pdf"),
         ("deliverables/member-guides/02_DAO_TRI_KHANG_ANDROID_GUIDE.docx", "deliverables/member-guides/02_DAO_TRI_KHANG_ANDROID_GUIDE.pdf"),
-        ("deliverables/member-guides/03_HO_DOANG_NGUYEN_KHANG_API_GUIDE.docx", "deliverables/member-guides/03_HO_DOANG_NGUYEN_KHANG_API_GUIDE.pdf"),
+        ("deliverables/member-guides/03_HO_DOAN_NGUYEN_KHANG_API_GUIDE.docx", "deliverables/member-guides/03_HO_DOAN_NGUYEN_KHANG_API_GUIDE.pdf"),
         ("deliverables/member-guides/04_VO_NGOC_MINH_DAT_WINFORMS_GUIDE.docx", "deliverables/member-guides/04_VO_NGOC_MINH_DAT_WINFORMS_GUIDE.pdf")
     ]
     for docx_f, pdf_f in member_files:
