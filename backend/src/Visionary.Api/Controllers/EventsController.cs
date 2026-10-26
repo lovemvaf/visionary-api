@@ -32,6 +32,10 @@ namespace Visionary.Api.Controllers
             [FromQuery] int pageIndex = 1,
             [FromQuery] int pageSize = 10)
         {
+            if (pageIndex < 1) pageIndex = 1;
+            if (pageSize < 1) pageSize = 10;
+            if (pageSize > 100) pageSize = 100;
+
             var currentUserIdStr = User.FindFirstValue(ClaimTypes.NameIdentifier);
             Guid.TryParse(currentUserIdStr, out var currentUserId);
 
