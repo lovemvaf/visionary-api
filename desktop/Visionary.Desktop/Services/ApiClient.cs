@@ -15,7 +15,7 @@ public class ApiClient
 {
     private static readonly HttpClient _httpClient = new HttpClient
     {
-        Timeout = TimeSpan.FromSeconds(15)
+        Timeout = TimeSpan.FromSeconds(30)
     };
 
     private static readonly JsonSerializerOptions _jsonOptions = new JsonSerializerOptions
@@ -44,7 +44,20 @@ public class ApiClient
             Content = JsonContent.Create(new LoginRequest { Email = email, Password = password })
         };
 
-        var response = await _httpClient.SendAsync(request);
+        HttpResponseMessage response;
+        try
+        {
+            response = await _httpClient.SendAsync(request);
+        }
+        catch (TaskCanceledException)
+        {
+            throw new Exception("Hết thời gian chờ phản hồi từ máy chủ (Timeout). Máy chủ backend có thể đang khởi động hoặc mạng chậm, vui lòng thử lại.");
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new Exception($"Lỗi kết nối máy chủ: {ex.Message}");
+        }
+
         var content = await response.Content.ReadAsStringAsync();
 
         if (!response.IsSuccessStatusCode)
