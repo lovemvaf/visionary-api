@@ -57,6 +57,17 @@ namespace Visionary.Tests
         }
 
         [Fact]
+        public async Task AdminUsers_MalformedBearerToken_ReturnsUnauthorized()
+        {
+            using var request = new HttpRequestMessage(HttpMethod.Get, "/api/admin/users");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "not-a-valid-jwt");
+
+            var response = await _client.SendAsync(request);
+
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        [Fact]
         public async Task Student_CannotAccessAdminOrGrantSelfAdminRole()
         {
             var email = $"authorization-test-{Guid.NewGuid():N}@visionary.test";
