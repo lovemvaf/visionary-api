@@ -1,7 +1,7 @@
 # HƯỚNG DẪN ĐÓNG GÓP MÃ NGUỒN – DỰ ÁN VISIONARY
 ## VISIONARY ECOSYSTEM – CONTRIBUTING & CODE COLLABORATION GUIDELINES
-**Học phần:** Web API (TH71108) – Trường Đại học Công nghệ Đồng Nai (DNTU)  
-**Nhóm phát triển:** VISIONARY API  
+**Học phần:** Web API (TH71108) – Trường Đại học Công nghệ Đồng Nai (DNTU)
+**Nhóm phát triển:** VISIONARY API
 
 ---
 
