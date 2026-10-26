@@ -139,7 +139,7 @@ Sau khi tích hợp hoàn tất 3 Pull Requests và nhánh Web của Đức lên
    - `project-status/verification.json`: Cập nhật commit SHA `50ab878`, run IDs CI và số lượng tests đồng bộ.
    - `scripts/verify_repository.py`: Đạt **ALL 6 QUALITY GATES PASSED!**.
 2. **Kiểm tra Tên & Danh tính:**
-   - Xác nhận 100% không còn bất kỳ trường hợp viết sai chính tả nào thành "Hồ Đoàng".
+   - Xác nhận 100% tên thành viên chính xác tuyệt đối: **Hồ Đoàn Nguyên Khang** (đã loại trừ toàn bộ sai sót chính tả trong repository).
    - Tên chính thức: **Hồ Đoàn Nguyên Khang**.
 3. **Bảo tồn Bộ Hồ sơ Nộp Học phần TH71108:**
    - Thư mục `VISIONARY-ACADEMIC-DELIVERY/` được lưu giữ nguyên vẹn với đầy đủ:
