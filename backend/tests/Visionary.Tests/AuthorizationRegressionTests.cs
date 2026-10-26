@@ -4,7 +4,11 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
 using Visionary.Core.Common;
 using Visionary.Core.DTOs;
 using Xunit;
@@ -25,6 +29,40 @@ namespace Visionary.Tests
         public async Task AdminUsers_AnonymousRequest_ReturnsUnauthorized()
         {
             var response = await _client.GetAsync("/api/admin/users");
+
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task AdminUsers_ExpiredBearerToken_ReturnsUnauthorized()
+        {
+            const string signingKey = "DevOnlyJwtSecureSecretKeyForTestingAndLocalDevelopmentOnly32Chars!";
+            var token = new JwtSecurityToken(
+                issuer: "VisionaryApi",
+                audience: "VisionaryClients",
+                claims: new[] { new Claim(ClaimTypes.Role, "Admin") },
+                notBefore: DateTime.UtcNow.AddMinutes(-10),
+                expires: DateTime.UtcNow.AddMinutes(-5),
+                signingCredentials: new SigningCredentials(
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(signingKey)),
+                    SecurityAlgorithms.HmacSha256));
+            using var request = new HttpRequestMessage(HttpMethod.Get, "/api/admin/users");
+            request.Headers.Authorization = new AuthenticationHeaderValue(
+                "Bearer",
+                new JwtSecurityTokenHandler().WriteToken(token));
+
+            var response = await _client.SendAsync(request);
+
+            Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task AdminUsers_MalformedBearerToken_ReturnsUnauthorized()
+        {
+            using var request = new HttpRequestMessage(HttpMethod.Get, "/api/admin/users");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", "not-a-valid-jwt");
+
+            var response = await _client.SendAsync(request);
 
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
