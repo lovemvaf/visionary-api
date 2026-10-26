@@ -145,6 +145,12 @@ Dự án được xây dựng và duy trì bởi nhóm **VISIONARY API**:
 | **Hồ Đoàn Nguyên Khang** | Backend & Database Engineer | ASP.NET Core 8 Web API, Entity Framework Core, Swagger OpenAPI, API Integration Tests |
 | **Võ Ngọc Minh Đạt** | Desktop Software Engineer | Phát triển ứng dụng Windows Forms C# (.NET 8), Nghiệp vụ Quản trị CLB, Desktop Client Testing |
 
+### 🌿 Bốn Nhánh Phát triển Chuyên biệt (Feature Branches)
+- **Web Frontend & Architecture (Quách Khoa Đức):** [`feature/web-duc`](https://github.com/lovemvaf/visionary-api/tree/feature/web-duc)
+- **Android Native Mobile (Đào Trí Khang):** [`feature/android-tri-khang`](https://github.com/lovemvaf/visionary-api/tree/feature/android-tri-khang)
+- **ASP.NET Core Web API (Hồ Đoàn Nguyên Khang):** [`feature/api-ho-doan-khang`](https://github.com/lovemvaf/visionary-api/tree/feature/api-ho-doan-khang)
+- **Windows Forms Desktop (Võ Ngọc Minh Đạt):** [`feature/winforms-minh-dat`](https://github.com/lovemvaf/visionary-api/tree/feature/winforms-minh-dat)
+
 *Chi tiết về ma trận đóng góp và quy trình cộng tác xem tại [docs/TEAM_CONTRIBUTIONS.md](docs/TEAM_CONTRIBUTIONS.md) và [CONTRIBUTING.md](CONTRIBUTING.md).*
 
 ---
