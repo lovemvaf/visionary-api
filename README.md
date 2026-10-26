@@ -73,13 +73,15 @@ Mọi dữ liệu công khai (GitHub repository, Hugging Face model, tin tức c
 
 ## 🔑 TÀI KHOẢN MẪU KIỂM THỬ HỆ THỐNG
 
-| Tài khoản | Email | Mật khẩu | Quyền hạn |
-|---|---|---|---|
-| **Quản trị viên (Admin)** | `quachkhoaduc@visionary.dntu.edu.vn` | `Visionary@2026` | Toàn quyền cấu hình, tài khoản, dữ liệu tự động |
-| **Ban Chủ Nhiệm (BCN)** | `vongocminhdat@visionary.dntu.edu.vn` | `Visionary@2026` | Duyệt đơn gia nhập, tạo sự kiện, điểm danh |
-| **Ban Dữ liệu** | `hodoangnguyenkhang@visionary.dntu.edu.vn` | `Visionary@2026` | Quản lý học bổng, hackathon, việc làm |
-| **Ban Kỹ thuật** | `daotrikhang@visionary.dntu.edu.vn` | `Visionary@2026` | Quản lý tài nguyên công nghệ, kiểm thử di động |
-| **Sinh viên mẫu** | `student.test@visionary.dntu.edu.vn` | `Visionary@2026` | Đăng ký sự kiện, xem thuật ngữ, nộp đơn |
+> 🔒 **Chính sách bảo mật:** Mật khẩu kiểm thử không lưu trữ công khai trên tài liệu mã nguồn. Đối với môi trường phát triển cục bộ, mật khẩu khởi tạo được quản lý qua biến môi trường `ADMIN_SEED_PASSWORD`. Đối với môi trường Production, toàn bộ tài khoản quản trị được bảo vệ bằng mật khẩu độc lập và chứng thực phiên an toàn. Giảng viên và hội đồng nghiệm thu học phần TH71108 nhận thông tin kiểm thử qua tài liệu bàn giao nội bộ bảo mật.
+
+| Tài khoản | Email định danh | Quyền hạn chính |
+|---|---|---|
+| **Quản trị viên (Admin)** | `quachkhoaduc@visionary.dntu.edu.vn` | Toàn quyền cấu hình, tài khoản, dữ liệu tự động |
+| **Ban Chủ Nhiệm (BCN)** | `vongocminhdat@visionary.dntu.edu.vn` | Duyệt đơn gia nhập, tạo sự kiện, điểm danh |
+| **Ban Dữ liệu** | `hodoangnguyenkhang@visionary.dntu.edu.vn` | Quản lý học bổng, hackathon, việc làm |
+| **Ban Kỹ thuật** | `daotrikhang@visionary.dntu.edu.vn` | Quản lý tài nguyên công nghệ, kiểm thử di động |
+| **Sinh viên mẫu** | `student.test@visionary.dntu.edu.vn` | Đăng ký sự kiện, xem thuật ngữ, nộp đơn |
 
 ---
 

@@ -54,13 +54,15 @@ public class LoginActivity extends AppCompatActivity {
 
         btnQuickAdmin.setOnClickListener(v -> {
             etEmail.setText("quachkhoaduc@visionary.dntu.edu.vn");
-            etPassword.setText("Visionary@2026");
+            etPassword.setText("");
+            etPassword.requestFocus();
             tvStatus.setVisibility(View.GONE);
         });
 
         btnQuickBcn.setOnClickListener(v -> {
             etEmail.setText("vongocminhdat@visionary.dntu.edu.vn");
-            etPassword.setText("Visionary@2026");
+            etPassword.setText("");
+            etPassword.requestFocus();
             tvStatus.setVisibility(View.GONE);
         });
     }

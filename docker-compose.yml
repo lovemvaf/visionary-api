@@ -7,11 +7,13 @@ services:
       - "5000:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=visionary_db;Username=postgres;Password=VisionarySecureDbPassword2026
-      - Jwt__Key=VisionaryPlatformSecretKey2026MasterExecutionSecureKeyDNTU_TH71108_API
+      - ConnectionStrings__DefaultConnection=Host=postgres;Port=5432;Database=visionary_db;Username=postgres;Password=${POSTGRES_PASSWORD:-VisionaryDevDbSecret2026}
+      - Jwt__Key=${JWT_SECRET:-VisionaryDevJwtSecretKeyMinimum32CharactersLong2026}
     depends_on:
       - postgres
       - redis
+    networks:
+      - visionary_internal
     restart: unless-stopped
 
   postgres:
@@ -19,20 +21,31 @@ services:
     container_name: visionary_postgres
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: VisionarySecureDbPassword2026
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-VisionaryDevDbSecret2026}
       POSTGRES_DB: visionary_db
+    # Security: Database port is NOT published to public interface.
+    # Bind to 127.0.0.1 for local host administrative access if needed, or communicate via internal network.
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - visionary_internal
     restart: unless-stopped
 
   redis:
     image: redis:7-alpine
     container_name: visionary_redis
+    # Security: Redis cache port is bound to loopback only (or accessed purely within visionary_internal network).
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"
+    networks:
+      - visionary_internal
     restart: unless-stopped
+
+networks:
+  visionary_internal:
+    driver: bridge
 
 volumes:
   pgdata:

@@ -12,12 +12,13 @@ services:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: ConnectionStrings__DefaultConnection
-        value: Host=aws-0-ap-southeast-1.pooler.supabase.com;Port=5432;Database=postgres;Username=postgres.rylazywrudutcjnvutte;Password=Ducdatabase27204025888**//--*/-*/-;SSL Mode=Require;Trust Server Certificate=true;Timeout=30;Keepalive=30
+        sync: false # Set securely in Render Dashboard (Environment -> Environment Variables)
       - key: JWT_SECRET
-        value: VisionaryPlatformSecretKey2026MasterExecutionSecureKeyDNTU_TH71108_API
+        sync: false # Set securely in Render Dashboard (Environment -> Environment Variables, min 32 chars)
       - key: Jwt__Key
-        value: VisionaryPlatformSecretKey2026MasterExecutionSecureKeyDNTU_TH71108_API
+        sync: false # Fallback binding to JWT_SECRET
       - key: Jwt__Issuer
         value: VisionaryApi
       - key: Jwt__Audience
         value: VisionaryClients
+

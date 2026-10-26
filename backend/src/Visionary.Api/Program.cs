@@ -83,12 +83,26 @@ builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddScoped<IDataAutomationService, DataAutomationService>();
 
 // Configure JWT Authentication: Read from JWT_SECRET or config, enforce strong key in production
-var jwtKey = Environment.GetEnvironmentVariable("JWT_SECRET")
+var rawJwtKey = Environment.GetEnvironmentVariable("JWT_SECRET")
     ?? builder.Configuration["Jwt:Key"]
-    ?? builder.Configuration["Jwt:SigningKey"]
-    ?? (builder.Environment.IsProduction()
-        ? throw new InvalidOperationException("CRITICAL SECURITY ERROR: In production environment, JWT_SECRET or Jwt:Key environment variable must be explicitly configured.")
-        : "VisionaryPlatformSecretKey2026MasterExecutionSecureKeyDNTU_TH71108_API");
+    ?? builder.Configuration["Jwt:SigningKey"];
+
+if (string.IsNullOrWhiteSpace(rawJwtKey) ||
+    rawJwtKey.Contains("YOUR_DEVELOPMENT_JWT", StringComparison.OrdinalIgnoreCase) ||
+    rawJwtKey.Contains("YOUR_SECURE_JWT", StringComparison.OrdinalIgnoreCase))
+{
+    if (builder.Environment.IsProduction())
+    {
+        throw new InvalidOperationException("CRITICAL SECURITY ERROR: In production environment, JWT_SECRET or Jwt:Key environment variable must be explicitly configured with at least 32 characters. Default or placeholder keys are prohibited.");
+    }
+    rawJwtKey = "DevOnlyJwtSecureSecretKeyForTestingAndLocalDevelopmentOnly32Chars!";
+}
+
+if (rawJwtKey.Length < 32)
+{
+    throw new InvalidOperationException("CRITICAL SECURITY ERROR: JWT Secret Key must be at least 32 characters (256 bits) for HMAC-SHA256.");
+}
+var jwtKey = rawJwtKey;
 var issuer = builder.Configuration["Jwt:Issuer"] ?? "VisionaryApi";
 var audience = builder.Configuration["Jwt:Audience"] ?? "VisionaryClients";
 
@@ -99,7 +113,7 @@ builder.Services.AddAuthentication(options =>
 })
 .AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false;
+    options.RequireHttpsMetadata = builder.Environment.IsProduction();
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -116,25 +130,30 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// Configure CORS: Support both specific production origins and desktop/mobile clients
+// Configure CORS: Strictly allow validated web origins, preview branches, and local development
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins(
-                "https://visionary-platform.vercel.app",
-                "https://visionary-global.vercel.app",
-                "http://localhost:3000",
-                "http://127.0.0.1:3000")
-              .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
-    });
-    options.AddPolicy("PublicMobileDesktop", policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy.SetIsOriginAllowed(origin =>
+        {
+            if (string.IsNullOrEmpty(origin)) return true;
+            try
+            {
+                var uri = new Uri(origin);
+                return uri.Host.Equals("visionary-platform.vercel.app", StringComparison.OrdinalIgnoreCase) ||
+                       uri.Host.Equals("visionary-global.vercel.app", StringComparison.OrdinalIgnoreCase) ||
+                       uri.Host.EndsWith(".vercel.app", StringComparison.OrdinalIgnoreCase) ||
+                       uri.Host.Equals("localhost", StringComparison.OrdinalIgnoreCase) ||
+                       uri.Host.Equals("127.0.0.1", StringComparison.OrdinalIgnoreCase);
+            }
+            catch
+            {
+                return false;
+            }
+        })
+        .AllowAnyHeader()
+        .AllowAnyMethod();
     });
 });
 
@@ -205,8 +224,8 @@ app.UseSwaggerUI(c =>
     c.RoutePrefix = "swagger";
 });
 
-// Support both web and native clients
-app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+// Apply CORS policy
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -216,12 +235,11 @@ app.MapControllers();
 // Health Check Endpoints
 app.MapGet("/", () => Results.Ok(new
 {
-    Name = "VISIONARY API – English, Technology & Global Integration Platform",
-    Team = "VISIONARY API",
-    Members = new[] { "Quách Khoa Đức", "Võ Ngọc Minh Đạt", "Hồ Đoàng Nguyên Khang", "Đào Trí Khang" },
-    Status = "Healthy",
-    Documentation = "/swagger",
-    Timestamp = DateTime.UtcNow
+    service = "VISIONARY API – English, Technology & Global Integration Platform",
+    status = "Healthy",
+    version = "1.0.0",
+    documentation = "/swagger",
+    timestamp = DateTime.UtcNow
 }));
 
 app.MapGet("/health/live", () => Results.Ok(new
@@ -242,19 +260,17 @@ app.MapGet("/health/ready", async (AppDbContext db) =>
             {
                 status = "Ready",
                 database = "Connected",
-                provider = db.Database.ProviderName,
                 timestamp = DateTime.UtcNow
             });
         }
         return Results.StatusCode(503);
     }
-    catch (Exception ex)
+    catch
     {
         return Results.Json(new
         {
             status = "NotReady",
             database = "Disconnected",
-            error = ex.Message,
             timestamp = DateTime.UtcNow
         }, statusCode: 503);
     }

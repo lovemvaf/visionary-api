@@ -1,14 +1,30 @@
 # Environment & Secrets
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
 *.pem
 *.key
+*.p12
+*.pfx
+*.keystore
+**/id_rsa
+**/id_ed25519
+secrets/
+**/secrets/
 appsettings.Production.json
-appsettings.Development.local.json
+appsettings.*.local.json
+
+# Database and dumps
 *.db
 *.db-shm
 *.db-wal
+*.sqlite
+*.sqlite3
+*.sql
+*.dump
 
 # .NET
 bin/
@@ -46,9 +62,11 @@ Thumbs.db
 *~
 .vscode/
 
-# Logs
+# Logs & Diagnostics
 logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+crash.dump
+*.dmp

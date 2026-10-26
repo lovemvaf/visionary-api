@@ -12,6 +12,7 @@ namespace Visionary.Infrastructure.Services
 {
     public class JwtService : IJwtService
     {
+        private const string LocalDevFallbackKey = "DevOnlyJwtSecureSecretKeyForTestingAndLocalDevelopmentOnly32Chars!";
         private readonly IConfiguration _configuration;
 
         public JwtService(IConfiguration configuration)
@@ -19,12 +20,35 @@ namespace Visionary.Infrastructure.Services
             _configuration = configuration;
         }
 
+        private string ResolveSigningKey()
+        {
+            var key = Environment.GetEnvironmentVariable("JWT_SECRET")
+                ?? _configuration["Jwt:Key"]
+                ?? _configuration["Jwt:SigningKey"];
+
+            if (string.IsNullOrWhiteSpace(key) ||
+                key.Contains("YOUR_DEVELOPMENT_JWT", StringComparison.OrdinalIgnoreCase) ||
+                key.Contains("YOUR_SECURE_JWT", StringComparison.OrdinalIgnoreCase))
+            {
+                var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                if (string.Equals(env, "Production", StringComparison.OrdinalIgnoreCase))
+                {
+                    throw new InvalidOperationException("CRITICAL SECURITY ERROR: Production environment mandates an explicitly configured JWT_SECRET environment variable with at least 32 characters.");
+                }
+                return LocalDevFallbackKey;
+            }
+
+            if (key.Length < 32)
+            {
+                throw new InvalidOperationException("CRITICAL SECURITY ERROR: JWT Secret Key must be at least 32 characters (256 bits) for HMAC-SHA256.");
+            }
+
+            return key;
+        }
+
         public string GenerateToken(User user, IEnumerable<string> roles)
         {
-            var jwtKey = _configuration["Jwt:Key"]
-                ?? Environment.GetEnvironmentVariable("JWT_SECRET")
-                ?? _configuration["Jwt:SigningKey"]
-                ?? "VisionaryPlatformSecretKey2026MasterExecutionSecureKeyDNTU_TH71108_API";
+            var jwtKey = ResolveSigningKey();
             var issuer = _configuration["Jwt:Issuer"] ?? "VisionaryApi";
             var audience = _configuration["Jwt:Audience"] ?? "VisionaryClients";
             var expiryMinutes = double.TryParse(_configuration["Jwt:ExpiryMinutes"], out var mins) ? mins : 1440; // 24 hours
@@ -59,10 +83,7 @@ namespace Visionary.Infrastructure.Services
 
         public bool ValidateToken(string token)
         {
-            var jwtKey = _configuration["Jwt:Key"]
-                ?? Environment.GetEnvironmentVariable("JWT_SECRET")
-                ?? _configuration["Jwt:SigningKey"]
-                ?? "VisionaryPlatformSecretKey2026MasterExecutionSecureKeyDNTU_TH71108_API";
+            var jwtKey = ResolveSigningKey();
             var issuer = _configuration["Jwt:Issuer"] ?? "VisionaryApi";
             var audience = _configuration["Jwt:Audience"] ?? "VisionaryClients";
 

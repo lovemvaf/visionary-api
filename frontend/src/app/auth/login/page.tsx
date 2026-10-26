@@ -54,9 +54,8 @@ export default function LoginPage() {
     }
   };
 
-  const fillQuickAccount = (e: string, p: string) => {
+  const fillQuickAccount = (e: string) => {
     setEmail(e);
-    setPassword(p);
   };
 
   return (
@@ -155,7 +154,7 @@ export default function LoginPage() {
           <span>Đăng nhập với Google DNTU</span>
         </button>
 
-        {/* Collapsible Test Fixtures for Academic Evaluation */}
+        {/* Quick Email Selection for Evaluators */}
         <details className="pt-2 border-t border-gray-100 dark:border-gray-800 text-[11px] group">
           <summary className="font-semibold text-gray-400 hover:text-tealAccent cursor-pointer flex items-center justify-between list-none">
             <span>🧪 Tài khoản Kiểm định Học phần (TH71108)</span>
@@ -164,7 +163,7 @@ export default function LoginPage() {
           <div className="mt-3 grid grid-cols-2 gap-2">
             <button
               type="button"
-              onClick={() => fillQuickAccount("quachkhoaduc@visionary.dntu.edu.vn", "Visionary@2026")}
+              onClick={() => fillQuickAccount("quachkhoaduc@visionary.dntu.edu.vn")}
               className="p-2 rounded-lg bg-surface dark:bg-navy-light text-navy dark:text-white border border-surface-border hover:border-tealAccent transition-colors text-left"
             >
               <div className="font-bold text-tealAccent">Quách Khoa Đức</div>
@@ -172,7 +171,7 @@ export default function LoginPage() {
             </button>
             <button
               type="button"
-              onClick={() => fillQuickAccount("vongocminhdat@visionary.dntu.edu.vn", "Visionary@2026")}
+              onClick={() => fillQuickAccount("vongocminhdat@visionary.dntu.edu.vn")}
               className="p-2 rounded-lg bg-surface dark:bg-navy-light text-navy dark:text-white border border-surface-border hover:border-tealAccent transition-colors text-left"
             >
               <div className="font-bold text-visionary">Võ Ngọc Minh Đạt</div>

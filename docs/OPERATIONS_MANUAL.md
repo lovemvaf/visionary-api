@@ -122,15 +122,17 @@ Tệp APK debug sẽ được xuất ra tại:
 
 ## 6. DANH SÁCH TÀI KHOẢN MẪU KIỂM THỬ HỆ THỐNG
 
-Tất cả tài khoản mẫu đã được khởi tạo tự động trong cơ sở dữ liệu (`DbInitializer`):
+Tất cả tài khoản kiểm thử đã được cấu hình trong hệ thống kiểm tra và cơ sở dữ liệu (`DbInitializer`):
 
-| Vai trò | Họ và tên | Email đăng nhập | Mật khẩu mặc định | Quyền hạn chính |
+> 🔒 **Chính sách bảo mật:** Mật khẩu kiểm thử nội bộ không được lưu trữ công khai. Đối với môi trường phát triển cục bộ, mật khẩu khởi tạo được cung cấp thông qua biến môi trường `ADMIN_SEED_PASSWORD`. Đối với môi trường máy chủ và Production, mật khẩu được phân định độc lập theo từng tài khoản thực tế và không sử dụng giá trị mặc định.
+
+| Vai trò | Họ và tên | Email đăng nhập | Cơ chế mật khẩu | Quyền hạn chính |
 |---|---|---|---|---|
-| **Quản trị viên (Admin)** | Quách Khoa Đức | `quachkhoaduc@visionary.dntu.edu.vn` | `Visionary@2026` | Toàn quyền quản trị hệ thống, quản lý tài khoản, cấu hình nguồn |
-| **Ban Chủ Nhiệm (BCN)** | Võ Ngọc Minh Đạt | `vongocminhdat@visionary.dntu.edu.vn` | `Visionary@2026` | Duyệt đơn gia nhập, tạo sự kiện, điểm danh sinh viên, xem báo cáo |
-| **Thành viên Ban Dữ liệu** | Hồ Đoàng Nguyên Khang | `hodoangnguyenkhang@visionary.dntu.edu.vn` | `Visionary@2026` | Quản lý cơ hội, học bổng, việc làm và kiểm tra nguồn dữ liệu |
-| **Thành viên Ban Kỹ thuật** | Đào Trí Khang | `daotrikhang@visionary.dntu.edu.vn` | `Visionary@2026` | Quản lý nội dung công nghệ, kiểm thử di động, hỗ trợ thành viên |
-| **Sinh viên mẫu** | Nguyễn Văn An | `student.test@visionary.dntu.edu.vn` | `Visionary@2026` | Đăng ký sự kiện, nộp đơn gia nhập CLB, xem thuật ngữ và cơ hội |
+| **Quản trị viên (Admin)** | Quách Khoa Đức | `quachkhoaduc@visionary.dntu.edu.vn` | Quản lý qua `ADMIN_SEED_PASSWORD` / Nội bộ | Toàn quyền quản trị hệ thống, quản lý tài khoản, cấu hình nguồn |
+| **Ban Chủ Nhiệm (BCN)** | Võ Ngọc Minh Đạt | `vongocminhdat@visionary.dntu.edu.vn` | Quản lý qua `ADMIN_SEED_PASSWORD` / Nội bộ | Duyệt đơn gia nhập, tạo sự kiện, điểm danh sinh viên, xem báo cáo |
+| **Thành viên Ban Dữ liệu** | Hồ Đoàng Nguyên Khang | `hodoangnguyenkhang@visionary.dntu.edu.vn` | Quản lý qua `ADMIN_SEED_PASSWORD` / Nội bộ | Quản lý cơ hội, học bổng, việc làm và kiểm tra nguồn dữ liệu |
+| **Thành viên Ban Kỹ thuật** | Đào Trí Khang | `daotrikhang@visionary.dntu.edu.vn` | Quản lý qua `ADMIN_SEED_PASSWORD` / Nội bộ | Quản lý nội dung công nghệ, kiểm thử di động, hỗ trợ thành viên |
+| **Sinh viên mẫu** | Nguyễn Văn An | `student.test@visionary.dntu.edu.vn` | Quản lý qua `ADMIN_SEED_PASSWORD` / Nội bộ | Đăng ký sự kiện, nộp đơn gia nhập CLB, xem thuật ngữ và cơ hội |
 
 ---
 

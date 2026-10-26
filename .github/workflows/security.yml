@@ -1,4 +1,4 @@
-name: Security & Code Quality
+name: Security Audit & Supply Chain Hardening
 
 on:
   push:
@@ -8,18 +8,47 @@ on:
 
 jobs:
   security-audit:
-    name: Security Scan & Dependency Audit
+    name: DevSecOps Vulnerability & Secret Audit
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
 
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Audit Frontend Dependencies
+      - name: Audit Backend NuGet Packages
+        run: |
+          echo "Scanning backend NuGet dependencies for known CVEs..."
+          dotnet list backend/Visionary.Backend.sln package --vulnerable --include-transitive
+
+      - name: Audit Frontend npm Dependencies & Generate Report
         working-directory: ./frontend
-        run: npm audit --audit-level=high || true
+        run: |
+          echo "Running structured npm security audit..."
+          npm audit --json > ../npm-audit-report.json || true
+          npm audit --omit=dev --audit-level=critical || echo "Notice: Upstream Next.js CVE exception documented in docs/security/DEPENDENCY_VULNERABILITY_REPORT.md"
+
+      - name: Run Gitleaks Secret Detection
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Upload Security Audit Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-audit-reports
+          path: |
+            npm-audit-report.json
+          retention-days: 14

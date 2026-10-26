@@ -112,8 +112,7 @@ public class LoginForm : Form
             Location = new Point(30, startY + 22),
             Size = new Size(385, 26),
             Font = new Font("Segoe UI", 9.5f),
-            PasswordChar = '•',
-            Text = "Visionary@2026"
+            PasswordChar = '•'
         };
 
         // Progress bar & Status
@@ -179,8 +178,9 @@ public class LoginForm : Form
         _btnQuickAdmin.Click += (s, e) =>
         {
             _txtEmail.Text = "quachkhoaduc@visionary.dntu.edu.vn";
-            _txtPassword.Text = "Visionary@2026";
-            _lblStatus.Text = string.Empty;
+            _txtPassword.Clear();
+            _txtPassword.Focus();
+            _lblStatus.Text = "Đã điền email Quản trị viên. Vui lòng nhập mật khẩu.";
         };
 
         _btnQuickBcn = new Button
@@ -198,8 +198,9 @@ public class LoginForm : Form
         _btnQuickBcn.Click += (s, e) =>
         {
             _txtEmail.Text = "vongocminhdat@visionary.dntu.edu.vn";
-            _txtPassword.Text = "Visionary@2026";
-            _lblStatus.Text = string.Empty;
+            _txtPassword.Clear();
+            _txtPassword.Focus();
+            _lblStatus.Text = "Đã điền email BCN. Vui lòng nhập mật khẩu.";
         };
 
         // Footer note

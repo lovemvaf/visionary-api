@@ -101,7 +101,7 @@ namespace Visionary.Tests
             var loginRequest = new LoginRequest
             {
                 Email = "quachkhoaduc@visionary.dntu.edu.vn",
-                Password = "Visionary@2026"
+                Password = Environment.GetEnvironmentVariable("ADMIN_SEED_PASSWORD") ?? "VisionaryDevTestPassword@2026"
             };
 
             var response = await _client.PostAsJsonAsync("/api/auth/login", loginRequest);

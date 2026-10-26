@@ -74,7 +74,20 @@ namespace Visionary.Infrastructure.Data
             var studentRole = await context.Roles.FirstAsync(r => r.Name == AppRoles.Student);
 
             // 2. Seed Core Team Users (Development team credentials - distinct from club officers)
-            var rawSeedPassword = Environment.GetEnvironmentVariable("ADMIN_SEED_PASSWORD") ?? "Visionary@2026";
+            var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            var rawSeedPassword = Environment.GetEnvironmentVariable("ADMIN_SEED_PASSWORD");
+            if (string.IsNullOrWhiteSpace(rawSeedPassword))
+            {
+                if (string.Equals(env, "Production", StringComparison.OrdinalIgnoreCase))
+                {
+                    rawSeedPassword = Guid.NewGuid().ToString("N") + "!VisionarySecure#2026";
+                    Console.WriteLine("[SECURITY NOTICE] Production initial seed password generated securely from random entropy. Configure ADMIN_SEED_PASSWORD to set an explicit initial password.");
+                }
+                else
+                {
+                    rawSeedPassword = "VisionaryDevTestPassword@2026";
+                }
+            }
             var defaultPassword = passwordHasher.HashPassword(rawSeedPassword);
 
             // Quách Khoa Đức - Principal Software Architect & Full-Stack Lead
