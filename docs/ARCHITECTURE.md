@@ -98,3 +98,31 @@ Visionary API/
 5. **Club Committee / BCN (Ban Chủ Nhiệm CLB):** Xét duyệt đơn gia nhập thành viên, quản lý và tổ chức sự kiện, mở điểm danh (QR/thủ công), xem danh sách người tham gia, duyệt bài viết từ CTV, lập báo cáo hoạt động.
 6. **Club Supervisor / Lecturer (Giảng viên phụ trách):** Giám sát hoạt động CLB, xem báo cáo thống kê, xác nhận các thành tích học thuật/nghiên cứu.
 7. **System Administrator (Quản trị viên hệ thống):** Quản lý toàn bộ người dùng và vai trò, cấu hình hệ thống, quản lý nguồn dữ liệu tự động, xem nhật ký kiểm toán (Audit Logs).
+
+---
+
+## 5. Quyết định Kiến trúc Trọng yếu (Architectural Decision Records - ADR)
+
+### ADR-001: Unified Backend Architecture (One API, Three Platforms)
+- **Trạng thái:** ACCEPTED
+- **Bối cảnh:** Hệ thống phục vụ đồng thời ba nền tảng ứng dụng: Visionary Web (Next.js), Windows Forms Desktop (C#), và Mobile Client (Android Native Java).
+- **Quyết định:** Xây dựng một Backend duy nhất bằng ASP.NET Core 8 Web API cung cấp các chuẩn RESTful endpoints, DTOs JSON chuẩn mực, và cơ chế xác thực JWT Bearer thống nhất. Ba ứng dụng client đều tiêu thụ cùng một API này và không ứng dụng nào có database riêng.
+- **Hệ quả:** Loại bỏ hoàn toàn sự trùng lặp nghiệp vụ, đảm bảo 100% tính toàn vẹn dữ liệu xuyên suốt Web, Desktop và Mobile.
+
+### ADR-002: Lựa chọn Công nghệ Đa nền tảng (Technology Stack Selection)
+- **Trạng thái:** ACCEPTED
+- **Bối cảnh:** Yêu cầu hệ thống đòi hỏi hiệu năng cao, khả năng mở rộng tốt và tính tương thích chặt chẽ với các chuẩn môn học Web API.
+- **Quyết định:**
+  - **Backend:** ASP.NET Core 8 Web API, Entity Framework Core, Npgsql PostgreSQL provider, OpenAPI/Swagger.
+  - **Database:** PostgreSQL (tương thích Supabase) với EF Core Migrations, ràng buộc toàn vẹn khóa ngoại và chỉ mục tối ưu.
+  - **Frontend:** Next.js 14+ App Router, React 18+, TypeScript, Tailwind CSS.
+  - **Desktop:** Windows Forms (.NET 8 Windows Desktop), System.Net.Http.HttpClient, System.Text.Json.
+  - **Mobile:** Android Native Java (JDK 17), Android SDK 34, Retrofit 2 + OkHttp 3, Material Design 3.
+  - **Bộ nhớ đệm & Giới hạn tần suất:** In-Memory Cache kết hợp Upstash Redis dự phòng.
+
+### ADR-003: Mô hình Xác thực và An toàn Thông tin (Authentication & Security Model)
+- **Trạng thái:** ACCEPTED
+- **Bối cảnh:** Hệ thống cần hỗ trợ đăng nhập bằng Email/Mật khẩu và Google OAuth, đồng thời kiểm soát truy cập nghiêm ngặt theo vai trò (RBAC).
+- **Quyết định:** ASP.NET Core phát hành JWT token có chữ ký số (HMAC-SHA256) chứa user claims, role claims và ID. Xác thực Google OAuth được kiểm tra chữ ký ở tầng server trước khi cấp phát JWT. Không cho phép nâng quyền từ client-side.
+- **Hệ quả:** Ứng dụng client không bao giờ lưu trữ chuỗi kết nối database. Toàn bộ logic bảo mật được thực thi tại middleware và authorization policies của Backend.
+

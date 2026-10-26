@@ -1,7 +1,6 @@
-# VISIONARY – Hệ thống Quản lý Hoạt động Hội nhập CLB Tiếng Anh DNTU
-> **English, Technology & Global Integration Platform**  
-> **Phát triển bởi nhóm:** `VISIONARY API`  
-> **Học phần:** Web API (TH71108) – Trường Đại học Công nghệ Đồng Nai (DNTU)
+# VISIONARY – English, Technology & Global Integration Platform
+> **A Unified Digital Ecosystem for Academic & Student Club Governance**  
+> *One Clean Backend Web API powering Modern Web, Native Android, and Desktop Windows Forms clients.*
 
 [![GitHub Repository](https://img.shields.io/badge/GitHub-lovemvaf%2Fvisionary--api-181717?logo=github)](https://github.com/lovemvaf/visionary-api)
 [![Vercel Deployment](https://img.shields.io/badge/Vercel-visionary--platform-black?logo=vercel)](https://visionary-platform.vercel.app)
@@ -10,93 +9,83 @@
 [![WinForms .NET 8](https://img.shields.io/badge/WinForms-C%23%20.NET%208-blue?logo=windows)](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/)
 [![Android Java](https://img.shields.io/badge/Android-Java%2017%20Native-green?logo=android)](https://developer.android.com/)
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL%20Supabase-336791?logo=postgresql)](https://supabase.com/)
+[![xUnit Tests](https://img.shields.io/badge/Tests-15%2F15%20Passed-success?logo=xunit)](docs/TEST_VERIFICATION_REPORT.md)
 
 ---
 
-## 👥 THÀNH VIÊN NHÓM PHÁT TRIỂN (VISIONARY API)
+## 📖 Tổng quan Sản phẩm (Product Overview)
 
-| STT | Họ và Tên | Vai trò chính trong dự án | Phụ trách kỹ thuật |
-|---|---|---|---|
-| 1 | **Quách Khoa Đức** | Principal Software Architect | Thiết kế kiến trúc tổng thể, ASP.NET Core Web API, Next.js Frontend, JWT & Database |
-| 2 | **Võ Ngọc Minh Đạt** | Club Operations & Desktop Engineer | Phân tích nghiệp vụ CLB, Windows Forms C# Desktop Administration, Xét duyệt & Điểm danh |
-| 3 | **Hồ Đoàn Nguyên Khang** | Data Pipeline & Automation Engineer | Data Automation (GitHub/Hugging Face/RSS), Hệ thống Cuộc thi (Hackathon), Học bổng & Việc làm |
-| 4 | **Đào Trí Khang** | Mobile Software Engineer & QA Lead | Android Native Java Client (Retrofit, Material 3), Kiểm thử tích hợp đa nền tảng |
+**VISIONARY** là nền tảng quản trị và kết nối toàn diện dành cho các Câu lạc bộ Tiếng Anh, sinh viên khối ngành công nghệ và các tổ chức học thuật. Dự án giải quyết các bài toán vận hành cốt lõi:
+1. **Quản trị hoạt động CLB:** Số hóa quy trình xét duyệt hồ sơ gia nhập, quản lý thành viên, tổ chức sự kiện và điểm danh sự kiện theo thời gian thực.
+2. **Không gian học tập chuyên ngành:** Chuyên mục *English for IT* cung cấp từ vựng, thuật ngữ và bài viết kỹ thuật song ngữ được kiểm duyệt.
+3. **Cập nhật Công nghệ (Technology Radar):** Tự động tổng hợp và phân loại xu hướng mã nguồn mở (GitHub Trending), mô hình AI (Hugging Face) và tin tức khoa học.
+4. **Cổng Thông tin Cơ hội (Opportunity & Career Gateway):** Cung cấp dữ liệu học bổng, các cuộc thi Hackathon và cơ hội việc làm công nghệ.
 
----
-
-## 📌 THÔNG BÁO HỌC PHẦN & TÍNH PHÁP LÝ
-
-Dự án được xây dựng phục vụ nghiên cứu và đánh giá trong học phần **Web API (TH71108)** tại **Trường Đại học Công nghệ Đồng Nai (DNTU)**.  
-Hệ thống là sản phẩm nghiên cứu ứng dụng độc lập của nhóm sinh viên **VISIONARY API** nhằm số hóa bài toán quản trị CLB Tiếng Anh và mở rộng kết nối công nghệ hội nhập; dự án **không tự nhận là cổng thông tin chính thức được trường phê duyệt**.  
-Mọi dữ liệu công khai (GitHub repository, Hugging Face model, tin tức công nghệ) đều tuân thủ chính sách bản quyền và giới hạn sử dụng của nhà cung cấp API.
+Toàn bộ hệ sinh thái tuân theo nguyên tắc **Một Backend Duy nhất (Single Source of Truth)**: tất cả các ứng dụng Web, Desktop và Mobile đều giao tiếp với cùng một RESTful API trung tâm và cơ sở dữ liệu quan hệ đồng nhất.
 
 ---
 
-## 🏛️ KIẾN TRÚC HỆ THỐNG: MỘT BACKEND – BA NỀN TẢNG
+## 🏛️ Kiến trúc Hệ thống: Một Backend – Ba Nền tảng
 
 ```
-                             ┌─────────────────────────────────┐
-                             │       PostgreSQL Supabase       │
-                             │  (EF Core + Auto SQLite Cache)  │
-                             └────────────────┬────────────────┘
-                                              │
-                                              ▼
-                             ┌─────────────────────────────────┐
-                             │    ASP.NET Core 8 Web API       │
-                             │  - Clean Architecture (Core)    │
-                             │  - BCrypt + JWT Bearer Auth     │
-                             │  - Data Automation (GitHub/HF)  │
-                             │  - OpenAPI / Swagger UI         │
-                             └──────┬─────────┼─────────┬──────┘
-                                    │         │         │
-                 ┌──────────────────┘         │         └──────────────────┐
-                 │ HTTP / JSON                │ HTTP / JSON                │ HTTP / JSON
-                 ▼                            ▼                            ▼
-┌─────────────────────────────────┐ ┌───────────────────┐ ┌─────────────────────────────────┐
-│     Web: Next.js 14 App Router  │ │ Desktop: WinForms │ │ Mobile: Android Native Java     │
-│  - TypeScript, Tailwind CSS     │ │ - .NET 8 Desktop  │ │ - JDK 17, Material Design 3     │
-│  - 19 Tuyến đường SSR/ISR       │ │ - Quản trị CLB    │ │ - Retrofit 2 + OkHttp 3         │
-│  - Deployed trên Vercel Cloud   │ │ - Duyệt & Checkin │ │ - Điểm danh QR & English IT     │
-└─────────────────────────────────┘ └───────────────────┘ └─────────────────────────────────┘
+                                ┌─────────────────────────────────┐
+                                │       PostgreSQL Database       │
+                                │   (EF Core + Migrations + RLS)  │
+                                └────────────────┬────────────────┘
+                                                 │
+                                                 ▼
+                                ┌─────────────────────────────────┐
+                                │     ASP.NET Core 8 Web API      │
+                                │  - RESTful Endpoints + Swagger  │
+                                │  - BCrypt + JWT Bearer Auth     │
+                                │  - Automated Data Ingestion     │
+                                │  - Role-Based Access Control    │
+                                └──────┬─────────┼─────────┬──────┘
+                                       │         │         │
+                    ┌──────────────────┘         │         └──────────────────┐
+                    │ HTTPS / JSON               │ HTTPS / JSON               │ HTTPS / JSON
+                    ▼                            ▼                            ▼
+   ┌─────────────────────────────────┐ ┌───────────────────┐ ┌─────────────────────────────────┐
+   │     Web Client: Next.js 14      │ │ Desktop: WinForms │ │ Mobile Client: Android Native   │
+   │  - App Router, TypeScript       │ │ - C# .NET 8       │ │ - Java 17, Material Design 3    │
+   │  - Responsive Tailwind CSS      │ │ - Club Management │ │ - Retrofit 2 + OkHttp 3         │
+   │  - Deployed on Vercel           │ │ - Check-in & BCN  │ │ - Event Registration & Learning │
+   └─────────────────────────────────┘ └───────────────────┘ └─────────────────────────────────┘
 ```
 
 ---
 
-## 🌐 ĐỊA CHỈ TRỰC TUYẾN & MÃ NGUỒN CHÍNH THỨC
+## 🛠️ Công nghệ Sử dụng (Technology Stack)
 
-- **Website Production (Chính thức):** [https://visionary-platform.vercel.app](https://visionary-platform.vercel.app)
-- **Production Alias (Dự phòng):** [https://visionary-global.vercel.app](https://visionary-global.vercel.app)
-- **GitHub Monorepo:** [https://github.com/lovemvaf/visionary-api](https://github.com/lovemvaf/visionary-api)
-- **Vercel Workspace Scope:** `visionary19` (Project: `visionary-platform`)
-
----
-
-## 🔑 TÀI KHOẢN MẪU KIỂM THỬ HỆ THỐNG
-
-> 🔒 **Chính sách bảo mật:** Mật khẩu kiểm thử không lưu trữ công khai trên tài liệu mã nguồn. Đối với môi trường phát triển cục bộ, mật khẩu khởi tạo được quản lý qua biến môi trường `ADMIN_SEED_PASSWORD`. Đối với môi trường Production, toàn bộ tài khoản quản trị được bảo vệ bằng mật khẩu độc lập và chứng thực phiên an toàn. Giảng viên và hội đồng nghiệm thu học phần TH71108 nhận thông tin kiểm thử qua tài liệu bàn giao nội bộ bảo mật.
-
-| Tài khoản | Email định danh | Quyền hạn chính |
-|---|---|---|
-| **Quản trị viên (Admin)** | `quachkhoaduc@visionary.dntu.edu.vn` | Toàn quyền cấu hình, tài khoản, dữ liệu tự động |
-| **Ban Chủ Nhiệm (BCN)** | `vongocminhdat@visionary.dntu.edu.vn` | Duyệt đơn gia nhập, tạo sự kiện, điểm danh |
-| **Ban Dữ liệu** | `hodoangnguyenkhang@visionary.dntu.edu.vn` | Quản lý học bổng, hackathon, việc làm |
-| **Ban Kỹ thuật** | `daotrikhang@visionary.dntu.edu.vn` | Quản lý tài nguyên công nghệ, kiểm thử di động |
-| **Sinh viên mẫu** | `student.test@visionary.dntu.edu.vn` | Đăng ký sự kiện, xem thuật ngữ, nộp đơn |
+| Thành phần | Công nghệ chính | Thư viện & Công cụ bổ trợ |
+| :--- | :--- | :--- |
+| **Backend API** | ASP.NET Core 8 Web API | Entity Framework Core, Npgsql, BCrypt.Net, JWT Bearer, Swashbuckle OpenAPI |
+| **Database** | PostgreSQL (Supabase Compatible) | Relational constraints, Foreign Keys, B-Tree Indexes, Migrations |
+| **Frontend Web** | Next.js 14+ (App Router), React 18+ | TypeScript, Tailwind CSS, Lucide Icons, Fetch API, SSR/ISR |
+| **Desktop Client** | Windows Forms (.NET 8 Windows Desktop) | RestSharp / HttpClient, System.Text.Json |
+| **Mobile Client** | Android Native Java (JDK 17, SDK 34) | Retrofit 2, OkHttp 3, Gson, Android Jetpack, Material Design 3 |
+| **DevOps & QA** | GitHub Actions CI/CD | Docker, Gitleaks Security Scan, xUnit Test Runner, Dependabot |
 
 ---
 
-## 🚀 HƯỚNG DẪN CHẠY DỰ ÁN CỤC BỘ
+## 🚀 Hướng dẫn Cài đặt & Khởi chạy Nhanh (Quick Start)
 
-### 1. Khởi chạy Backend ASP.NET Core 8 Web API
+### Yêu cầu Hệ thống Tiên quyết
+- **.NET SDK 8.0+**: [Tải về .NET SDK](https://dotnet.microsoft.com/download)
+- **Node.js 18.x+ / 20.x+**: [Tải về Node.js](https://nodejs.org/)
+- **Android Studio** (Dành cho Mobile): Android SDK 34, JDK 17
+- **Git**: [Tải về Git](https://git-scm.com/)
+
+### 1. Khởi chạy Backend Web API
 ```powershell
-# Chạy trực tiếp qua .NET CLI
+# Chạy trực tiếp từ mã nguồn
 dotnet run --project backend/src/Visionary.Api/Visionary.Api.csproj
 
-# Hoặc chạy kiểm thử tự động toàn bộ giải pháp (15/15 tests PASS)
+# Chạy toàn bộ bộ kiểm thử tự động (15/15 tests PASS)
 dotnet test backend/Visionary.Backend.sln
 ```
-- Swagger UI tài liệu API: `http://localhost:5000/swagger`
-- Health check API: `http://localhost:5000/health/live`
+- Swagger UI (Tài liệu API tương tác): `http://localhost:5000/swagger`
+- Health check endpoint: `http://localhost:5000/health/live`
 
 ### 2. Khởi chạy Website Next.js 14
 ```powershell
@@ -104,51 +93,66 @@ cd frontend
 npm install
 npm run dev
 ```
-Truy cập: `http://localhost:3000`
+- Mở trình duyệt tại: `http://localhost:3000`
 
-### 3. Khởi chạy Desktop Windows Forms (.NET 8)
+### 3. Khởi chạy Ứng dụng Desktop Windows Forms (.NET 8)
 ```powershell
 dotnet run --project desktop/Visionary.Desktop/Visionary.Desktop.csproj
 ```
-Hoặc mở tệp `.exe` đã biên dịch tại:
-`desktop/Visionary.Desktop/bin/Debug/net8.0-windows/Visionary.Desktop.exe`
 
-### 4. Mở và Biên dịch Ứng dụng Di động Android
-Mở thư mục `mobile/VisionaryAndroid` trong Android Studio hoặc chạy lệnh:
+### 4. Khởi chạy Ứng dụng Android Native
+- Mở thư mục `mobile/VisionaryAndroid` bằng Android Studio và kết nối máy ảo (Emulator) hoặc thiết bị thật.
+- Hoặc biên dịch tệp APK Debug bằng lệnh:
 ```powershell
 cd mobile/VisionaryAndroid
 .\gradlew.bat assembleDebug
 ```
-Tệp APK debug tạo tại: `mobile/VisionaryAndroid/app/build/outputs/apk/debug/app-debug.apk`
+- Tệp APK được sinh tại: `mobile/VisionaryAndroid/app/build/outputs/apk/debug/app-debug.apk`
 
 ---
 
-## 📁 CẤU TRÚC THƯ MỤC MONOREPO
+## ⚙️ Cấu hình Môi trường (Environment Setup)
 
-```
-Visionary API/
-├── .agent/                  # Hệ thống quản lý tiến độ và tự phục hồi (Autonomous Engine)
-├── .github/workflows/       # CI/CD Workflows (Frontend, Backend, Desktop, Android, Security)
-├── backend/                 # Solution ASP.NET Core 8 Web API
-│   ├── src/Visionary.Core/           # Domain Entities, DTOs, Enums, Interfaces
-│   ├── src/Visionary.Infrastructure/ # AppDbContext, Seed Data, JWT, Data Automation
-│   ├── src/Visionary.Api/            # REST Controllers, Middlewares, Program.cs
-│   └── tests/Visionary.Tests/        # Bộ xUnit Integration & Security Tests
-├── desktop/                 # Phần mềm Quản trị Windows Forms C# (.NET 8)
-│   └── Visionary.Desktop/   # Forms, ApiClient, AppState, Dialogs
-├── frontend/                # Website Next.js 14 App Router (Vercel)
-│   ├── src/app/             # 16 Tuyến đường giao diện người dùng
-│   ├── src/components/      # Navbar, Footer, ThemeToggle
-│   └── src/lib/             # API client, TypeScript types
-├── mobile/                  # Ứng dụng Android Native Java (Gradle 8.4)
-│   └── VisionaryAndroid/    # Activities, Fragments, Retrofit Services, Material 3
-├── docs/                    # Bộ 12 tài liệu kỹ thuật chuẩn mực
-└── docker-compose.yml       # Cấu hình container Kestrel
-```
+Tất cả các biến môi trường cần thiết được cung cấp dưới dạng bản mẫu an toàn tại [.env.example](.env.example):
+- `ConnectionStrings__DefaultConnection`: Chuỗi kết nối PostgreSQL.
+- `Jwt__Key`, `Jwt__Issuer`, `Jwt__Audience`: Cấu hình chữ ký số JWT.
+- `NEXT_PUBLIC_API_URL`: URL Backend mà ứng dụng Web/Desktop/Mobile kết nối đến.
+
+> 🔒 **Chính sách Bảo mật:** Repository tuyệt đối không lưu trữ chuỗi kết nối production hoặc secrets thực tế. Xem thêm chi tiết tại [docs/SECURITY.md](docs/SECURITY.md).
 
 ---
 
-## 📜 BẢN QUYỀN VÀ GIẤY PHÉP
+## 🧪 Kiểm thử và Đảm bảo Chất lượng (Quality Assurance)
 
-Hệ thống được phát triển độc quyền bởi nhóm **VISIONARY API** phục vụ học tập và nghiên cứu ứng dụng môn học TH71108.  
-Mọi quyền sở hữu trí tuệ thuộc về nhóm phát triển.
+Dự án áp dụng quy trình kiểm thử nghiêm ngặt trên GitHub Actions CI/CD:
+- **Bộ 15 xUnit Tests Backend:** Bao gồm 7 bài kiểm thử tích hợp RESTful API (`ApiIntegrationTests`), 2 bài kiểm thử xác thực bảo mật (`AuthTests`), và 6 bài kiểm thử toàn vẹn logic bài viết (`PostsLogicAuditTests`).
+- **Báo cáo Kiểm định Trực tiếp:** Xem chi tiết tại [docs/TEST_VERIFICATION_REPORT.md](docs/TEST_VERIFICATION_REPORT.md).
+- **Lệnh kiểm tra Quality Gate tự động:**
+  ```powershell
+  python scripts/verify_repository.py
+  ```
+
+---
+
+## 👥 Đội ngũ Kỹ sư Phát triển (Engineering Team)
+
+Dự án được xây dựng và duy trì bởi nhóm **VISIONARY API**:
+
+| Thành viên | Vai trò Kỹ thuật | Trách nhiệm Chính |
+| :--- | :--- | :--- |
+| **Quách Khoa Đức** | Principal Software Architect | Thiết kế kiến trúc tổng thể, ASP.NET Core Web API, Next.js Web Frontend, CI/CD DevSecOps |
+| **Đào Trí Khang** | Mobile Software Engineer | Phát triển ứng dụng Android Native Java (Retrofit 2, Material 3), Mobile Testing |
+| **Hồ Đoàn Nguyên Khang** | Backend & Database Engineer | ASP.NET Core 8 Web API, Entity Framework Core, Swagger OpenAPI, API Integration Tests |
+| **Võ Ngọc Minh Đạt** | Desktop Software Engineer | Phát triển ứng dụng Windows Forms C# (.NET 8), Nghiệp vụ Quản trị CLB, Desktop Client Testing |
+
+*Chi tiết về ma trận đóng góp và quy trình cộng tác xem tại [docs/TEAM_CONTRIBUTIONS.md](docs/TEAM_CONTRIBUTIONS.md) và [CONTRIBUTING.md](CONTRIBUTING.md).*
+
+---
+
+## 📄 Bản quyền và Tài liệu Kỹ thuật
+
+- **Tài liệu Kiến trúc & Quyết định Kỹ thuật (ADR):** [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- **Đặc tả RESTful API Contract:** [docs/API_CONTRACT.md](docs/API_CONTRACT.md)
+- **Lược đồ Cơ sở Dữ liệu (Database Schema):** [docs/DATABASE_SCHEMA.md](docs/DATABASE_SCHEMA.md)
+- **Hướng dẫn Vận hành & Triển khai:** [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) & [docs/OPERATIONS_MANUAL.md](docs/OPERATIONS_MANUAL.md)
+- **Chính sách An toàn Thông tin (Security Policy):** [docs/SECURITY.md](docs/SECURITY.md)

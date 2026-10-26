@@ -4,7 +4,7 @@
 !.env.example
 **/.env
 **/.env.*
-!**/.env.example
+!.**/.env.example
 *.pem
 *.key
 *.p12
@@ -47,10 +47,14 @@ next-env.d.ts
 
 # Python
 __pycache__/
+*.py[cod]
+*$py.class
 *.pyc
 *.pyo
 *.pyd
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
 # Android / Gradle
 .gradle/
@@ -77,3 +81,24 @@ yarn-debug.log*
 yarn-error.log*
 crash.dump
 *.dmp
+
+# Office Temporary Lock Files
+~$*.docx
+~$*.pptx
+~$*.xlsx
+
+# Academic Delivery & Internal Engineering Packages
+VISIONARY-ACADEMIC-DELIVERY/
+academic-private/
+defense-private/
+deliverables/
+slide-previews/
+assets/
+
+# Local Autonomous AI Engine Working State
+.agent/
+.visionary-local/
+
+# Temporary folders
+tmp/
+temp/

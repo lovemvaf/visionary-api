@@ -45,6 +45,8 @@ def check_member_name_spelling():
         tracked_files = []
 
     for rel_path in tracked_files:
+        if "verify_repository.py" in rel_path or "fix_name_spelling.py" in rel_path:
+            continue
         ext = os.path.splitext(rel_path)[1].lower()
         if ext in {'.md', '.cs', '.ts', '.tsx', '.py', '.json', '.xml', '.java', '.txt', '.yaml', '.yml'}:
             full_path = os.path.join(root_dir, rel_path)
@@ -121,23 +123,38 @@ def check_desktop_build():
         print(f"  [FAIL]: ERROR checking desktop build: {e}")
         return False
 
-def check_deliverable_filenames():
-    print("[6/6] Checking member guide deliverable filenames...")
+def check_academic_package_and_deliverables():
+    print("[6/6] Checking academic delivery package and deliverable integrity...")
     root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-    mg_dir = os.path.join(root_dir, "deliverables", "member-guides")
+    delivery_dir = os.path.join(root_dir, "VISIONARY-ACADEMIC-DELIVERY")
     
-    old_file = os.path.join(mg_dir, "03_HO_DOANG_NGUYEN_KHANG_API_GUIDE.docx")
-    new_file = os.path.join(mg_dir, "03_HO_DOAN_NGUYEN_KHANG_API_GUIDE.docx")
+    # Check that delivery package exists
+    if not os.path.exists(delivery_dir):
+        print(f"  [FAIL]: Academic delivery package not found at: {delivery_dir}")
+        return False
+        
+    # Check key files in delivery package
+    key_files = [
+        os.path.join(delivery_dir, "presentation", "VISIONARY_TH71108_FINAL_PRESENTATION.pptx"),
+        os.path.join(delivery_dir, "presentation", "VISIONARY_TH71108_FINAL_PRESENTATION.pdf"),
+        os.path.join(delivery_dir, "scripts-and-notes", "VISIONARY_PRESENTATION_SCRIPT.docx"),
+        os.path.join(delivery_dir, "member-guides", "03_HO_DOAN_NGUYEN_KHANG_API_GUIDE.docx"),
+        os.path.join(delivery_dir, "assets", "logos", "dntu_logo.png"),
+        os.path.join(delivery_dir, "assets", "logos", "cntt_dntu_logo.png"),
+    ]
     
+    for kf in key_files:
+        if not os.path.exists(kf) or os.path.getsize(kf) == 0:
+            print(f"  [FAIL]: Missing or empty deliverable in delivery package: {kf}")
+            return False
+            
+    # Check that bad name is not in delivery package member guides
+    old_file = os.path.join(delivery_dir, "member-guides", "03_HO_DOANG_NGUYEN_KHANG_API_GUIDE.docx")
     if os.path.exists(old_file):
-        print(f"  [FAIL]: Old filename still exists: {old_file}")
+        print(f"  [FAIL]: Old misspelled filename found in package: {old_file}")
         return False
         
-    if not os.path.exists(new_file):
-        print(f"  [FAIL]: Corrected filename missing: {new_file}")
-        return False
-        
-    print("  [PASS]: Member guides correctly renamed to 03_HO_DOAN_NGUYEN_KHANG_API_GUIDE.")
+    print("  [PASS]: Academic delivery package contains all verified deliverables & correct names.")
     return True
 
 def main():
@@ -151,7 +168,7 @@ def main():
         check_test_consistency(),
         check_backend_solution_tests(),
         check_desktop_build(),
-        check_deliverable_filenames(),
+        check_academic_package_and_deliverables(),
     ]
     
     print("=" * 70)
