@@ -14,7 +14,7 @@
 
 ---
 
-## 📖 Tổng quan Sản phẩm (Product Overview)
+## 📖 Tổng quan sản phẩm (Product Overview)
 
 **VISIONARY** là nền tảng quản trị và kết nối toàn diện dành cho các Câu lạc bộ Tiếng Anh, sinh viên khối ngành công nghệ và các tổ chức học thuật. Dự án giải quyết các bài toán vận hành cốt lõi:
 
